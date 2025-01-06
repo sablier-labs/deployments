@@ -24,13 +24,14 @@ See the [changelog](https://github.com/sablier-labs/v2-periphery/blob/main/CHANG
 
 ### Abstract
 
-Abstract is based on zkSync and therefore requires to be deployed using [hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
+Abstract is based on zkSync and therefore requires to be deployed using
+[hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
 
 | Setting        | Value  |
 | :------------- | :----- |
 | Hardhat-zksync | 1.3.0  |
 | Optimizer      | Yes    |
-| Optimizer Runs | 10000   |
+| Optimizer Runs | 10000  |
 | Solc           | 0.8.26 |
 | Via IR         | true   |
 | Zksolc         | 1.5.7  |

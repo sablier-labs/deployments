@@ -22,7 +22,8 @@
 
 ### Abstract
 
-Abstract is based on zkSync and therefore requires to be deployed using [hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
+Abstract is based on zkSync and therefore requires to be deployed using
+[hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
 
 | Setting        | Value  |
 | :------------- | :----- |
@@ -32,7 +33,6 @@ Abstract is based on zkSync and therefore requires to be deployed using [hardhat
 | Solc           | 0.8.26 |
 | Via IR         | true   |
 | Zksolc         | 1.5.7  |
-
 
 ### IoTex and Tangle
 

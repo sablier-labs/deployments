@@ -24,7 +24,8 @@
 
 ### Abstract
 
-Abstract is based on zkSync and therefore requires to be deployed using [hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
+Abstract is based on zkSync and therefore requires to be deployed using
+[hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
 
 | Setting        | Value  |
 | :------------- | :----- |
