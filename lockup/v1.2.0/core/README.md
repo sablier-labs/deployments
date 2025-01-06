@@ -16,23 +16,36 @@
 
 | Setting        | Value    |
 | :------------- | :------- |
-| Version        | 0.8.26   |
 | EVM            | Shanghai |
 | Optimizer      | Yes      |
 | Optimizer Runs | 1000     |
+| Solc           | 0.8.26   |
 | Via IR         | true     |
 
-### Core Dao and Linea Compiler Settings
+### Abstract
+
+Abstract is based on zkSync and therefore requires to be deployed using [hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
+
+| Setting        | Value  |
+| :------------- | :----- |
+| Hardhat-zksync | 1.3.0  |
+| Optimizer      | Yes    |
+| Optimizer Runs | 1000   |
+| Solc           | 0.8.26 |
+| Via IR         | true   |
+| Zksolc         | 1.5.7  |
+
+### Core Dao and Linea
 
 Due to the lack of [EIP-3855](https://eips.ethereum.org/EIPS/eip-3855) support, we had to use the following settings for
 Core Dao and Linea:
 
 | Setting        | Value  |
 | :------------- | :----- |
-| Version        | 0.8.26 |
 | EVM            | Paris  |
 | Optimizer      | Yes    |
 | Optimizer Runs | 500    |
+| Solc           | 0.8.26 |
 | Via IR         | true   |
 
 ## Salts
@@ -43,6 +56,7 @@ The CREATE2 salts used during deployment:
 
 | Chain           | Salt                          |
 | :-------------- | :---------------------------- |
+| Abstract        | No Salt                       |
 | Arbitrum One    | ChainID 42161, Version 1.2.0  |
 | Avalanche       | ChainID 43114, Version 1.2.0  |
 | Base            | ChainID 8453, Version 1.2.0   |

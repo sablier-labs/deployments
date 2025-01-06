@@ -14,24 +14,25 @@
 
 | Setting        | Value    |
 | :------------- | :------- |
-| Version        | 0.8.26   |
 | EVM            | Shanghai |
 | Optimizer      | Yes      |
-| Optimizer Runs | 10,000   |
+| Optimizer Runs | 1000     |
+| Solc           | 0.8.26   |
 | Via IR         | true     |
 
-### Linea Compiler Settings
+### Abstract
 
-Due to the lack of [EIP-3855](https://eips.ethereum.org/EIPS/eip-3855) support, we had to use the following settings for
-Linea:
+Abstract is based on zkSync and therefore requires to be deployed using [hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
 
 | Setting        | Value  |
 | :------------- | :----- |
-| Version        | 0.8.26 |
-| EVM            | Paris  |
+| Hardhat-zksync | 1.3.0  |
 | Optimizer      | Yes    |
-| Optimizer Runs | 10,000 |
+| Optimizer Runs | 1000   |
+| Solc           | 0.8.26 |
 | Via IR         | true   |
+| Zksolc         | 1.5.7  |
+
 
 ### IoTex and Tangle
 
@@ -40,10 +41,23 @@ Tangle:
 
 | Setting        | Value  |
 | :------------- | :----- |
-| Version        | 0.8.20 |
 | EVM            | Paris  |
 | Optimizer      | Yes    |
-| Optimizer Runs | 10,000 |
+| Optimizer Runs | 1000   |
+| Solc           | 0.8.20 |
+| Via IR         | true   |
+
+### Linea
+
+Due to the lack of [EIP-3855](https://eips.ethereum.org/EIPS/eip-3855) support, we had to use the following settings for
+Linea:
+
+| Setting        | Value  |
+| :------------- | :----- |
+| EVM            | Paris  |
+| Optimizer      | Yes    |
+| Optimizer Runs | 1000   |
+| Solc           | 0.8.26 |
 | Via IR         | true   |
 
 ### zkSync
@@ -54,11 +68,11 @@ configuration:
 
 | Setting        | Value  |
 | :------------- | :----- |
-| Version        | 0.8.26 |
 | zkSolc         | 1.5.6  |
 | EVM            | Paris  |
 | Optimizer      | Yes    |
 | Optimizer Runs | 200    |
+| Solc           | 0.8.26 |
 | Via IR         | true   |
 
 ## Salts
@@ -69,6 +83,7 @@ The CREATE2 salts used during deployment:
 
 | Chain           | Salt                          |
 | :-------------- | :---------------------------- |
+| Abstract        | No Salt                       |
 | Arbitrum One    | ChainID 42161, Version 1.0.0  |
 | Avalanche       | ChainID 43114, Version 1.0.0  |
 | Base            | ChainID 8453, Version 1.0.0   |
