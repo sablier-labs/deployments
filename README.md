@@ -27,8 +27,10 @@ To learn more about Sablier, see the [Sablier Docs](https://docs.sablier.com/).
 
 ## Addresses
 
-You can see the deployment addresses [here](https://docs.sablier.com/guides/flow/deployments).
-
+To view the deployment addresses, use the links below.
+- [Lockup deployment addresses](https://docs.sablier.com/guides/lockup/deployments)
+- [Flow deployment addresses](https://docs.sablier.com/guides/flow/deployments)
+  
 ### Packages
 
 The contract artifacts and the ABIs are published as NPM packages:
