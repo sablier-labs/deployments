@@ -14,7 +14,7 @@ The deployments are indexed by:
 4. Broadcasts, which in turn are indexed by chain name.
 
 If you need the deployment addresses, you can find them in the
-[docs](https://docs.sablier.com/guides/flow/deployments).
+[docs](https://docs.sablier.com).
 
 ## Background
 
