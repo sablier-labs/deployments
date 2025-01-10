@@ -14,7 +14,7 @@ The deployments are indexed by:
 4. Broadcasts, which in turn are indexed by chain name.
 
 If you need the deployment addresses, you can find them in the
-[docs](https://docs.sablier.com/contracts/v2/deployments).
+[docs](https://docs.sablier.com/guides/flow/deployments).
 
 ## Background
 
@@ -27,7 +27,7 @@ To learn more about Sablier, see the [Sablier Docs](https://docs.sablier.com/).
 
 ## Addresses
 
-You can see the deployment addresses [here](https://docs.sablier.com/contracts/v2/deployments).
+You can see the deployment addresses [here](https://docs.sablier.com/guides/flow/deployments).
 
 ### Packages
 
