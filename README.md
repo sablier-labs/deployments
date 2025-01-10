@@ -14,7 +14,7 @@ The deployments are indexed by:
 4. Broadcasts, which in turn are indexed by chain name.
 
 If you need the deployment addresses, you can find them in the
-[docs](https://docs.sablier.com/contracts/v2/deployments).
+[docs](https://docs.sablier.com).
 
 ## Background
 
@@ -27,8 +27,10 @@ To learn more about Sablier, see the [Sablier Docs](https://docs.sablier.com/).
 
 ## Addresses
 
-You can see the deployment addresses [here](https://docs.sablier.com/contracts/v2/deployments).
-
+To view the deployment addresses, use the links below.
+- [Lockup deployment addresses](https://docs.sablier.com/guides/lockup/deployments)
+- [Flow deployment addresses](https://docs.sablier.com/guides/flow/deployments)
+  
 ### Packages
 
 The contract artifacts and the ABIs are published as NPM packages:
