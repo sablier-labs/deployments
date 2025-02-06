@@ -71,21 +71,22 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 | Chain           | Salt                          |
 | :-------------- | :---------------------------- |
 | Abstract        | No Salt                       |
-| Arbitrum One    | ChainID 42161, Version 2.0.0  |
-| Avalanche       | ChainID 43114, Version 2.0.0  |
-| Base            | ChainID 8453, Version 2.0.0   |
-| Blast           | ChainID 81457, Version 2.0.0  |
-| BNB Smart Chain | ChainID 56, Version 2.0.0     |
+| Arbitrum One    | ChainID 42161, Version 1.3.0  |
+| Avalanche       | ChainID 43114, Version 1.3.0  |
+| Base            | ChainID 8453, Version 1.3.0   |
+| Berachain       | ChainID 80094, Version 1.3.0  |
+| Blast           | ChainID 81457, Version 1.3.0  |
+| BNB Smart Chain | ChainID 56, Version 1.3.0     |
 | Chiliz          | No Salt                       |
-| Gnosis          | ChainID 100, Version 2.0.0    |
-| Linea           | ChainID 59144, Version 2.0.0  |
-| LightLink       | ChainID 1890, Version 2.0.0   |
-| Mainnet         | ChainID 1, Version 2.0.0      |
-| Mode            | ChainID 34443, Version 2.0.0  |
-| Optimism        | ChainID 10, Version 2.0.0     |
-| Polygon         | ChainID 137, Version 2.0.0    |
-| Scroll          | ChainID 534352, Version 2.0.0 |
-| Taiko Mainnet   | ChainID 167000, Version 2.0.0 |
+| Gnosis          | ChainID 100, Version 1.3.0    |
+| Linea           | ChainID 59144, Version 1.3.0  |
+| LightLink       | ChainID 1890, Version 1.3.0   |
+| Mainnet         | ChainID 1, Version 1.3.0      |
+| Mode            | ChainID 34443, Version 1.3.0  |
+| Optimism        | ChainID 10, Version 1.3.0     |
+| Polygon         | ChainID 137, Version 1.3.0    |
+| Scroll          | ChainID 534352, Version 1.3.0 |
+| Taiko Mainnet   | ChainID 167000, Version 1.3.0 |
 | Tangle          | No Salt                       |
 | zkSync Era      | No Salt                       |
 
@@ -93,13 +94,13 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 
 | Chain            | Salt                             |
 | :--------------- | :------------------------------- |
-| Arbitrum Sepolia | ChainID 421614, Version 1.1.0    |
+| Arbitrum Sepolia | ChainID 421614, Version 1.3.0    |
 | Base Sepolia     | No Salt                          |
-| Blast Sepolia    | ChainID 168587773, Version 2.0.0 |
-| Linea Sepolia    | ChainID 59141, Version 2.0.0     |
-| Mode Sepolia     | ChainID 919, Version 2.0.0       |
-| Morph Holesky    | ChainID 2810, Version 2.0.0      |
-| Optimism Sepolia | ChainID 11155420, Version 2.0.0  |
-| Sepolia          | ChainID 11155111, Version 2.0.0  |
-| Taiko Hekla      | ChainID 167009, Version 2.0.0    |
+| Blast Sepolia    | ChainID 168587773, Version 1.3.0 |
+| Linea Sepolia    | ChainID 59141, Version 1.3.0     |
+| Mode Sepolia     | ChainID 919, Version 1.3.0       |
+| Morph Holesky    | ChainID 2810, Version 1.3.0      |
+| Optimism Sepolia | ChainID 11155420, Version 1.3.0  |
+| Sepolia          | ChainID 11155111, Version 1.3.0  |
+| Taiko Hekla      | ChainID 167009, Version 1.3.0    |
 | zkSync Sepolia   | No Salt                          |

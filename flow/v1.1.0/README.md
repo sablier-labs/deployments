@@ -71,6 +71,7 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 | Arbitrum One    | ChainID 42161, Version 1.1.0  |
 | Avalanche       | ChainID 43114, Version 1.1.0  |
 | Base            | ChainID 8453, Version 1.1.0   |
+| Berachain       | ChainID 80094, Version 1.1.0  |
 | Blast           | ChainID 81457, Version 1.1.0  |
 | BNB Smart Chain | ChainID 56, Version 1.1.0     |
 | Chiliz          | No Salt                       |
