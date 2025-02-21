@@ -78,6 +78,7 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 | Blast           | ChainID 81457, Version 1.3.0  |
 | BNB Smart Chain | ChainID 56, Version 1.3.0     |
 | Chiliz          | No Salt                       |
+| Form            | ChainID 478, Version 1.3.0    |
 | Gnosis          | ChainID 100, Version 1.3.0    |
 | Linea           | ChainID 59144, Version 1.3.0  |
 | LightLink       | ChainID 1890, Version 1.3.0   |
@@ -88,6 +89,7 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 | Scroll          | ChainID 534352, Version 1.3.0 |
 | Taiko Mainnet   | ChainID 167000, Version 1.3.0 |
 | Tangle          | No Salt                       |
+| XDC             | ChainID 50, Version 1.3.0     |
 | zkSync Era      | No Salt                       |
 
 ### Testnets
