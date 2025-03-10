@@ -1,6 +1,6 @@
 # v1.0.1
 
-See the [changelog](https://github.com/sablier-labs/v2-core/blob/main/CHANGELOG.md).
+See the [changelog](https://github.com/sablier-labs/lockup/blob/main/CHANGELOG.md).
 
 ## Contract Deployed
 
@@ -8,7 +8,7 @@ See the [changelog](https://github.com/sablier-labs/v2-core/blob/main/CHANGELOG.
 
 ## Sources
 
-- Commit: [412ec3d](https://github.com/sablier-labs/v2-core/commit/412ec3d3998a766507de96afdb26c797d2ae491d)
+- Commit: [412ec3d](https://github.com/sablier-labs/lockup/commit/412ec3d3998a766507de96afdb26c797d2ae491d)
 - Package: [@sablier/v2-core@1.0.1](https://npmjs.com/package/@sablier/v2-core/v/1.0.1)
 
 ## Compiler Settings

@@ -9,7 +9,7 @@ See the [changelog](https://github.com/sablier-labs/v2-periphery/blob/main/CHANG
 
 ## Sources
 
-- Commit: [a4bf69c](https://github.com/sablier-labs/v2-core/commit/a4bf69cf7024006b9a324eef433f20b74597eaaf)
+- Commit: [a4bf69c](https://github.com/sablier-labs/lockup/commit/a4bf69cf7024006b9a324eef433f20b74597eaaf)
 - Package: [@sablier/v2-core@1.1.2](https://npmjs.com/package/@sablier/v2-core/v/1.1.2)
 
 ## Compiler Settings

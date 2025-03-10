@@ -9,7 +9,7 @@
 
 ## Sources
 
-- Commit: [73356945](https://github.com/sablier-labs/v2-core/commit/73356945b53e8dd4112f34f3e2c63c278c4a5239)
+- Commit: [73356945](https://github.com/sablier-labs/lockup/commit/73356945b53e8dd4112f34f3e2c63c278c4a5239)
 - Package: [@sablier/v2-core@1.2.0](https://npmjs.com/package/@sablier/v2-core/v/1.2.0)
 
 ## Compiler Settings
