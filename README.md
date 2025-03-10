@@ -49,7 +49,7 @@ Older versions of Lockup (before v2.0.0) and Airdrops (before v1.3.0) have been 
 
 The contracts have been deployed using these scripts:
 
-- [airdrops/script](https://github.com/sablier-labs/airdorps/tree/main/script)
+- [airdrops/script](https://github.com/sablier-labs/airdrops/tree/main/script)
 - [lockup/script](https://github.com/sablier-labs/lockup/tree/main/script)
 - [flow/script](https://github.com/sablier-labs/flow/tree/main/script)
 
