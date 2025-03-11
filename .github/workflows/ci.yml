@@ -1,5 +1,9 @@
 name: "CI"
 
+concurrency:
+  cancel-in-progress: true
+  group: ${{github.workflow}}-${{github.ref}}
+
 on:
   pull_request:
   push:
@@ -18,10 +22,10 @@ jobs:
       - name: "Install the Node.js dependencies"
         run: "bun install"
 
-      - name: "Lint the code"
-        run: "bun run prettier:check"
+      - name: "Check code with Biome"
+        run: "bun run biome ci ."
 
       - name: "Add summary"
-        run: |
+        run: | # shell
           echo "## CI result" >> $GITHUB_STEP_SUMMARY
           echo "✅ Passed" >> $GITHUB_STEP_SUMMARY

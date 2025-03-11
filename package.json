@@ -7,31 +7,41 @@
     "url": "https://sablier.com"
   },
   "devDependencies": {
-    "husky": "^9.1.4",
-    "lint-staged": "^15.4.3",
-    "prettier": "^2.8.8"
+    "@biomejs/biome": "1.9.4",
+    "husky": "^9.1",
+    "lint-staged": "^15.5",
+    "prettier": "^3.5",
+    "typescript": "^5.8"
   },
   "keywords": [
-    "asset-streaming",
+    "airdrops",
     "blockchain",
-    "cryptoasset-streaming",
-    "cryptoassets",
+    "deployments",
     "ethereum",
+    "evm",
     "foundry",
-    "money-streaming",
-    "real-time-finance",
     "sablier",
-    "sablier-v2",
     "smart-contracts",
     "solidity",
-    "token-streaming"
+    "token-streaming",
+    "token-vesting",
+    "web3"
   ],
   "license": "GPL-3.0-or-later",
+  "main": "dist/index.js",
   "private": true,
   "repository": "github.com:sablier-labs/deployments",
   "scripts": {
+    "biome:check": "biome check .",
+    "biome:write": "biome check --write .",
+    "clean": "rm -rf dist",
+    "check": "bun run tsc:check && bun run biome:check && bun run prettier:check",
+    "format": "bun run biome:write && bun run prettier:write",
     "prepare": "husky",
-    "prettier:check": "prettier --cache --check \"**/*.{json,md,yml}\"",
-    "prettier:write": "prettier --cache --write \"**/*.{json,md,yml}\""
-  }
+    "prettier:check": "prettier --cache --check \"**/*.{md,yml}\"",
+    "prettier:write": "prettier --cache --write \"**/*.{md,yml}\"",
+    "tsc:build": "tsc",
+    "tsc:check": "tsc --noEmit"
+  },
+  "types": "./dist/index.d.ts"
 }

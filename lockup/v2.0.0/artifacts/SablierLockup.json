@@ -1233,10 +1233,7 @@
         ]
       },
       "src/libraries/VestingMath.sol": {
-        "VestingMath": [
-          { "start": 19350, "length": 20 },
-          { "start": 19631, "length": 20 }
-        ]
+        "VestingMath": [{ "start": 19350, "length": 20 }, { "start": 19631, "length": 20 }]
       }
     }
   },
@@ -1254,18 +1251,11 @@
         ]
       },
       "src/libraries/VestingMath.sol": {
-        "VestingMath": [
-          { "start": 18334, "length": 20 },
-          { "start": 18615, "length": 20 }
-        ]
+        "VestingMath": [{ "start": 18334, "length": 20 }, { "start": 18615, "length": 20 }]
       }
     },
     "immutableReferences": {
-      "57290": [
-        { "start": 6092, "length": 32 },
-        { "start": 17328, "length": 32 },
-        { "start": 20829, "length": 32 }
-      ],
+      "57290": [{ "start": 6092, "length": 32 }, { "start": 17328, "length": 32 }, { "start": 20829, "length": 32 }],
       "58521": [{ "start": 15639, "length": 32 }]
     }
   },
