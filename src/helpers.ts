@@ -1,0 +1,36 @@
+import { BaseURL, THEGRAPH_ORG_ID } from "./constants";
+import { envio, subgraphs } from "./indexers";
+import type { SablierContract, SablierDeployment, SablierProtocol, TheGraph } from "./types";
+
+export function getDeployment(
+  protocol: SablierProtocol,
+  chainId: number,
+  contracts: SablierContract[],
+): SablierDeployment {
+  let envioEndpoint: string | undefined;
+  if (!(chainId in envio.unsupportedChains)) {
+    envioEndpoint = envio.endpoints[protocol];
+  }
+
+  let thegraph: TheGraph | undefined;
+  const subgraph = subgraphs[protocol][chainId];
+  if (subgraph) {
+    thegraph = {
+      explorer: `${BaseURL.TheGraph.EXPLORER}/${subgraph.id}`,
+      studio: `${BaseURL.TheGraph.STUDIO}/${THEGRAPH_ORG_ID}/${subgraph.name}/version/latest`,
+      subgraph: {
+        id: subgraph.id,
+        url: (apiKey: string) => `${BaseURL.TheGraph.GATEWAY}/${apiKey}/subgraphs/id/${subgraph.id}`,
+      },
+    };
+  }
+  return {
+    [chainId]: {
+      contracts,
+      indexers: {
+        envio: envioEndpoint,
+        thegraph,
+      },
+    },
+  };
+}

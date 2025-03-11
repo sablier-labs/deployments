@@ -1,1 +1,2 @@
-"*.{json,md,yml}": "bun run prettier:write"
+"*.{json,jsonc,ts}": "bun run biome:write"
+"*.{md,yml}": "bun run prettier:write"

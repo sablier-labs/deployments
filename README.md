@@ -67,3 +67,30 @@ address.
 ## License
 
 This repo is licensed under GPL 3-0 or later.
+
+## Sablier Deployments UI
+
+This repository includes a UI for exploring the Sablier Protocol deployments built with Next.js and TailwindCSS.
+
+### Setup and Usage
+
+The UI is located in the `ui` directory. To get started:
+
+1. Run the script to copy data from the source to the UI:
+
+```bash
+chmod +x scripts/copy-to-ui.sh
+./scripts/copy-to-ui.sh
+```
+
+2. Install dependencies and start the development server:
+
+```bash
+cd ui
+bun install
+bun dev
+```
+
+3. Open [http://localhost:3000](http://localhost:3000) to view the UI in your browser.
+
+See the README in the `ui` directory for more detailed instructions.
