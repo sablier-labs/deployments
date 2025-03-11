@@ -6,8 +6,15 @@
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
+  "dependencies": {
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0"
+  },
   "devDependencies": {
-    "prettier": "^2.8.8"
+    "eslint-config-prettier": "^10.1.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
   },
   "keywords": [
     "asset-streaming",
@@ -19,16 +26,21 @@
     "money-streaming",
     "real-time-finance",
     "sablier",
-    "sablier-v2",
     "smart-contracts",
     "solidity",
     "token-streaming"
   ],
   "license": "GPL-3.0-or-later",
+  "main": "dist/index.js",
   "private": true,
   "repository": "github.com:sablier-labs/deployments",
   "scripts": {
-    "prettier:check": "prettier --check \"**/*.{json,md,yml}\"",
-    "prettier:write": "prettier --write \"**/*.{json,md,yml}\""
-  }
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "lint": "bun run lint:ts && bun run prettier:check && bun run typecheck",
+    "lint:ts": "eslint --ext .js,.ts ./src && tsc --noEmit",
+    "prettier:check": "prettier --check \"**/*.{js,json,md,ts,yml}\"",
+    "prettier:write": "prettier --write \"**/*.{js,json,md,ts,yml}\""
+  },
+  "types": "./dist/index.d.ts"
 }
