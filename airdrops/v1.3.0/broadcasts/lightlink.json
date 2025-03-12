@@ -6,9 +6,7 @@
       "contractName": "SablierMerkleFactory",
       "contractAddress": "0xc0107f368fbb50075d2190549055d9e6bf75c5c9",
       "function": null,
-      "arguments": [
-        "0xb1bEF51ebCA01EB12001a639bDBbFF6eEcA12B9F"
-      ],
+      "arguments": ["0xb1bEF51ebCA01EB12001a639bDBbFF6eEcA12B9F"],
       "transaction": {
         "from": "0xb1bef51ebca01eb12001a639bdbbff6eeca12b9f",
         "to": "0x4e59b44847b379578588920ca78fbf26c0b4956c",
@@ -24,9 +22,7 @@
   ],
   "receipts": [],
   "libraries": [],
-  "pending": [
-    "0x370ce81bd20fd02d35c5a8a287fcb934fe446fc9fe68fc7c165e1350958e7f42"
-  ],
+  "pending": ["0x370ce81bd20fd02d35c5a8a287fcb934fe446fc9fe68fc7c165e1350958e7f42"],
   "returns": {
     "merkleFactory": {
       "internal_type": "contract SablierMerkleFactory",

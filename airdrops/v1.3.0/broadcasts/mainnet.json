@@ -6,9 +6,7 @@
       "contractName": "SablierMerkleFactory",
       "contractAddress": "0x71dd3ca88e7564416e5c2e350090c12bf8f6144a",
       "function": null,
-      "arguments": [
-        "0x79Fb3e81aAc012c08501f41296CCC145a1E15844"
-      ],
+      "arguments": ["0x79Fb3e81aAc012c08501f41296CCC145a1E15844"],
       "transaction": {
         "from": "0xb1bef51ebca01eb12001a639bdbbff6eeca12b9f",
         "to": "0x4e59b44847b379578588920ca78fbf26c0b4956c",
