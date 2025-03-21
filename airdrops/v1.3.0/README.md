@@ -15,52 +15,20 @@
 
 ## Compiler Settings
 
-| Setting        | Value    |
-| :------------- | :------- |
-| EVM            | Shanghai |
-| Optimizer      | Yes      |
-| Optimizer Runs | 1000     |
-| Solc           | 0.8.26   |
-| Via IR         | true     |
+| Chains  | Tool    | EVM      | Optimizer Runs | Solc Version | Via IR |
+| :------ | :------ | :------- | :------------- | :----------- | :----- |
+| Default | Foundry | Shanghai | 1000           | 0.8.26       | true   |
+| IoTeX   | Hardhat | Paris    | 10             | 0.8.26       | true   |
+| Linea   | Foundry | Paris    | 800            | 0.8.26       | true   |
+| Tangle  | Hardhat | Paris    | 100            | 0.8.26       | true   |
+| Ultra   | Hardhat | Paris    | 100            | 0.8.26       | true   |
 
-### Abstract and zkSync
+For deployments on the zkSync based chains, the following settings were used:
 
-Abstract is based on zkSync and therefore requires to be deployed using
-[hardhat](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) using the following configurations:
-
-| Setting        | Value  |
-| :------------- | :----- |
-| Hardhat-zksync | 1.2.5  |
-| Optimizer      | Yes    |
-| Optimizer Runs | 1000   |
-| Solc           | 0.8.26 |
-| Via IR         | true   |
-| Zksolc         | 1.5.11 |
-
-### Linea
-
-Due to the lack of [EIP-3855](https://eips.ethereum.org/EIPS/eip-3855) support, we had to use the following settings for
-Linea:
-
-| Setting        | Value  |
-| :------------- | :----- |
-| EVM            | Paris  |
-| Optimizer      | Yes    |
-| Optimizer Runs | 800    |
-| Solc           | 0.8.26 |
-| Via IR         | true   |
-
-### Tangle
-
-Due to the lack of Foundry support, we had to use the following settings for Tangle:
-
-| Setting        | Value  |
-| :------------- | :----- |
-| EVM            | Paris  |
-| Optimizer      | Yes    |
-| Optimizer Runs | 100    |
-| Solc           | 0.8.26 |
-| Via IR         | true   |
+| Chains   | Tool                                                                             | EVM   | Optimizer Runs | Solc Version | zkSolc | Via IR |
+| :------- | :------------------------------------------------------------------------------- | :---- | :------------- | :----------- | :----- | :----- |
+| Abstract | [Hardhat-zksync](https://docs.abs.xyz/build-on-abstract/smart-contracts/hardhat) | Paris | 1000           | 0.8.26       | 1.5.11 | true   |
+| zkSync   | [Hardhat-zksync](https://docs.zksync.io/zksync-era/tooling/hardhat)              | Paris | 1000           | 0.8.26       | 1.5.11 | true   |
 
 ## Salts
 
@@ -90,6 +58,7 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 | Taiko Mainnet   | ChainID 167000, Version 1.3.0 |
 | Tangle          | No Salt                       |
 | XDC             | ChainID 50, Version 1.3.0     |
+| Ultra           | No Salt                       |
 | zkSync Era      | No Salt                       |
 
 ### Testnets
