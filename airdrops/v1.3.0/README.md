@@ -55,6 +55,7 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 | Optimism        | ChainID 10, Version 1.3.0     |
 | Polygon         | ChainID 137, Version 1.3.0    |
 | Scroll          | ChainID 534352, Version 1.3.0 |
+| Sei             | ChainID 1329, Version 1.3.0   |
 | Taiko Mainnet   | ChainID 167000, Version 1.3.0 |
 | Tangle          | No Salt                       |
 | XDC             | ChainID 50, Version 1.3.0     |
