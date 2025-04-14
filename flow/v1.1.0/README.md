@@ -57,6 +57,7 @@ The CREATE2 salts used during deployment. A "No Salt" value means that the contr
 | Taiko Mainnet   | ChainID 167000, Version 1.1.0 |
 | Tangle          | No Salt                       |
 | Ultra           | No Salt                       |
+| Unichain        | ChainID 130, Version 1.1.0    |
 | XDC             | ChainID 50, Version 1.1.0     |
 | zkSync Era      | No Salt                       |
 
