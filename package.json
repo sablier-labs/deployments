@@ -31,7 +31,7 @@
   "repository": "github.com:sablier-labs/deployments",
   "scripts": {
     "prepare": "husky",
-    "prettier:check": "prettier --check \"**/*.{json,md,yml}\"",
-    "prettier:write": "prettier --write \"**/*.{json,md,yml}\""
+    "prettier:check": "prettier --cache --check \"**/*.{json,md,yml}\"",
+    "prettier:write": "prettier --cache --write \"**/*.{json,md,yml}\""
   }
 }

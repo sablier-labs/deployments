@@ -1,8 +1,10 @@
 # v1.3.0
 
-<!-- prettier-ignore -->
 > [!NOTE]
-> Versioning begins at `1.3.0` as airdrops protocol is the successor of [V2 Periphery](https://github.com/sablier-labs/v2-periphery). For previous deployments, see `periphery` under [lockup](../../lockup/) directory.
+>
+> Versioning begins at `1.3.0` as airdrops protocol is the successor of
+> [V2 Periphery](https://github.com/sablier-labs/v2-periphery). For previous deployments, see `periphery` under
+> [lockup](../../lockup/) directory.
 
 ## Contracts deployed
 
