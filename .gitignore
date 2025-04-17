@@ -6,6 +6,7 @@ node_modules
 *.log
 .DS_Store
 .pnp.*
+bun.lockb
 lcov.info
 package-lock.json
 pnpm-lock.yaml
