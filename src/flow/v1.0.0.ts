@@ -22,7 +22,7 @@ const mainnets = [
       name: "FlowNFTDescriptor",
     },
   ]),
-  getDeployment(chains.arbitrum.id, [
+  getDeployment(chains.arbitrumOne.id, [
     {
       address: "0xE0DD129Aa25a08102Fea56d7e3339E77E1C22F5E",
       name: "SablierFlow",
@@ -32,7 +32,7 @@ const mainnets = [
       name: "FlowNFTDescriptor",
     },
   ]),
-  getDeployment(chains.optimism.id, [
+  getDeployment(chains.opMainnet.id, [
     {
       address: "0x5A40DFaF8C1527eE364Ae75fdaa2a0A44091e2b2",
       name: "SablierFlow",
@@ -205,7 +205,7 @@ const testnets = [
       name: "FlowNFTDescriptor",
     },
   ]),
-  getDeployment(chains.optimismSepolia.id, [
+  getDeployment(chains.opSepolia.id, [
     {
       address: "0x5A40DFaF8C1527eE364Ae75fdaa2a0A44091e2b2",
       name: "SablierFlow",

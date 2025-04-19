@@ -23,7 +23,7 @@ export const ethereum: SablierChain = {
   nativeToken: ETH,
 };
 
-export const arbitrum: SablierChain = {
+export const arbitrumOne: SablierChain = {
   explorerURL: "https://arbiscan.io",
   id: 42161,
   isTestnet: false,
@@ -127,7 +127,7 @@ export const morph: SablierChain = {
   nativeToken: ETH,
 };
 
-export const optimism: SablierChain = {
+export const opMainnet: SablierChain = {
   explorerURL: "https://optimistic.etherscan.io",
   id: 10,
   isTestnet: false,
@@ -267,8 +267,8 @@ export const baseSepolia: SablierChain = {
   nativeToken: ETH,
 };
 
-export const optimismSepolia: SablierChain = {
-  explorerURL: "https://sepolia-optimism.etherscan.io",
+export const opSepolia: SablierChain = {
+  explorerURL: "https://sepolia-opMainnet.etherscan.io",
   id: 11155420,
   isTestnet: true,
   name: "Optimism Sepolia",
@@ -282,7 +282,7 @@ export const optimismSepolia: SablierChain = {
 export const mainnets = {
   ethereum,
   abstract,
-  arbitrum,
+  arbitrumOne,
   avalanche,
   base,
   berachain,
@@ -297,7 +297,7 @@ export const mainnets = {
   linea,
   mode,
   morph,
-  optimism,
+  opMainnet,
   polygon,
   sei,
   scroll,
@@ -314,7 +314,7 @@ export const testnets = {
   arbitrumSepolia,
   baseSepolia,
   ethereumSepolia,
-  optimismSepolia,
+  opSepolia,
 };
 
 export default {

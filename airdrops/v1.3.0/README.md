@@ -34,7 +34,8 @@ For deployments on the zkSync based chains, the following settings were used:
 
 ## Salts
 
-The CREATE2 salts used during deployment. A "No Salt" value means that the contracts were deployed using the `CREATE`:
+The CREATE2 salts used during deployment. A "No Salt" value means that the contracts were deployed using the `CREATE`
+opcode:
 
 ### Mainnets
 

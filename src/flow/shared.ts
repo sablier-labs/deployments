@@ -22,7 +22,7 @@ const FLOW_SUBGRAPHS: Record<number, { id: string; name: string }> = {
   [chains.iotex.id]: { id: "6No3QmRiC8HXLEerDFoBpF47jUPRjhntmv28HHEMxcA2", name: "sablier-flow-iotex" },
   [chains.linea.id]: { id: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6", name: "sablier-flow-linea" },
   [chains.mode.id]: { id: "9TwfoUZoxYUyxzDgspCPyxW6uMUKetWQDaTGsZjY1qJZ", name: "sablier-flow-mode" },
-  [chains.optimism.id]: { id: "AygPgsehNGSB4K7DYYtvBPhTpEiU4dCu3nt95bh9FhRf", name: "sablier-flow-optimism" },
+  [chains.opMainnet.id]: { id: "AygPgsehNGSB4K7DYYtvBPhTpEiU4dCu3nt95bh9FhRf", name: "sablier-flow-opMainnet" },
   [chains.polygon.id]: { id: "ykp38sLarwz3cpmjSSPqo7UuTjYtkZ1KiL4PM2qwmT8", name: "sablier-flow-polygon" },
   [chains.scroll.id]: { id: "HFpTrPzJyrHKWZ9ebb4VFRQSxRwpepyfz5wd138daFkF", name: "sablier-flow-scroll" },
   [chains.zksyncEra.id]: { id: "9DRgWhDAMovpkej3eT8izum6jxEKHE62ciArffsTAScx", name: "sablier-flow-zksync" },
@@ -33,9 +33,9 @@ const FLOW_SUBGRAPHS: Record<number, { id: string; name: string }> = {
   },
   [chains.baseSepolia.id]: { id: "AsnKT1waQMvuQxZAqfFuYwtRtAfN8uekDu75jPttfyLh", name: "sablier-flow-base-sepolia" },
   [chains.ethereumSepolia.id]: { id: "EU9AWmJjrjMRkjxcdHfuWPZvPTNAL3hiXfNGN5MwUpvm", name: "sablier-flow-sepolia" },
-  [chains.optimismSepolia.id]: {
+  [chains.opSepolia.id]: {
     id: "EFKqBB6TeH6etGuHCffnbMbETEgDZ6U29Lgpc4gpYvdB",
-    name: "sablier-flow-optimism-sepolia",
+    name: "sablier-flow-opMainnet-sepolia",
   },
 };
 
