@@ -11,7 +11,7 @@ const FLOW_SUBGRAPHS: Record<number, { id: string; name: string }> = {
   // Mainnets
   [chains.ethereum.id]: { id: "ECxBJhKceBGaVvK6vqmK3VQAncKwPeAQutEb8TeiUiod", name: "sablier-flow-ethereum" },
   [chains.abstract.id]: { id: "Gq3e1gihMoSynURwGXQnPoKGVZzdsyomdrMH934vQHuG", name: "sablier-flow-abstract" },
-  [chains.arbitrum.id]: { id: "C3kBBUVtW2rxqGpAgSgEuSaT49izkH6Q8UibRt7XFTyW", name: "sablier-flow-arbitrum" },
+  [chains.arbitrumOne.id]: { id: "C3kBBUVtW2rxqGpAgSgEuSaT49izkH6Q8UibRt7XFTyW", name: "sablier-flow-arbitrum" },
   [chains.avalanche.id]: { id: "6PAizjTALVqLLB7Ycq6XnpTeck8Z8QUpDFnVznMnisUh", name: "sablier-flow-avalanche" },
   [chains.base.id]: { id: "4XSxXh8ZgkzaA35nrbQG9Ry3FYz3ZFD8QBdWwVg5pF9W", name: "sablier-flow-base" },
   [chains.berachain.id]: { id: "J87eaBLfTe7kKWgUGqe5TxntNCzA4pyWmqJowMddehuh", name: "sablier-flow-berachain" },
@@ -39,14 +39,6 @@ const FLOW_SUBGRAPHS: Record<number, { id: string; name: string }> = {
   },
 };
 
-function getSubgraph(chainId: number): { id: string; name: string } {
-  const subgraph = FLOW_SUBGRAPHS[chainId];
-  if (!subgraph) {
-    throw new Error(`Subgraph not found for chain ID: ${chainId}`);
-  }
-  return subgraph;
-}
-
 export function getDeployment(chainId: number, contracts: SablierContract[]): SablierDeployment {
   let envio: string | undefined;
   if (!envioUnsupported[chainId]) {
@@ -54,7 +46,7 @@ export function getDeployment(chainId: number, contracts: SablierContract[]): Sa
   }
 
   let thegraph: TheGraph | undefined;
-  const subgraph = getSubgraph(chainId);
+  const subgraph = FLOW_SUBGRAPHS[chainId];
   if (subgraph) {
     thegraph = {
       explorer: `${BaseURL.TheGraph.EXPLORER}/${subgraph.id}`,

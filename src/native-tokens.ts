@@ -36,10 +36,22 @@ export const ETH: NativeToken = {
   symbol: "ETH",
 };
 
+export const gMELD: NativeToken = {
+  decimals: 18,
+  name: "Gas MELD",
+  symbol: "gMELD",
+};
+
 export const IOTX: NativeToken = {
   decimals: 18,
   name: "IoTeX",
   symbol: "IOTX",
+};
+
+export const MON: NativeToken = {
+  decimals: 18,
+  name: "Monad",
+  symbol: "MON",
 };
 
 export const POL: NativeToken = {

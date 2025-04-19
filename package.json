@@ -8,12 +8,15 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@types/jest": "^29.5.14",
     "@types/node": "^22.14.1",
+    "@vitest/ui": "3.1.1",
+    "change-case": "^5.4.4",
+    "globby": "^14.1.0",
     "husky": "^9.1",
     "lint-staged": "^15.5",
     "prettier": "^3.5",
-    "typescript": "^5.8"
+    "typescript": "^5.8",
+    "vitest": "^3.1.1"
   },
   "keywords": [
     "airdrops",
@@ -42,8 +45,11 @@
     "prepare": "husky",
     "prettier:check": "prettier --cache --check \"**/*.{md,yml}\"",
     "prettier:write": "prettier --cache --write \"**/*.{md,yml}\"",
-    "tsc:build": "tsc",
-    "tsc:check": "tsc --noEmit"
+    "test": "vitest run --silent=false",
+    "test:watch": "vitest --silent=false",
+    "test:ui": "vitest --ui",
+    "tsc:build": "bun run clean && tsc --project tsconfig.build.json",
+    "tsc:check": "tsc --project tsconfig.build.json --noEmit"
   },
   "types": "./dist/index.d.ts"
 }
