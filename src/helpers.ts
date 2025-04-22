@@ -7,6 +7,16 @@ export function getChainName(chainId: number | string): string {
   return chains[Number(chainId)].name;
 }
 
+/**
+ * Get the explorer URL for a contract. Compatible with Etherscan, Blockscout, etc.
+ * @param explorerURL - The base explorer URL, e.g. https://etherscan.io
+ * @param contract - The contract object
+ * @returns The explorer URL for the contract, e.g. https://etherscan.io/address/0x123...
+ */
+export function getContractExplorerURL(explorerURL: string, contract: Sablier.Contract) {
+  return `${explorerURL}/address/${contract.address}`;
+}
+
 export function getChainDeployment(
   protocol: Sablier.Protocol,
   chainId: number,
