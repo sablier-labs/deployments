@@ -1,13 +1,10 @@
+import { chains, deployments } from "@src";
+import type { Sablier } from "@src/types";
 import { entries, keys } from "lodash";
-import * as airdrops from "../src/airdrops";
-import chains from "../src/chains";
-import * as flow from "../src/flow";
-import * as lockup from "../src/lockup";
-import type { SablierDeployments, SablierProtocol } from "../src/types";
 import { getBroadcastPath, getZKBroadcastDir } from "./get-broadcasts";
 
 // Parse command line arguments
-type BroadcastType = `--${SablierProtocol}`;
+type BroadcastType = `--${Sablier.Protocol}`;
 
 function parseArgs(): BroadcastType {
   const flag = process.argv[2] as BroadcastType;
@@ -28,13 +25,13 @@ function parseArgs(): BroadcastType {
 
 // Get broadcast type from command line
 const broadcastFlag = parseArgs();
-const protocol = broadcastFlag.slice(2) as SablierProtocol; // Remove -- prefix
+const protocol = broadcastFlag.slice(2) as Sablier.Protocol; // Remove -- prefix
 
 // Get source broadcasts based on type
-function getSourceBroadcasts(): SablierDeployments {
-  if (protocol === "flow") return flow.default;
-  if (protocol === "airdrops") return airdrops.default;
-  return lockup.default;
+function getSourceBroadcasts(): Sablier.Deployments {
+  if (protocol === "flow") return deployments.flow;
+  if (protocol === "airdrops") return deployments.airdrops;
+  return deployments.lockup;
 }
 
 // Emojis for better visual output

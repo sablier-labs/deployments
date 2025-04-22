@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
+import { chains } from "@src";
+import type { Sablier } from "@src/types";
 import { globby } from "globby";
-import chains from "../src/chains";
-import type { SablierProtocol } from "../src/types";
 const DATA_PATH = path.join(__dirname, "..", "data");
 
 export async function getBroadcastPath(
-  protocol: SablierProtocol,
+  protocol: Sablier.Protocol,
   version: string,
   chainId: number,
 ): Promise<string | null> {
@@ -22,7 +22,7 @@ export async function getBroadcastPath(
 }
 
 export async function getZKBroadcastDir(
-  protocol: SablierProtocol,
+  protocol: Sablier.Protocol,
   version: string,
   chainId: number,
 ): Promise<string | null> {

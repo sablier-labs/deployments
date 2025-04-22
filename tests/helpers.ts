@@ -3,7 +3,7 @@ import path from "node:path";
 import { entries } from "lodash";
 import { getBroadcastPath, getZKBroadcastDir } from "../scripts/get-broadcasts";
 import chains from "../src/chains";
-import type { SablierProtocol } from "../src/types";
+import type { SablierProtocol } from "../src/ts";
 import type { AirdropDeploymentJSON, FlowDeploymentJSON, ZKDeploymentJSON } from "./test-types";
 
 /**

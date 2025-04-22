@@ -1,22 +1,27 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "declaration": true,
     "declarationMap": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitAny": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "removeComments": true,
     "resolveJsonModule": true,
     "rootDir": ".",
     "sourceMap": true,
     "strict": true,
-    "target": "ES2016",
-    "lib": ["ES2016", "DOM"],
+    "target": "ES2015",
+    "paths": {
+      "@src": ["src"],
+      "@src/*": ["src/*"]
+    },
     "types": ["node"]
   },
   "exclude": ["/data", "/node_modules"],

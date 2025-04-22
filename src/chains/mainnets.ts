@@ -1,9 +1,9 @@
 import { AVAX, BERA, BNB, CHZ, CORE, ETH, IOTX, POL, SEI, TNT, UOS, XDC, gMELD, xDAI } from "../native-tokens";
-import type { SablierChain } from "../types";
+import type { Sablier } from "../types";
 import { ChainId } from "./ids";
 import { getAlchemyRPC, getInfuraRPC } from "./rpc";
 
-const mainnets: Record<number, SablierChain> = {
+const mainnets: Record<number, Sablier.Chain> = {
   [ChainId.ABSTRACT]: {
     explorerURL: "https://abscan.org",
     id: ChainId.ABSTRACT,

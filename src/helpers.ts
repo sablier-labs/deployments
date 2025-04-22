@@ -1,18 +1,18 @@
 import { BaseURL, THEGRAPH_ORG_ID } from "./constants";
 import { envio, subgraphs } from "./indexers";
-import type { SablierContract, SablierDeployment, SablierProtocol, TheGraph } from "./types";
+import type { Sablier } from "./types";
 
 export function getDeployment(
-  protocol: SablierProtocol,
+  protocol: Sablier.Protocol,
   chainId: number,
-  contracts: SablierContract[],
-): SablierDeployment {
+  contracts: Sablier.Contract[],
+): Sablier.Deployment {
   let envioEndpoint: string | undefined;
   if (!(chainId in envio.unsupportedChains)) {
     envioEndpoint = envio.endpoints[protocol];
   }
 
-  let thegraph: TheGraph | undefined;
+  let thegraph: Sablier.TheGraph | undefined;
   const subgraph = subgraphs[protocol][chainId];
   if (subgraph) {
     thegraph = {

@@ -3,7 +3,7 @@
  */
 import { ChainId } from "./chains/ids";
 import { BaseURL } from "./constants";
-import type { SablierProtocol, SablierSubgraphs } from "./types";
+import type { Sablier } from "./types";
 
 export const envio = {
   endpoints: {
@@ -29,7 +29,7 @@ export const envio = {
   },
 };
 
-export const subgraphs: Record<SablierProtocol, SablierSubgraphs> = {
+export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
   airdrops: {
     /* -------------------------------------------------------------------------- */
     /*                                  Mainnets                                  */

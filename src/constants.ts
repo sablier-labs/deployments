@@ -1,5 +1,3 @@
-export const THEGRAPH_ORG_ID = 57079; // Sablier organization ID on The Graph
-
 export const BaseURL = {
   ENVIO: "https://indexer.hyperindex.xyz",
   TheGraph: {
@@ -8,3 +6,5 @@ export const BaseURL = {
     STUDIO: "https://api.studio.thegraph.com/query",
   },
 } as const;
+
+export const THEGRAPH_ORG_ID = 57079; // Sablier organization ID on The Graph

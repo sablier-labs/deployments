@@ -57,7 +57,7 @@ describe("Package chains are in sync with broadcasts", () => {
     broadcastChains = await getAllBroadcasts();
 
     // Get package chains = return chain.key
-    packageChains = [...values(chains.default)]
+    packageChains = [...values(chains)]
       .filter((chain) => !EXCLUDED_CHAINS.includes(chain.key))
       .map((chain) => chain.key);
   });
@@ -101,7 +101,7 @@ describe("Package chains are in sync with broadcasts", () => {
 
 describe("Ping public JSON-RPC servers", () => {
   // Get all chains from both mainnets and testnets
-  const allChains = values(chains.default);
+  const allChains = values(chains);
 
   // Generate a test for each chain
   for (const chain of allChains) {

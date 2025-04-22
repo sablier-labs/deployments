@@ -12,5 +12,4 @@
 import mainnets from "./mainnets";
 import testnets from "./testnets";
 
-export { mainnets, testnets };
 export default { ...mainnets, ...testnets };

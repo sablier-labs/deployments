@@ -1,8 +1,8 @@
 import { keys } from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
 
-import { chains, deployments } from "../src";
-import type { SablierDeployment, SablierProtocol } from "../src/types";
+import { chains, deployments } from "@src";
+import type { Sablier } from "@src/types";
 import { loadBroadcastJSON, loadZKBroadcastJSON } from "./helpers";
 import type { Contract, ContractReturn, ZKDeploymentJSON } from "./test-types";
 
@@ -11,7 +11,7 @@ import type { Contract, ContractReturn, ZKDeploymentJSON } from "./test-types";
 // ============================================================================
 
 export interface DeploymentConfig {
-  protocol: SablierProtocol;
+  protocol: Sablier.Protocol;
   version: string;
   contracts: {
     [key: string]: string;
@@ -62,8 +62,8 @@ export function validateZKContract(contract: Contract, zkDeployment: ZKDeploymen
  * @param chainId - The ID of the chain to test
  * @param deployment - The deployment data for the chain
  */
-export function createDeploymentTests(config: DeploymentConfig, chainId: number, deployment: SablierDeployment): void {
-  const chain = chains.default[chainId];
+export function createDeploymentTests(config: DeploymentConfig, chainId: number, deployment: Sablier.Deployment): void {
+  const chain = chains[chainId];
   const chainName = chain.name;
 
   // Find all required contracts

@@ -1,90 +1,90 @@
-import type { NativeToken } from "./types";
+import type { Sablier } from "./types";
 
-export const AVAX: NativeToken = {
+export const AVAX: Sablier.NativeToken = {
   decimals: 18,
   name: "Avalanche",
   symbol: "AVAX",
 };
 
-export const BERA: NativeToken = {
+export const BERA: Sablier.NativeToken = {
   decimals: 18,
   name: "Bera",
   symbol: "BERA",
 };
 
-export const BNB: NativeToken = {
+export const BNB: Sablier.NativeToken = {
   decimals: 18,
   name: "BNB",
   symbol: "BNB",
 };
 
-export const CHZ: NativeToken = {
+export const CHZ: Sablier.NativeToken = {
   decimals: 18,
   name: "Chiliz",
   symbol: "CHZ",
 };
 
-export const CORE: NativeToken = {
+export const CORE: Sablier.NativeToken = {
   decimals: 18,
   name: "Core",
   symbol: "CORE",
 };
 
-export const ETH: NativeToken = {
+export const ETH: Sablier.NativeToken = {
   decimals: 18,
   name: "Ether",
   symbol: "ETH",
 };
 
-export const gMELD: NativeToken = {
+export const gMELD: Sablier.NativeToken = {
   decimals: 18,
   name: "Gas MELD",
   symbol: "gMELD",
 };
 
-export const IOTX: NativeToken = {
+export const IOTX: Sablier.NativeToken = {
   decimals: 18,
   name: "IoTeX",
   symbol: "IOTX",
 };
 
-export const MON: NativeToken = {
+export const MON: Sablier.NativeToken = {
   decimals: 18,
   name: "Monad",
   symbol: "MON",
 };
 
-export const POL: NativeToken = {
+export const POL: Sablier.NativeToken = {
   decimals: 18,
   name: "Polygon",
   symbol: "POL",
 };
 
-export const SEI: NativeToken = {
+export const SEI: Sablier.NativeToken = {
   decimals: 18,
   name: "Sei",
   symbol: "SEI",
 };
 
-export const TNT: NativeToken = {
+export const TNT: Sablier.NativeToken = {
   decimals: 18,
   name: "Tangle",
   symbol: "TNT",
 };
 
-export const UOS: NativeToken = {
+export const UOS: Sablier.NativeToken = {
   decimals: 18,
   name: "Ultra",
   symbol: "UOS",
 };
 
-export const XDC: NativeToken = {
+export const XDC: Sablier.NativeToken = {
   decimals: 18,
   name: "XDC",
   symbol: "XDC",
 };
 
-export const xDAI: NativeToken = {
+export const xDAI: Sablier.NativeToken = {
   decimals: 18,
   name: "xDAI",
   symbol: "xDAI",

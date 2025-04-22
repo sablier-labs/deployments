@@ -1,4 +1,6 @@
-export default {
+import type { Sablier } from "./types";
+
+const contractNames: Record<Sablier.Protocol, Record<string, string>> = {
   airdrops: {
     SABLIER_MERKLE_FACTORY: "SablierMerkleFactory",
   },
@@ -15,3 +17,5 @@ export default {
     VESTING_MATH: "VestingMath",
   },
 };
+
+export default contractNames;
