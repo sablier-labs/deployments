@@ -3,15 +3,15 @@ import { BaseURL, THEGRAPH_ORG_ID } from "./constants";
 import { envio, subgraphs } from "./indexers";
 import type { Sablier } from "./types";
 
-export function getChainName(chainId: number): string {
-  return chains[chainId].name;
+export function getChainName(chainId: number | string): string {
+  return chains[Number(chainId)].name;
 }
 
-export function getDeployment(
+export function getChainDeployment(
   protocol: Sablier.Protocol,
   chainId: number,
   contracts: Sablier.Contract[],
-): Sablier.Deployment {
+): Sablier.ChainDeployment {
   let envioEndpoint: string | undefined;
   if (!(chainId in envio.unsupportedChains)) {
     envioEndpoint = envio.endpoints[protocol];

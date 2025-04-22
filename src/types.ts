@@ -34,16 +34,18 @@ export declare namespace Sablier {
     };
   }
 
+  export interface ChainDeployment {
+    [chainId: number]: Deployment;
+  }
+
   export interface Contract {
     address: string;
     name: string;
   }
 
   export interface Deployment {
-    [chainId: number]: {
-      contracts: Contract[];
-      indexers: Indexers;
-    };
+    contracts: Contract[];
+    indexers: Indexers;
   }
 
   export interface Indexers {

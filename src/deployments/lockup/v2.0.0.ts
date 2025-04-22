@@ -1,13 +1,13 @@
 import { ChainId } from "../../chains/ids";
 import contractNames from "../../contract-names";
-import { getDeployment } from "../../helpers";
+import { getChainDeployment } from "../../helpers";
 import type { Sablier } from "../../types";
 /* -------------------------------------------------------------------------- */
 /*                                  Mainnets                                  */
 /* -------------------------------------------------------------------------- */
 
 const mainnets: Record<number, Sablier.Deployment> = {
-  ...getDeployment("lockup", ChainId.ETHEREUM, [
+  ...getChainDeployment("lockup", ChainId.ETHEREUM, [
     {
       address: "0x3F6E8a8Cffe377c4649aCeB01e6F20c60fAA356c",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -29,7 +29,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.ABSTRACT, [
+  ...getChainDeployment("lockup", ChainId.ABSTRACT, [
     {
       address: "0x3409308357BB704f79f70d748da502F363Dc2f1D",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -51,7 +51,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.ARBITRUM_ONE, [
+  ...getChainDeployment("lockup", ChainId.ARBITRUM_ONE, [
     {
       address: "0xB11Ead48F572155C5f8dB6201701e91A936896f7",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -73,7 +73,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.AVALANCHE, [
+  ...getChainDeployment("lockup", ChainId.AVALANCHE, [
     {
       address: "0xABDE228d84D86D78029C31A37Ae2435C8f923c8b",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -95,7 +95,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.BASE, [
+  ...getChainDeployment("lockup", ChainId.BASE, [
     {
       address: "0xC26CdAFd6ec3c91AD9aEeB237Ee1f37205ED26a4",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -117,7 +117,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.BERACHAIN, [
+  ...getChainDeployment("lockup", ChainId.BERACHAIN, [
     {
       address: "0x75838C66Dfa2296bB9758f75fC7ad219718C8a88",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -139,7 +139,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.BLAST, [
+  ...getChainDeployment("lockup", ChainId.BLAST, [
     {
       address: "0x193c2af965FEAca8D893c974712e5b6BD3cBc5ec",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -161,7 +161,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.BSC, [
+  ...getChainDeployment("lockup", ChainId.BSC, [
     {
       address: "0xcf990fA3267F0945bBf7cf40A0c03F9dFE6a1804",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -183,7 +183,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.CHILIZ, [
+  ...getChainDeployment("lockup", ChainId.CHILIZ, [
     {
       address: "0x179536f3289fb50076968b339C7EF0Dc0B38E3AF",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -205,7 +205,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.CORE_DAO, [
+  ...getChainDeployment("lockup", ChainId.CORE_DAO, [
     {
       address: "0x96dadeeab25413de04a1b8e40c4de41bd9d7fd29",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -227,7 +227,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.FORM, [
+  ...getChainDeployment("lockup", ChainId.FORM, [
     {
       address: "0x74759072f464F6600E7563DcC2828A2dE8111840",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -256,7 +256,7 @@ const mainnets: Record<number, Sablier.Deployment> = {
 /* -------------------------------------------------------------------------- */
 
 const testnets: Record<number, Sablier.Deployment> = {
-  ...getDeployment("lockup", ChainId.ARBITRUM_SEPOLIA, [
+  ...getChainDeployment("lockup", ChainId.ARBITRUM_SEPOLIA, [
     {
       address: "0x781b3b2527f2a0a1e6b429161f2717a8a28b9f46",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -278,7 +278,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.BASE_SEPOLIA, [
+  ...getChainDeployment("lockup", ChainId.BASE_SEPOLIA, [
     {
       address: "0xd5f78708d83ac2bc8734a8cdf2d112c1bb3b62a2",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -300,7 +300,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.BLAST_SEPOLIA, [
+  ...getChainDeployment("lockup", ChainId.BLAST_SEPOLIA, [
     {
       address: "0xa8c864c53e72301c2ab484d013627a5a7084174b",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -322,7 +322,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.ETHEREUM_SEPOLIA, [
+  ...getChainDeployment("lockup", ChainId.ETHEREUM_SEPOLIA, [
     {
       address: "0x5ae8c13f6ae094887322012425b34b0919097d8a",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -344,7 +344,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.LINEA_SEPOLIA, [
+  ...getChainDeployment("lockup", ChainId.LINEA_SEPOLIA, [
     {
       address: "0xb0255ed1ee5c01dfe865c1b21bbf56a80f9ae739",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -366,7 +366,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.MODE_TESTNET, [
+  ...getChainDeployment("lockup", ChainId.MODE_TESTNET, [
     {
       address: "0xf5ac60870e1ccc4bfce23cfbb7a796a0d8dbaf47",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -388,7 +388,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.MORPH_HOLESKY, [
+  ...getChainDeployment("lockup", ChainId.MORPH_HOLESKY, [
     {
       address: "0x9efc8663cab0e2d97ad17c9fbfc8392445517e94",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -410,7 +410,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.OP_SEPOLIA, [
+  ...getChainDeployment("lockup", ChainId.OP_SEPOLIA, [
     {
       address: "0x417db0f2bd020fc4d6bccea6b2bb6be0c541862e",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -432,7 +432,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.SUPERSEED_SEPOLIA, [
+  ...getChainDeployment("lockup", ChainId.SUPERSEED_SEPOLIA, [
     {
       address: "0x905756b52efeaf75f6b1bb1bb0fc35eea15ae260",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
@@ -454,7 +454,7 @@ const testnets: Record<number, Sablier.Deployment> = {
       name: contractNames.lockup.VESTING_MATH,
     },
   ]),
-  ...getDeployment("lockup", ChainId.TAIKO_HEKLA, [
+  ...getChainDeployment("lockup", ChainId.TAIKO_HEKLA, [
     {
       address: "0x29b7bafce0a04638dc91ca0b87a562cab8c3dbde",
       name: contractNames.lockup.SABLIER_BATCH_LOCKUP,
