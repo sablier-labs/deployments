@@ -73,9 +73,5 @@ export declare namespace Sablier {
     };
   }
 
-  export interface Deployments {
-    [version: Version]: Deployment[];
-  }
-
   export type Version = `v${number}.${number}.${number}`;
 }
