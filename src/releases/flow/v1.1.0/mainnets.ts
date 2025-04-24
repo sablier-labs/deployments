@@ -1,0 +1,112 @@
+import { ChainId } from "../../../chains/ids";
+import { getDeployment, sortDeployments } from "../../../helpers";
+import type { Sablier } from "../../../types";
+import manifest from "./manifest";
+
+/**
+ * @description Mainnet deployments for Flow v1.1.0
+ */
+const mainnets: Sablier.Deployment[] = [
+  getDeployment("flow", ChainId.ABSTRACT, {
+    [manifest.SABLIER_FLOW]: "0x555B0766f494c641bb522086da4E728AC08c1420",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x6CefdBc5Ba80937235F012c83d6aA83F1200d6cC",
+  }),
+  getDeployment("flow", ChainId.ARBITRUM_ONE, {
+    [manifest.SABLIER_FLOW]: "0x87CF87ec5de33DeB4a88787065373563Ba85Ee72",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x5F23eF12A7e861CB92c24B4314Af2A5F363CDD4F",
+  }),
+  getDeployment("flow", ChainId.AVALANCHE, {
+    [manifest.SABLIER_FLOW]: "0xac7CB985d4022A5Ebd4a385374ac3d3B487b3C63",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0xb09b714B0feC83675E09fc997B7D532cF6620326",
+  }),
+  getDeployment("flow", ChainId.BASE, {
+    [manifest.SABLIER_FLOW]: "0x6FE93c7f6cd1DC394e71591E3c42715Be7180A6A",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x5b5e742305Be3A484EacCB124C83456463c24E6a",
+  }),
+  getDeployment("flow", ChainId.BERACHAIN, {
+    [manifest.SABLIER_FLOW]: "0xA031544946ED769377128fBD961c9d621c4b4179",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x581250eE4311F7Dc1afCF965cF8024004B423e9E",
+  }),
+  getDeployment("flow", ChainId.BLAST, {
+    [manifest.SABLIER_FLOW]: "0x16b50eb5eAeF0366f1A4da594e2A8c8943A297e0",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x92f1dB592C771D9Ec7708abFEe79771AbC1b4fAd",
+  }),
+  getDeployment("flow", ChainId.BSC, {
+    [manifest.SABLIER_FLOW]: "0x4C4610aF3f3861EC99b6F6F8066C03E4C3a0E023",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0xAE557c04B46d47Ecac24edA63F22cabB4571Da61",
+  }),
+  getDeployment("flow", ChainId.CHILIZ, {
+    [manifest.SABLIER_FLOW]: "0x28eAB88ee8a951F78e1028557D0C3fD97af61A33",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0xC7fd18CA19938d559dC45aDE362a850015CF0bd8",
+  }),
+  getDeployment("flow", ChainId.CORE_DAO, {
+    [manifest.SABLIER_FLOW]: "0xa0aE7F1bE0DB024Beda05c80722413EDDe7231Bd",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x7293F2D4A4e676EF67C085E92277AdF560AECb88",
+  }),
+  getDeployment("flow", ChainId.ETHEREUM, {
+    [manifest.SABLIER_FLOW]: "0x3DF2AAEdE81D2F6b261F79047517713B8E844E04",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x24bE13897eE1F83367661B6bA616a72523fC55C9",
+  }),
+  getDeployment("flow", ChainId.FORM, {
+    [manifest.SABLIER_FLOW]: "0x5dd399bb320412dF92Df5c10484d3F8d481FE231",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x88E64227D4DcF8De1141bb0807A9DC04a5Be9251",
+  }),
+  getDeployment("flow", ChainId.GNOSIS, {
+    [manifest.SABLIER_FLOW]: "0x34Bc0C2BF1F2DA51c65cd821bA4133aFCacdb8f5",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x5A47FC8732d399a2f3845c4FC91aB91bb97da31F",
+  }),
+  getDeployment("flow", ChainId.LIGHTLINK, {
+    [manifest.SABLIER_FLOW]: "0x89d964E0b508234bCfDc7a32aE0aA0356f422B70",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0xc58E948Cb0a010105467C92856bcd4842B759fb1",
+  }),
+  getDeployment("flow", ChainId.LINEA, {
+    [manifest.SABLIER_FLOW]: "0xEFc6e4C7DC5faA0CfBFEbB5e04eA7Cd47f64012f",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x294D7fceBa43C4507771707CeBBB7b6d81d0BFdE",
+  }),
+  getDeployment("flow", ChainId.MODE, {
+    [manifest.SABLIER_FLOW]: "0xc968E8eEFe19BD6De8868df40D9740Be127a172a",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0xD9E2822a33606741BeDbA31614E68A745e430102",
+  }),
+  getDeployment("flow", ChainId.MORPH, {
+    [manifest.SABLIER_FLOW]: "0xf31c8E7D9a0Bd310a9d5Fb317ba67BB1f0101c6D",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x1dd4dcE2BB742908b4062E583d9c035973413A3F",
+  }),
+  getDeployment("flow", ChainId.OP_MAINNET, {
+    [manifest.SABLIER_FLOW]: "0xC5612feA2D370127ac67048115bd6b1dF7b7F7C0",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x7AD245b74bBC1B71Da1713D53238931F791b90A3",
+  }),
+  getDeployment("flow", ChainId.POLYGON, {
+    [manifest.SABLIER_FLOW]: "0x3e5c4130Ea7cfbD364FA5f170289d697865cA94b",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x87B836a9e26673feB3E409A0da2EAf99C79f26C3",
+  }),
+  getDeployment("flow", ChainId.SCROLL, {
+    [manifest.SABLIER_FLOW]: "0xC4F104cE12cb12484Ff67cF0C4Bd0561F0014ec2",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x797Fe78c41d9cbE81BBEA2f420101be5e47d2aFf",
+  }),
+  getDeployment("flow", ChainId.SEI, {
+    [manifest.SABLIER_FLOW]: "0xdEF70082ebda4944A55311624900E42A720b4Ec9",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0xF3D18b06c87735a58DAb3baC45af058b3772fD54",
+  }),
+  getDeployment("flow", ChainId.SUPERSEED, {
+    [manifest.SABLIER_FLOW]: "0x40E75bb2F2aA3507D3a332872829c71be19eF623",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0xd932fDA016eE9d9F70f745544b4F56715b1E723b",
+  }),
+  getDeployment("flow", ChainId.TAIKO, {
+    [manifest.SABLIER_FLOW]: "0x9d4bc7f013cCddAE1658dc28F981C2D424d7F0Dd",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x80Bde7C505eFE9960b673567CB25Cd8af85552BE",
+  }),
+  getDeployment("flow", ChainId.UNICHAIN, {
+    [manifest.SABLIER_FLOW]: "0x9797B40340be0bFc9EC0dBb8712627Bcdd17E771",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x89824A7e48dcf6B7AE9DeE6E566f62A5aDF037F2",
+  }),
+  getDeployment("flow", ChainId.XDC, {
+    [manifest.SABLIER_FLOW]: "0xD6482334242862951dA3E730F818c3f6E3f45A30",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x9D3F0122b260D2218ecf681c416495882003deDd",
+  }),
+  getDeployment("flow", ChainId.ZK_SYNC_ERA, {
+    [manifest.SABLIER_FLOW]: "0xE3747379bF7282e0ab5389A63eA053a5256042df",
+    [manifest.FLOW_NFT_DESCRIPTOR]: "0x423C1b454250992Ede8516D36DE456F609714B53",
+  }),
+];
+
+export default sortDeployments(mainnets);

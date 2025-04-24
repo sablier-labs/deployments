@@ -1,21 +1,9 @@
 import { beforeAll, describe, expect, it } from "vitest";
 
-import { chains, deployments } from "@src";
+import { chains } from "@src";
 import type { Sablier } from "@src/types";
 import { loadBroadcastJSON, loadZKBroadcastJSON } from "./helpers";
 import type { Contract, ContractReturn, ZKDeploymentJSON } from "./test-types";
-
-// ============================================================================
-// Shared Types
-// ============================================================================
-
-export interface DeploymentConfig {
-  protocol: Sablier.Protocol;
-  version: Sablier.Version;
-  contracts: {
-    [key: string]: string;
-  };
-}
 
 // ============================================================================
 // Shared Validation Functions
@@ -55,23 +43,18 @@ export function validateZKContract(contract: Contract, zkDeployment: ZKDeploymen
 // Shared Test Suite Generation
 // ============================================================================
 
-/**
- * Creates test suites for a specific chain deployment
- * @param config - Configuration for the deployment test
- * @param chainId - The ID of the chain to test
- * @param deployment - The deployment data for the chain
- */
-export function createDeploymentTests(config: DeploymentConfig, chainId: number, deployment: Sablier.Deployment): void {
+export function createDeploymentTests(release: Sablier.Release, deployment: Sablier.Deployment): void {
+  const chainId = deployment.chainId;
   const chain = chains.allById[chainId];
   const chainName = chain.name;
 
   // Find all required contracts
   const contracts: Record<string, Contract> = {};
-  for (const [key, contractName] of Object.entries(config.contracts)) {
+  for (const [key, contractName] of Object.entries(release.manifest)) {
     const contract = deployment.contracts.find((c) => c.name === contractName);
     if (!contract) {
       throw new Error(
-        `${contractName} contract not found for ${config.protocol} ${config.version} on chain ${chainName} (ID: ${chainId})`,
+        `${contractName} contract not found for ${release.protocol} ${release.version} on chain ${chainName} (ID: ${chainId})`,
       );
     }
     contracts[key] = contract;
@@ -82,7 +65,7 @@ export function createDeploymentTests(config: DeploymentConfig, chainId: number,
       let deploymentData: { returns: Record<string, ContractReturn> } | null;
 
       beforeAll(async () => {
-        const data = await loadBroadcastJSON(config.protocol, config.version, chainId);
+        const data = await loadBroadcastJSON(release.protocol, release.version, chainId);
         deploymentData = data as { returns: Record<string, ContractReturn> };
       });
 
@@ -100,7 +83,7 @@ export function createDeploymentTests(config: DeploymentConfig, chainId: number,
       let zkDeploymentData: Record<string, ZKDeploymentJSON> | null;
 
       beforeAll(async () => {
-        zkDeploymentData = await loadZKBroadcastJSON(config.protocol, config.version, chainId, config.contracts);
+        zkDeploymentData = await loadZKBroadcastJSON(release.protocol, release.version, chainId, release.manifest);
       });
 
       for (const [key, contract] of Object.entries(contracts)) {
@@ -113,16 +96,10 @@ export function createDeploymentTests(config: DeploymentConfig, chainId: number,
   }
 }
 
-/**
- * Creates the main test suite for a deployment module
- * @param config - Configuration for the deployment test
- */
-export function createModuleTestSuite(config: DeploymentConfig): void {
-  describe(`${config.protocol} ${config.version}`, () => {
-    const versionDeployments = deployments[config.protocol][config.version];
-
-    for (const chainId of Object.keys(versionDeployments).map(Number)) {
-      createDeploymentTests(config, chainId, versionDeployments[chainId]);
+export function createModuleTestSuite(release: Sablier.Release): void {
+  describe(`${release.protocol} ${release.version}`, () => {
+    for (const deployment of release.deployments) {
+      createDeploymentTests(release, deployment);
     }
   });
 }

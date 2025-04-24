@@ -4,11 +4,19 @@ import { envio, subgraphs } from "./indexers";
 import type { Sablier } from "./types";
 
 export function getChain(chainId: number | string): Sablier.Chain {
-  return allById[Number(chainId)];
+  const chain = allById[Number(chainId)];
+  if (!chain) {
+    throw new Error(`Chain with ID ${chainId} not found`);
+  }
+  return chain;
 }
 
 export function getChainName(chainId: number | string): string {
-  return allById[Number(chainId)].name;
+  const chainName = allById[Number(chainId)].name;
+  if (!chainName) {
+    throw new Error(`Chain with ID ${chainId} not found`);
+  }
+  return chainName;
 }
 
 /**
@@ -21,11 +29,11 @@ export function getContractExplorerURL(explorerURL: string, contract: Sablier.Co
   return `${explorerURL}/address/${contract.address}`;
 }
 
-export function getChainDeployment(
+export function getDeployment(
   protocol: Sablier.Protocol,
   chainId: number,
-  contracts: Sablier.Contract[],
-): Sablier.ChainDeployment {
+  contracts: Record<string, Sablier.Address>,
+): Sablier.Deployment {
   let envioEndpoint: string | undefined;
   if (!(chainId in envio.unsupportedChains)) {
     envioEndpoint = envio.endpoints[protocol];
@@ -43,17 +51,26 @@ export function getChainDeployment(
       },
     };
   }
+
+  const contractsArray = Object.entries(contracts).map(([name, address]) => ({ name, address }));
   return {
-    [chainId]: {
-      contracts,
-      indexers: {
-        envio: envioEndpoint,
-        thegraph,
-      },
+    chainId,
+    contracts: contractsArray,
+    indexers: {
+      envio: envioEndpoint,
+      thegraph,
     },
   };
 }
 
-export function sortAlphabetically(chains: Sablier.Chain[]) {
+export function sortChains(chains: Sablier.Chain[]): Sablier.Chain[] {
   return chains.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function sortDeployments(deployments: Sablier.Deployment[]): Sablier.Deployment[] {
+  return deployments.sort((a, b) => {
+    const aChain = getChain(a.chainId);
+    const bChain = getChain(b.chainId);
+    return aChain.name.localeCompare(bChain.name);
+  });
 }

@@ -1,3 +1,4 @@
+import { sortChains } from "../helpers";
 import { ETH, MON } from "../native-tokens";
 import type { Sablier } from "../types";
 import { ChainId } from "./ids";
@@ -164,4 +165,4 @@ export const testnetsById: Record<number, Sablier.Chain> = {
   },
 };
 
-export const testnets: Sablier.Chain[] = Object.values(testnetsById).sort((a, b) => a.name.localeCompare(b.name));
+export const testnets: Sablier.Chain[] = sortChains(Object.values(testnetsById));

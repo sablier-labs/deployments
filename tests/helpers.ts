@@ -31,7 +31,7 @@ export async function loadZKBroadcastJSON(
   protocol: Sablier.Protocol,
   version: string,
   chainId: number,
-  contracts: Record<string, string>,
+  manifest: Record<string, string>,
 ): Promise<Record<string, ZKDeploymentJSON> | null> {
   const dirPath = await getZKBroadcastDir(protocol, version, chainId);
   if (!dirPath) {
@@ -41,7 +41,7 @@ export async function loadZKBroadcastJSON(
 
   const results: Record<string, ZKDeploymentJSON> = {};
 
-  for (const [key, contractName] of entries(contracts)) {
+  for (const [key, contractName] of entries(manifest)) {
     try {
       const contractPath = path.join(dirPath, `${contractName}.json`);
       const contractContent = await fs.promises.readFile(contractPath, "utf8");

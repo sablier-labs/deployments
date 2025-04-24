@@ -1,4 +1,4 @@
-import { chains, deployments } from "@src";
+import { chains, releases } from "@src";
 import type { Sablier } from "@src/types";
 import { entries, keys } from "lodash";
 import { getBroadcastPath, getZKBroadcastDir } from "./get-broadcasts";
@@ -28,10 +28,10 @@ const broadcastFlag = parseArgs();
 const protocol = broadcastFlag.slice(2) as Sablier.Protocol; // Remove -- prefix
 
 // Get source broadcasts based on type
-function getSourceBroadcasts(): Sablier.Deployments {
-  if (protocol === "flow") return deployments.flow;
-  if (protocol === "airdrops") return deployments.airdrops;
-  return deployments.lockup;
+function getReleases(): Sablier.Release[] {
+  if (protocol === "flow") return releases.flow;
+  if (protocol === "airdrops") return releases.airdrops;
+  return releases.lockup;
 }
 
 // Emojis for better visual output
@@ -68,34 +68,26 @@ function printSectionHeader(text: string): void {
  */
 async function checkMissingBroadcasts(): Promise<void> {
   const missingBroadcasts: MissingBroadcast[] = [];
-  const sourceBroadcasts = getSourceBroadcasts();
+  const releases = getReleases();
 
-  // Print start message
   console.log(`\n${EMOJIS.folder} Checking ${protocol} broadcasts...\n`);
 
-  // Iterate through all versions in source broadcasts
-  for (const [version, broadcasts] of entries(sourceBroadcasts)) {
-    // Check each broadcast
-    for (const broadcast of broadcasts) {
-      const chainIds = keys(broadcast).map(Number);
+  for (const release of releases) {
+    for (const deployment of release.deployments) {
+      const chainId = deployment.chainId;
+      const chain = chains.allById[chainId];
+      const broadcastPath = chain.isZK
+        ? await getZKBroadcastDir(protocol, release.version, chainId)
+        : await getBroadcastPath(protocol, release.version, chainId);
 
-      for (const chainId of chainIds) {
-        const chain = chains[chainId];
-
-        // Check for broadcast based on chain type (ZK or regular)
-        const broadcastPath = chain.isZK
-          ? await getZKBroadcastDir(protocol, version, chainId)
-          : await getBroadcastPath(protocol, version, chainId);
-
-        if (!broadcastPath) {
-          missingBroadcasts.push({
-            chainId,
-            chainName: chain.name,
-            chainKey: chain.key,
-            version,
-            isTestnet: chain.isTestnet,
-          });
-        }
+      if (!broadcastPath) {
+        missingBroadcasts.push({
+          chainId,
+          chainName: chain.name,
+          chainKey: chain.key,
+          version: release.version,
+          isTestnet: chain.isTestnet,
+        });
       }
     }
   }

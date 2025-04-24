@@ -1,3 +1,4 @@
+import { sortChains } from "../helpers";
 import { AVAX, BERA, BNB, CHZ, CORE, ETH, IOTX, POL, SEI, TNT, UOS, XDC, gMELD, xDAI } from "../native-tokens";
 import type { Sablier } from "../types";
 import { ChainId } from "./ids";
@@ -402,4 +403,4 @@ export const mainnetsById: Record<number, Sablier.Chain> = {
   },
 };
 
-export const mainnets: Sablier.Chain[] = Object.values(mainnetsById).sort((a, b) => a.name.localeCompare(b.name));
+export const mainnets: Sablier.Chain[] = sortChains(Object.values(mainnetsById));

@@ -1,4 +1,6 @@
 export declare namespace Sablier {
+  export type Address = `0x${string}`;
+
   /** The native token on an EVM chain, used for paying gas fees */
   export interface NativeToken {
     decimals: number;
@@ -34,16 +36,32 @@ export declare namespace Sablier {
     };
   }
 
-  export interface ChainDeployment {
-    [chainId: number]: Deployment;
-  }
-
+  /**
+   * Can be either a contract or a public library.
+   */
   export interface Contract {
-    address: string;
+    address: Address;
     name: string;
   }
 
+  /**
+   * A release is a collection of deployments for a given protocol and version.
+   */
+  export interface Release {
+    /** An array of `Deployment` objects. */
+    deployments: Deployment[];
+    /** A map of all contracts and libraries shipped in the release. */
+    manifest: {
+      [key: string]: string;
+    };
+    /** The Sablier protocol of the release, e.g. `airdrops`. */
+    protocol: Protocol;
+    /** The version of the release, e.g., `v1.0.0`. */
+    version: Version;
+  }
+
   export interface Deployment {
+    chainId: number;
     contracts: Contract[];
     indexers: Indexers;
   }
