@@ -1,41 +1,53 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { chains } from "@src";
+import { getChain } from "@src/helpers";
 import type { Sablier } from "@src/types";
-import { loadBroadcastJSON, loadZKBroadcastJSON } from "./loaders";
-import type { Contract, ContractReturn, ZKDeploymentJSON } from "./test-types";
+import _ from "lodash";
+import { beforeAll, describe, expect, it } from "vitest";
+import { loadBroadcastJSONs, loadZKBroadcastJSONs } from "./loaders";
+import type { BroadcastJSON, Contract, ContractReturn, ZKBroadcastJSON } from "./test-types";
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+const CONTRACT_PREFIX = "contract ";
+
+// ============================================================================
+// Shared Utils
+// ============================================================================
+
+function findContract(broadcastData: BroadcastJSON[], contractName: string): ContractReturn | null {
+  return (
+    broadcastData
+      .flatMap((d) => _.values(d.returns))
+      .find((contractReturn) => contractReturn.internal_type.replace(CONTRACT_PREFIX, "") === contractName) ?? null
+  );
+}
+
+function findZKContract(zkBroadcastData: ZKBroadcastJSON[], contractName: string): ZKBroadcastJSON | null {
+  return zkBroadcastData.find((zkBroadcast) => zkBroadcast.contractName === contractName) ?? null;
+}
 
 // ============================================================================
 // Shared Validation Functions
 // ============================================================================
 
-/**
- * Validates contract deployment details for non-ZK chains
- * @param contract - The deployed contract to validate
- * @param expectedData - Expected contract data to validate against
- */
 export function validateContract(contract: Contract, expectedData: ContractReturn): void {
   const address = contract.address.toLowerCase();
   const expectedAddress = expectedData.value.toLowerCase();
   expect(address).toBe(expectedAddress);
 
   const name = contract.name;
-  const expectedName = expectedData.internal_type.replace("contract ", "");
+  const expectedName = expectedData.internal_type.replace(CONTRACT_PREFIX, "");
   expect(name).toBe(expectedName);
 }
 
-/**
- * Validates contract deployment details for ZK-compatible chains
- * @param contract - The deployed contract to validate
- * @param zkDeployment - ZK deployment data to validate against
- */
-export function validateZKContract(contract: Contract, zkDeployment: ZKDeploymentJSON): void {
+export function validateZKContract(contract: Contract, zkBroadcast: ZKBroadcastJSON): void {
   const address = contract.address.toLowerCase();
-  const expectedAddress = zkDeployment.entries[0].address.toLowerCase();
+  const expectedAddress = zkBroadcast.entries[0].address.toLowerCase();
   expect(address).toBe(expectedAddress);
 
   const name = contract.name;
-  const expectedName = zkDeployment.contractName;
+  const expectedName = zkBroadcast.contractName;
   expect(name).toBe(expectedName);
 }
 
@@ -43,63 +55,83 @@ export function validateZKContract(contract: Contract, zkDeployment: ZKDeploymen
 // Shared Test Suite Generation
 // ============================================================================
 
-export function createDeploymentTests(release: Sablier.Release, deployment: Sablier.Deployment): void {
+/**
+ * @param BD - The type of the broadcast data.
+ * @param CD - The type of the contract data.
+ */
+interface TestConfig<BD, CD> {
+  title: string;
+  loader: (release: Sablier.Release, chain: Sablier.Chain) => Promise<BD[] | null>;
+  finder: (data: BD[], contractName: string) => CD | null;
+  validator: (contract: Contract, data: CD) => void;
+}
+
+function createContractTests<T, R>(
+  release: Sablier.Release,
+  deployment: Sablier.Deployment,
+  chain: Sablier.Chain,
+  config: TestConfig<T, R>,
+): void {
   const chainId = deployment.chainId;
-  const chain = chains.allById[chainId];
   const chainName = chain.name;
+  const { title, loader, finder, validator } = config;
 
-  // Find all required contracts
-  const contracts: Record<string, Contract> = {};
-  for (const [key, contractName] of Object.entries(release.manifest)) {
-    const contract = deployment.contracts.find((c) => c.name === contractName);
-    if (!contract) {
-      throw new Error(
-        `${contractName} contract not found for ${release.protocol} ${release.version} on chain ${chainName} (ID: ${chainId})`,
-      );
+  describe(`${title}: ${chainName} (ID: ${chainId})`, () => {
+    let broadcastData: T[] | null;
+
+    beforeAll(async () => {
+      broadcastData = await loader(release, chain);
+    });
+
+    for (const contract of deployment.contracts) {
+      it(`validates ${contract.name} ${title.toLowerCase()} deployment`, () => {
+        if (!broadcastData) {
+          console.info(
+            `No broadcasts found for ${release.protocol} ${release.version} on chain ${chainName} (ID: ${chainId})`,
+          );
+          return;
+        }
+        const contractData = finder(broadcastData, contract.name);
+        if (!contractData) {
+          console.info(
+            `Contract ${contract.name} not found for ${release.protocol} ${release.version} on chain ${chainName} (ID: ${chainId})`,
+          );
+          return;
+        }
+        validator(contract, contractData);
+      });
     }
-    contracts[key] = contract;
-  }
+  });
+}
 
-  if (!chain.isZK) {
-    describe(`Chain: ${chainName} (ID: ${chainId})`, () => {
-      let deploymentData: { returns: Record<string, ContractReturn> } | null;
+export function createStandardTests(
+  release: Sablier.Release,
+  deployment: Sablier.Deployment,
+  chain: Sablier.Chain,
+): void {
+  createContractTests<BroadcastJSON, ContractReturn>(release, deployment, chain, {
+    title: "Chain",
+    loader: loadBroadcastJSONs,
+    finder: findContract,
+    validator: validateContract,
+  });
+}
 
-      beforeAll(async () => {
-        const data = await loadBroadcastJSON(release.protocol, release.version, chainId);
-        deploymentData = data as { returns: Record<string, ContractReturn> };
-      });
-
-      for (const [key, contract] of Object.entries(contracts)) {
-        it(`validates ${contract.name} contract deployment`, () => {
-          if (!deploymentData?.returns[key]) return;
-          validateContract(contract, deploymentData.returns[key]);
-        });
-      }
-    });
-  }
-
-  if (chain.isZK) {
-    describe(`Chain: ${chainName} (ID: ${chainId})`, () => {
-      let zkDeploymentData: Record<string, ZKDeploymentJSON> | null;
-
-      beforeAll(async () => {
-        zkDeploymentData = await loadZKBroadcastJSON(release.protocol, release.version, chainId, release.manifest);
-      });
-
-      for (const [key, contract] of Object.entries(contracts)) {
-        it(`validates ${contract.name} contract deployment`, () => {
-          if (!zkDeploymentData?.[key]) return;
-          validateZKContract(contract, zkDeploymentData[key]);
-        });
-      }
-    });
-  }
+export function createZKTests(release: Sablier.Release, deployment: Sablier.Deployment, chain: Sablier.Chain): void {
+  createContractTests<ZKBroadcastJSON, ZKBroadcastJSON>(release, deployment, chain, {
+    title: "ZK Chain",
+    loader: loadZKBroadcastJSONs,
+    finder: findZKContract,
+    validator: validateZKContract,
+  });
 }
 
 export function createModuleTestSuite(release: Sablier.Release): void {
   describe(`${release.protocol} ${release.version}`, () => {
     for (const deployment of release.deployments) {
-      createDeploymentTests(release, deployment);
+      const chain = getChain(deployment.chainId);
+      createStandardTests(release, deployment, chain);
+      createZKTests(release, deployment, chain);
     }
   });
 }

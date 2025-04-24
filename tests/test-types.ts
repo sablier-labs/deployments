@@ -1,6 +1,6 @@
-export interface AirdropDeploymentJSON {
+export interface BroadcastJSON {
   returns: {
-    merkleFactory: ContractReturn;
+    [key: string]: ContractReturn;
   };
 }
 
@@ -14,16 +14,7 @@ export interface ContractReturn {
   value: string;
 }
 
-export type DeploymentJSON = FlowDeploymentJSON | AirdropDeploymentJSON;
-
-export interface FlowDeploymentJSON {
-  returns: {
-    flow: ContractReturn;
-    flowNFTDescriptor: ContractReturn;
-  };
-}
-
-export interface ZKDeploymentJSON {
+export interface ZKBroadcastJSON {
   contractName: string;
   entries: Array<{
     address: string;

@@ -1,7 +1,7 @@
-import type { Sablier } from "../../types";
+import type { Sablier } from "@src/types";
 import { contractManifestV1_3_0, deploymentsV1_3_0 } from "./v1.3.0";
 
-const releaseV1_3_0: Sablier.Release = {
+const releaseV1_3_0: Sablier.ReleaseStandard = {
   manifest: contractManifestV1_3_0,
   deployments: deploymentsV1_3_0,
   protocol: "airdrops",

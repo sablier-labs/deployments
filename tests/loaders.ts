@@ -1,57 +1,47 @@
 import fs from "node:fs";
 import path from "node:path";
-import { chains } from "@src";
 import type { Sablier } from "@src/types";
-import { entries } from "lodash";
-import { getBroadcastPath, getZKBroadcastDir } from "../scripts/get-broadcasts";
-import type { AirdropDeploymentJSON, FlowDeploymentJSON, ZKDeploymentJSON } from "./test-types";
+import { getBroadcastPaths, getZKBroadcastDirs } from "../scripts/get-broadcasts";
+import type { BroadcastJSON, ZKBroadcastJSON } from "./test-types";
 
-/**
- * Loads deployment JSON file for a given chain
- */
-export async function loadBroadcastJSON(
-  protocol: Sablier.Protocol,
-  version: string,
-  chainId: number,
-): Promise<FlowDeploymentJSON | AirdropDeploymentJSON | null> {
-  const jsonPath = await getBroadcastPath(protocol, version, chainId);
-  if (!jsonPath) {
-    // console.info(`Broadcast not found for ${chains.allById[chainId].name} (ID: ${chainId})`);
+export async function loadBroadcastJSONs(
+  release: Sablier.Release,
+  chain: Sablier.Chain,
+): Promise<BroadcastJSON[] | null> {
+  const broadcastPaths = await getBroadcastPaths(release, chain);
+  if (!broadcastPaths) {
     return null;
   }
 
-  const fileContent = await fs.promises.readFile(jsonPath, "utf8");
-  return JSON.parse(fileContent);
+  const results: BroadcastJSON[] = [];
+  for (const broadcastPath of broadcastPaths) {
+    const broadcast = await fs.promises.readFile(broadcastPath, "utf8");
+    results.push(JSON.parse(broadcast));
+  }
+  return results;
 }
 
 /**
  * Loads ZK deployment JSON files for contract names
  */
-export async function loadZKBroadcastJSON(
-  protocol: Sablier.Protocol,
-  version: string,
-  chainId: number,
-  manifest: Record<string, string>,
-): Promise<Record<string, ZKDeploymentJSON> | null> {
-  const dirPath = await getZKBroadcastDir(protocol, version, chainId);
-  if (!dirPath) {
-    // console.info(`Broadcast not found for ${chains.allById[chainId].name} (ID: ${chainId})`);
+export async function loadZKBroadcastJSONs(
+  release: Sablier.Release,
+  chain: Sablier.Chain,
+): Promise<ZKBroadcastJSON[] | null> {
+  const dirs = await getZKBroadcastDirs(release, chain);
+  if (!dirs) {
     return null;
   }
 
-  const results: Record<string, ZKDeploymentJSON> = {};
-
-  for (const [key, contractName] of entries(manifest)) {
-    try {
-      const contractPath = path.join(dirPath, `${contractName}.json`);
-      const contractContent = await fs.promises.readFile(contractPath, "utf8");
-      results[key] = JSON.parse(contractContent);
-    } catch {
-      console.info(
-        `Contract ${contractName} not found for ${protocol} ${version} on ${chains.allById[chainId].name} (ID: ${chainId})`,
-      );
+  const results: ZKBroadcastJSON[] = [];
+  for (const dir of dirs) {
+    // Read all files in the directory.
+    const files = await fs.promises.readdir(dir);
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const broadcast = await fs.promises.readFile(filePath, "utf8");
+      results.push(JSON.parse(broadcast));
     }
   }
-
   return results;
 }

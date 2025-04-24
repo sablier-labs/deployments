@@ -1,7 +1,7 @@
 import { chains, releases } from "@src";
 import type { Sablier } from "@src/types";
-import { entries, keys } from "lodash";
-import { getBroadcastPath, getZKBroadcastDir } from "./get-broadcasts";
+import _ from "lodash";
+import {} from "./get-broadcasts";
 
 // Parse command line arguments
 type BroadcastType = `--${Sablier.Protocol}`;
@@ -114,9 +114,9 @@ async function checkMissingBroadcasts(): Promise<void> {
   );
 
   // Print results grouped by version
-  for (const [version, broadcasts] of entries(groupedByVersion)) {
+  for (const [version, broadcasts] of _.entries(groupedByVersion)) {
     // Add a separator line before each version except the first one
-    if (keys(groupedByVersion).indexOf(version) !== 0) {
+    if (_.keys(groupedByVersion).indexOf(version) !== 0) {
       console.log(`${"·".repeat(50)}\n`);
     }
 

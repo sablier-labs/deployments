@@ -1,4 +1,5 @@
 export declare namespace Sablier {
+  /** Ethereum address in the format 0x followed by 40 hexadecimal characters */
   export type Address = `0x${string}`;
 
   /** The native token on an EVM chain, used for paying gas fees */
@@ -44,24 +45,15 @@ export declare namespace Sablier {
     name: string;
   }
 
-  /**
-   * A release is a collection of deployments for a given protocol and version.
-   */
-  export interface Release {
-    /** An array of `Deployment` objects. */
-    deployments: Deployment[];
-    /** A map of all contracts and libraries shipped in the release. */
-    manifest: Manifest | ManifestNested;
-    /** The Sablier protocol of the release, e.g. `airdrops`. */
-    protocol: Protocol;
-    /** The version of the release, e.g., `v1.0.0`. */
-    version: Version;
-  }
-
   export interface Deployment {
     chainId: number;
     contracts: Contract[];
     indexers: Indexers;
+  }
+
+  export interface DeploymentLockupV1 extends Deployment {
+    core: Contract[];
+    periphery: Contract[];
   }
 
   export interface Indexers {
@@ -69,21 +61,67 @@ export declare namespace Sablier {
     thegraph?: TheGraph;
   }
 
-  // Allows nested manifest objects for Lockup v1.x, which has "core" and "periphery"
-  export interface Manifest {
+  /**
+   * A map of all contracts and libraries shipped in the release.
+   * The value is the contract name.
+   */
+  export interface ManifestStandard {
     [key: string]: string;
   }
-  export interface ManifestNested {
-    [key: string]: Manifest;
+
+  /**
+   * A map of all contracts and libraries shipped in the release, with an extra level of nesting.
+   * Needed for Lockup v1.x releases, which have "core" and "periphery" categories.
+   */
+  export interface ManifestLockupV1 {
+    core: ManifestStandard;
+    periphery: ManifestStandard;
   }
 
+  export type Manifest = ManifestStandard | ManifestLockupV1;
+
+  /** Supported Sablier protocol types */
   export type Protocol = "airdrops" | "flow" | "lockup";
+
+  /**
+   * Base interface for all releases
+   */
+  export interface ReleaseBase {
+    /** The Sablier protocol released, e.g. `airdrops`. */
+    protocol: Protocol;
+    /** The version of the release, e.g., `v1.0.0`. */
+    version: Version;
+  }
+
+  /**
+   * A Lockup v1.x release is a specialized release type that separates contracts into
+   * core and periphery categories.
+   */
+  export interface ReleaseLockupV1 extends ReleaseBase {
+    deployments: DeploymentLockupV1[];
+    manifest: ManifestLockupV1;
+  }
+
+  /**
+   * A standard release is a collection of deployments for a given protocol and version.
+   * This is the default release type for most protocols.
+   */
+  export interface ReleaseStandard extends ReleaseBase {
+    deployments: Deployment[];
+    manifest: Manifest;
+  }
+
+  /**
+   * Union type representing all possible release types
+   */
+  export type Release = ReleaseStandard | ReleaseLockupV1;
 
   export interface Subgraph {
     id: string;
     name: string;
   }
 
+  /** Map of chain IDs to their corresponding subgraph configurations */
   export type Subgraphs = Record<number, Subgraph>;
 
   export interface TheGraph {
@@ -99,5 +137,16 @@ export declare namespace Sablier {
     };
   }
 
+  /** Version string in the format vX.Y.Z where X, Y, and Z are numbers */
   export type Version = `v${number}.${number}.${number}`;
+}
+
+/** Type guard to check if a manifest is a Lockup v1.x manifest */
+export function isLockupV1Manifest(manifest: Sablier.Manifest): manifest is Sablier.ManifestLockupV1 {
+  return "core" in manifest && "periphery" in manifest;
+}
+
+/** Type guard to check if a release is a Lockup v1.x release */
+export function isLockupV1Release(release: Sablier.Release): release is Sablier.ReleaseLockupV1 {
+  return "core" in release.manifest && "periphery" in release.manifest;
 }

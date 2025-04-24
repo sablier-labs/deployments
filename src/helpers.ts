@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { allById } from "./chains";
 import { BaseURL, THEGRAPH_ORG_ID } from "./constants";
 import { envio, subgraphs } from "./indexers";
@@ -52,7 +53,7 @@ export function getDeployment(
     };
   }
 
-  const contractsArray = Object.entries(contracts).map(([name, address]) => ({ name, address }));
+  const contractsArray: Sablier.Contract[] = _.entries(contracts).map(([name, address]) => ({ name, address }));
   return {
     chainId,
     contracts: contractsArray,
@@ -61,6 +62,20 @@ export function getDeployment(
       thegraph,
     },
   };
+}
+
+export function getDeploymentLockupV1(
+  chainId: number,
+  contracts: {
+    core: Record<string, Sablier.Address>;
+    periphery: Record<string, Sablier.Address>;
+  },
+): Sablier.DeploymentLockupV1 {
+  const mergedContracts = { ...contracts.core, ...contracts.periphery };
+  const deployment = getDeployment("lockup", chainId, mergedContracts) as Sablier.DeploymentLockupV1;
+  deployment.core = _.entries(contracts.core).map(([name, address]) => ({ name, address }));
+  deployment.periphery = _.entries(contracts.periphery).map(([name, address]) => ({ name, address }));
+  return deployment;
 }
 
 export function sortChains(chains: Sablier.Chain[]): Sablier.Chain[] {

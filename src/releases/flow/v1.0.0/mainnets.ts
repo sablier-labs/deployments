@@ -1,6 +1,6 @@
-import { ChainId } from "../../../chains/ids";
-import { getDeployment, sortDeployments } from "../../../helpers";
-import type { Sablier } from "../../../types";
+import { ChainId } from "@src/chains/ids";
+import { getDeployment, sortDeployments } from "@src/helpers";
+import type { Sablier } from "@src/types";
 import manifest from "./manifest";
 
 /**

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { sortChains } from "../helpers";
 import { AVAX, BERA, BNB, CHZ, CORE, ETH, IOTX, POL, SEI, TNT, UOS, XDC, gMELD, xDAI } from "../native-tokens";
 import type { Sablier } from "../types";
@@ -403,4 +404,4 @@ export const mainnetsById: Record<number, Sablier.Chain> = {
   },
 };
 
-export const mainnets: Sablier.Chain[] = sortChains(Object.values(mainnetsById));
+export const mainnets: Sablier.Chain[] = sortChains(_.values(mainnetsById));

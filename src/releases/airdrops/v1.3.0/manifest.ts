@@ -1,6 +1,6 @@
-import type { Sablier } from "../../../types";
+import type { Sablier } from "@src/types";
 
-const manifest: Sablier.Manifest = {
+const manifest: Sablier.ManifestStandard = {
   SABLIER_MERKLE_FACTORY: "SablierMerkleFactory",
 };
 

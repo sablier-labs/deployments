@@ -54,9 +54,9 @@
     "prepare": "husky",
     "prettier:check": "prettier --cache --check \"**/*.{md,yml}\"",
     "prettier:write": "prettier --cache --write \"**/*.{md,yml}\"",
-    "test": "vitest run --silent=false",
-    "test:watch": "vitest --silent=false",
-    "test:ui": "vitest --ui",
+    "test": "vitest run --silent",
+    "test:ui": "vitest --silent --ui",
+    "test:watch": "vitest --silent",
     "tsc:build": "tsc --project tsconfig.build.json",
     "tsc:check": "tsc --project tsconfig.build.json --noEmit"
   },

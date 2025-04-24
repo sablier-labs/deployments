@@ -1,4 +1,4 @@
-import type { Sablier } from "../../../types";
+import type { Sablier } from "@src/types";
 import mainnetsV1_3_0 from "./mainnets";
 import testnetsV1_3_0 from "./testnets";
 

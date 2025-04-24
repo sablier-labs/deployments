@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { sortChains } from "../helpers";
 import { ETH, MON } from "../native-tokens";
 import type { Sablier } from "../types";
@@ -165,4 +166,4 @@ export const testnetsById: Record<number, Sablier.Chain> = {
   },
 };
 
-export const testnets: Sablier.Chain[] = sortChains(Object.values(testnetsById));
+export const testnets: Sablier.Chain[] = sortChains(_.values(testnetsById));
