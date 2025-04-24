@@ -49,3 +49,7 @@ export function getChainDeployment(
     },
   };
 }
+
+export function sortAlphabetically(chains: Sablier.Chain[]) {
+  return chains.sort((a, b) => a.name.localeCompare(b.name));
+}
