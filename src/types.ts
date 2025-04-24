@@ -51,9 +51,7 @@ export declare namespace Sablier {
     /** An array of `Deployment` objects. */
     deployments: Deployment[];
     /** A map of all contracts and libraries shipped in the release. */
-    manifest: {
-      [key: string]: string;
-    };
+    manifest: Manifest | ManifestNested;
     /** The Sablier protocol of the release, e.g. `airdrops`. */
     protocol: Protocol;
     /** The version of the release, e.g., `v1.0.0`. */
@@ -69,6 +67,14 @@ export declare namespace Sablier {
   export interface Indexers {
     envio?: string;
     thegraph?: TheGraph;
+  }
+
+  // Allows nested manifest objects for Lockup v1.x, which has "core" and "periphery"
+  export interface Manifest {
+    [key: string]: string;
+  }
+  export interface ManifestNested {
+    [key: string]: Manifest;
   }
 
   export type Protocol = "airdrops" | "flow" | "lockup";

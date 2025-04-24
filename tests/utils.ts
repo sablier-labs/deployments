@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 
 import { chains } from "@src";
 import type { Sablier } from "@src/types";
-import { loadBroadcastJSON, loadZKBroadcastJSON } from "./helpers";
+import { loadBroadcastJSON, loadZKBroadcastJSON } from "./loaders";
 import type { Contract, ContractReturn, ZKDeploymentJSON } from "./test-types";
 
 // ============================================================================
