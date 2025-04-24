@@ -1,10 +1,14 @@
-import chains from "./chains";
+import { allById } from "./chains";
 import { BaseURL, THEGRAPH_ORG_ID } from "./constants";
 import { envio, subgraphs } from "./indexers";
 import type { Sablier } from "./types";
 
+export function getChain(chainId: number | string): Sablier.Chain {
+  return allById[Number(chainId)];
+}
+
 export function getChainName(chainId: number | string): string {
-  return chains[Number(chainId)].name;
+  return allById[Number(chainId)].name;
 }
 
 /**

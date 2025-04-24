@@ -1,22 +1,22 @@
 import fs from "node:fs";
 import path from "node:path";
+import { chains } from "@src";
+import type { Sablier } from "@src/types";
 import { entries } from "lodash";
 import { getBroadcastPath, getZKBroadcastDir } from "../scripts/get-broadcasts";
-import chains from "../src/chains";
-import type { SablierProtocol } from "../src/ts";
 import type { AirdropDeploymentJSON, FlowDeploymentJSON, ZKDeploymentJSON } from "./test-types";
 
 /**
  * Loads deployment JSON file for a given chain
  */
 export async function loadBroadcastJSON(
-  protocol: SablierProtocol,
+  protocol: Sablier.Protocol,
   version: string,
   chainId: number,
 ): Promise<FlowDeploymentJSON | AirdropDeploymentJSON | null> {
   const jsonPath = await getBroadcastPath(protocol, version, chainId);
   if (!jsonPath) {
-    // console.info(`Broadcast not found for ${chains[chainId].name} (ID: ${chainId})`);
+    // console.info(`Broadcast not found for ${chains.allById[chainId].name} (ID: ${chainId})`);
     return null;
   }
 
@@ -28,14 +28,14 @@ export async function loadBroadcastJSON(
  * Loads ZK deployment JSON files for contract names
  */
 export async function loadZKBroadcastJSON(
-  protocol: SablierProtocol,
+  protocol: Sablier.Protocol,
   version: string,
   chainId: number,
   contracts: Record<string, string>,
 ): Promise<Record<string, ZKDeploymentJSON> | null> {
   const dirPath = await getZKBroadcastDir(protocol, version, chainId);
   if (!dirPath) {
-    // console.info(`Broadcast not found for ${chains[chainId].name} (ID: ${chainId})`);
+    // console.info(`Broadcast not found for ${chains.allById[chainId].name} (ID: ${chainId})`);
     return null;
   }
 
@@ -48,7 +48,7 @@ export async function loadZKBroadcastJSON(
       results[key] = JSON.parse(contractContent);
     } catch {
       console.info(
-        `Contract ${contractName} not found for ${protocol} ${version} on ${chains[chainId].name} (ID: ${chainId})`,
+        `Contract ${contractName} not found for ${protocol} ${version} on ${chains.allById[chainId].name} (ID: ${chainId})`,
       );
     }
   }

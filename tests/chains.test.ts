@@ -11,11 +11,10 @@
  * Additionally, it pings the public JSON-RPC servers of all chains to ensure they are reachable.
  */
 import path from "node:path";
+import { chains } from "@src";
 import axios from "axios";
 import { globby } from "globby";
-import { values } from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
-import { chains } from "../src";
 
 const DATA_PATH = path.join(__dirname, "..", "data");
 // TODO: figure out why we don't have broadcasts for these chains
@@ -44,7 +43,7 @@ async function getAllBroadcasts(): Promise<string[]> {
   }
 
   // Return unique values
-  return Array.from(new Set(results));
+  return results;
 }
 
 describe("Package chains are in sync with broadcasts", () => {
@@ -56,10 +55,8 @@ describe("Package chains are in sync with broadcasts", () => {
     // Get all deployment files
     broadcastChains = await getAllBroadcasts();
 
-    // Get package chains = return chain.key
-    packageChains = [...values(chains)]
-      .filter((chain) => !EXCLUDED_CHAINS.includes(chain.key))
-      .map((chain) => chain.key);
+    // Filter excluded chains
+    packageChains = chains.all.filter((chain) => !EXCLUDED_CHAINS.includes(chain.key)).map((chain) => chain.key);
   });
 
   it("should have every chain in at least one broadcast", () => {
@@ -100,11 +97,8 @@ describe("Package chains are in sync with broadcasts", () => {
 });
 
 describe("Ping public JSON-RPC servers", () => {
-  // Get all chains from both mainnets and testnets
-  const allChains = values(chains);
-
   // Generate a test for each chain
-  for (const chain of allChains) {
+  for (const chain of chains.all) {
     // Skip chains without public RPC URLs
     if (!chain.rpc.public) {
       continue;

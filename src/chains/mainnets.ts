@@ -3,7 +3,7 @@ import type { Sablier } from "../types";
 import { ChainId } from "./ids";
 import { getAlchemyRPC, getInfuraRPC } from "./rpc";
 
-const mainnets: Record<number, Sablier.Chain> = {
+export const mainnetsById: Record<number, Sablier.Chain> = {
   [ChainId.ABSTRACT]: {
     explorerURL: "https://abscan.org",
     id: ChainId.ABSTRACT,
@@ -402,4 +402,4 @@ const mainnets: Record<number, Sablier.Chain> = {
   },
 };
 
-export default mainnets;
+export const mainnets: Sablier.Chain[] = Object.values(mainnetsById).sort((a, b) => a.name.localeCompare(b.name));

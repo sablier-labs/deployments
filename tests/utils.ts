@@ -1,4 +1,3 @@
-import { keys } from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import { chains, deployments } from "@src";
@@ -12,7 +11,7 @@ import type { Contract, ContractReturn, ZKDeploymentJSON } from "./test-types";
 
 export interface DeploymentConfig {
   protocol: Sablier.Protocol;
-  version: string;
+  version: Sablier.Version;
   contracts: {
     [key: string]: string;
   };
@@ -63,13 +62,13 @@ export function validateZKContract(contract: Contract, zkDeployment: ZKDeploymen
  * @param deployment - The deployment data for the chain
  */
 export function createDeploymentTests(config: DeploymentConfig, chainId: number, deployment: Sablier.Deployment): void {
-  const chain = chains[chainId];
+  const chain = chains.allById[chainId];
   const chainName = chain.name;
 
   // Find all required contracts
   const contracts: Record<string, Contract> = {};
   for (const [key, contractName] of Object.entries(config.contracts)) {
-    const contract = deployment[chainId].contracts.find((c) => c.name === contractName);
+    const contract = deployment.contracts.find((c) => c.name === contractName);
     if (!contract) {
       throw new Error(
         `${contractName} contract not found for ${config.protocol} ${config.version} on chain ${chainName} (ID: ${chainId})`,
@@ -120,15 +119,10 @@ export function createDeploymentTests(config: DeploymentConfig, chainId: number,
  */
 export function createModuleTestSuite(config: DeploymentConfig): void {
   describe(`${config.protocol} ${config.version}`, () => {
-    const versionDeployments =
-      deployments[config.protocol][config.version as keyof (typeof deployments)[typeof config.protocol]];
+    const versionDeployments = deployments[config.protocol][config.version];
 
-    for (const deployment of versionDeployments) {
-      const chainIds = keys(deployment).map(Number);
-
-      for (const chainId of chainIds) {
-        createDeploymentTests(config, chainId, deployment);
-      }
+    for (const chainId of Object.keys(versionDeployments).map(Number)) {
+      createDeploymentTests(config, chainId, versionDeployments[chainId]);
     }
   });
 }

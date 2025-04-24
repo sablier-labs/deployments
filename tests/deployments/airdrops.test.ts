@@ -1,5 +1,5 @@
-import contractNames from "../src/contract-names";
-import { createModuleTestSuite } from "./utils";
+import contractNames from "@src/contract-names";
+import { createModuleTestSuite } from "../utils";
 
 /** Supported versions for testing */
 const SUPPORTED_VERSIONS = ["v1.3.0"] as const;

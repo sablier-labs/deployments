@@ -9,8 +9,10 @@
  * @see https://chainlist.org
  */
 
-import mainnets from "./mainnets";
-import testnets from "./testnets";
+import type { Sablier } from "../types";
+import { mainnets, mainnetsById } from "./mainnets";
+import { testnets, testnetsById } from "./testnets";
 
-export { mainnets, testnets };
-export default { ...mainnets, ...testnets };
+export { mainnets, mainnetsById, testnets, testnetsById };
+export const all: Sablier.Chain[] = [...mainnets, ...testnets];
+export const allById: Record<number, Sablier.Chain> = { ...mainnetsById, ...testnetsById };

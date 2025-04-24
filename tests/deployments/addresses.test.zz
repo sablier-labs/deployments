@@ -1,0 +1,33 @@
+import { describe, it, expect } from "vitest";
+import { isAddress } from "viem";
+import { airdrops, flow, lockup } from "@src/deployments";
+import type { Sablier } from "@src/types";
+
+function checkAddresses(): void {
+  // Check airdrops addresses
+  Object.values(airdrops as Record<number, Sablier.Deployment>).forEach((deployment) => {
+    deployment.contracts.forEach((contract: Sablier.Contract) => {
+      expect(isAddress(contract.address), `Invalid address in airdrops: ${contract.address}`).toBe(true);
+    });
+  });
+
+  // Check flow addresses
+  Object.values(flow as Record<number, Sablier.Deployment>).forEach((deployment) => {
+    deployment.contracts.forEach((contract: Sablier.Contract) => {
+      expect(isAddress(contract.address), `Invalid address in flow: ${contract.address}`).toBe(true);
+    });
+  });
+
+  // Check lockup addresses
+  Object.values(lockup as Record<number, Sablier.Deployment>).forEach((deployment) => {
+    deployment.contracts.forEach((contract: Sablier.Contract) => {
+      expect(isAddress(contract.address), `Invalid address in lockup: ${contract.address}`).toBe(true);
+    });
+  });
+}
+
+describe("Checksummed Addresses", () => {
+  it("should have all addresses properly checksummed", () => {
+    checkAddresses();
+  });
+});

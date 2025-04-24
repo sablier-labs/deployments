@@ -10,7 +10,7 @@ export async function getBroadcastPath(
   version: string,
   chainId: number,
 ): Promise<string | null> {
-  const chain = chains[chainId];
+  const chain = chains.allById[chainId];
   const chainType = chain.isTestnet ? "testnets" : "mainnets";
   const broadcastPath = path.join(DATA_PATH, protocol, version, chainType, `${chain.key}.json`);
 
@@ -26,7 +26,7 @@ export async function getZKBroadcastDir(
   version: string,
   chainId: number,
 ): Promise<string | null> {
-  const chain = chains[chainId];
+  const chain = chains.allById[chainId];
   const chainType = chain.isTestnet ? "testnets" : "mainnets";
   const broadcastPath = path.join(DATA_PATH, protocol, version, chainType, chain.key);
 
