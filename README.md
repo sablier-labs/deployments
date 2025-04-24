@@ -64,33 +64,26 @@ to have different addresses on each chain. By using CREATE2, we can systematical
 by passing a salt, whereas if we had used CREATE, the deployer's nonce would have impacted the resulting deployment
 address.
 
+## Logging
+
+This project uses Winston for logging. By default, logs are output to the console, but they can also be written to a
+file by setting the following environment variables:
+
+- `LOG_FILE_PATH`: Path to the log file (e.g., `./logs/deployments.log`). When set, logs will be written to this file in
+  addition to the console.
+- `LOG_LEVEL`: Set the logging level (default: `info`). Valid values are: `error`, `warn`, `info`, `verbose`, `debug`,
+  and `silly`.
+
+Example usage:
+
+```bash
+# Log to both console and file
+LOG_FILE_PATH=./logs/deployments.log bun run build
+
+# Set a custom log level
+LOG_LEVEL=debug LOG_FILE_PATH=./logs/debug.log bun run test
+```
+
 ## License
 
 This repo is licensed under GPL 3-0 or later.
-
-## Sablier Deployments UI
-
-This repository includes a UI for exploring the Sablier Protocol deployments built with Next.js and TailwindCSS.
-
-### Setup and Usage
-
-The UI is located in the `ui` directory. To get started:
-
-1. Run the script to copy data from the source to the UI:
-
-```bash
-chmod +x scripts/copy-to-ui.sh
-./scripts/copy-to-ui.sh
-```
-
-2. Install dependencies and start the development server:
-
-```bash
-cd ui
-bun install
-bun dev
-```
-
-3. Open [http://localhost:3000](http://localhost:3000) to view the UI in your browser.
-
-See the README in the `ui` directory for more detailed instructions.

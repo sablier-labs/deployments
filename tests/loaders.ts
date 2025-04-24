@@ -1,14 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Sablier } from "@src/types";
-import { getBroadcastPaths, getZKBroadcastDirs } from "../scripts/get-broadcasts";
+import { checkBroadcastPaths, checkZKBroadcastDirs } from "../scripts/check-broadcasts";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./test-types";
 
 export async function loadBroadcastJSONs(
   release: Sablier.Release,
   chain: Sablier.Chain,
 ): Promise<BroadcastJSON[] | null> {
-  const broadcastPaths = await getBroadcastPaths(release, chain);
+  const broadcastPaths = await checkBroadcastPaths(release, chain);
   if (!broadcastPaths) {
     return null;
   }
@@ -28,7 +28,7 @@ export async function loadZKBroadcastJSONs(
   release: Sablier.Release,
   chain: Sablier.Chain,
 ): Promise<ZKBroadcastJSON[] | null> {
-  const dirs = await getZKBroadcastDirs(release, chain);
+  const dirs = await checkZKBroadcastDirs(release, chain);
   if (!dirs) {
     return null;
   }

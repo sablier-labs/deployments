@@ -6,6 +6,10 @@
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
+  "dependencies": {
+    "lodash": "^4.17",
+    "winston": "^3.17"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/lodash": "^4.17",
@@ -15,7 +19,6 @@
     "globby": "^14.1",
     "husky": "^9.1",
     "lint-staged": "^15.5",
-    "lodash": "^4.17",
     "prettier": "^3.5",
     "typescript": "^5.8",
     "viem": "^2.28",
