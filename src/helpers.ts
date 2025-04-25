@@ -23,17 +23,17 @@ export function getChainName(chainId: number | string): string {
 /**
  * Get the explorer URL for a contract. Compatible with Etherscan, Blockscout, etc.
  * @param explorerURL - The base explorer URL, e.g. https://etherscan.io
- * @param contract - The contract object
+ * @param contractAddress - The contract object
  * @returns The explorer URL for the contract, e.g. https://etherscan.io/address/0x123...
  */
-export function getContractExplorerURL(explorerURL: string, contract: Sablier.Contract) {
-  return `${explorerURL}/address/${contract.address}`;
+export function getContractExplorerURL(explorerURL: string, contractAddress: Sablier.Address) {
+  return `${explorerURL}/address/${contractAddress}`;
 }
 
 export function getDeployment(
   protocol: Sablier.Protocol,
   chainId: number,
-  contracts: Record<string, Sablier.Address>,
+  contractMap: Record<string, Sablier.Address>,
 ): Sablier.Deployment {
   let envioEndpoint: string | undefined;
   if (!(chainId in envio.unsupportedChains)) {
@@ -53,10 +53,15 @@ export function getDeployment(
     };
   }
 
-  const contractsArray: Sablier.Contract[] = _.entries(contracts).map(([name, address]) => ({ name, address }));
+  const chain = getChain(chainId);
+  const contracts: Sablier.Contract[] = [];
+  for (const [name, address] of _.entries(contractMap)) {
+    const explorerURL = getContractExplorerURL(chain.explorerURL, address);
+    contracts.push({ address, explorerURL, name });
+  }
   return {
     chainId,
-    contracts: contractsArray,
+    contracts,
     indexers: {
       envio: envioEndpoint,
       thegraph,

@@ -3,7 +3,7 @@
   "files": {
     "ignoreUnknown": false,
     "ignore": ["/dist/"],
-    "include": ["*.json", "*.jsonc", "*.ts"],
+    "include": ["*.js", "*.json", "*.jsonc", "*.ts"],
     "maxSize": 5242880 // 5MB
   },
   "formatter": {

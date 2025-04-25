@@ -37,12 +37,23 @@ export declare namespace Sablier {
     };
   }
 
+  export type CompilerSettings = {
+    evmVersion: string;
+    optimizer: boolean;
+    optimizerRuns: number;
+    version: `v${number}.${number}.${number}`;
+    viaIR: boolean;
+  };
+
   /**
    * Can be either a contract or a public library.
    */
   export interface Contract {
     address: Address;
+    compilerSettings?: CompilerSettings;
+    explorerURL?: string;
     name: string;
+    repository?: Repository;
   }
 
   export interface Deployment {
@@ -94,8 +105,9 @@ export declare namespace Sablier {
   }
 
   /**
-   * A Lockup v1.x release is a specialized release type that separates contracts into
-   * core and periphery categories.
+   * A Lockup v1.x release is a historical release that used to separate Lockup contracts into
+   * core and periphery sub-categories.
+   * @see https://github.com/sablier-labs/v2-periphery
    */
   export interface ReleaseLockupV1 extends ReleaseBase {
     deployments: DeploymentLockupV1[];
@@ -115,6 +127,11 @@ export declare namespace Sablier {
    * Union type representing all possible release types
    */
   export type Release = ReleaseStandard | ReleaseLockupV1;
+
+  export interface Repository {
+    commit: string;
+    url: `https://github.com/sablier-labs/${string}`;
+  }
 
   export interface Subgraph {
     id: string;
@@ -143,7 +160,6 @@ export declare namespace Sablier {
 
   export type VersionLockup = "v1.2" | "v2.0";
 
-  /** Version string in the format vX.Y.Z where X, Y, and Z are numbers */
   export type Version = VersionAirdrops | VersionFlow | VersionLockup;
 }
 

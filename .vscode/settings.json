@@ -4,11 +4,11 @@
     "quickfix.biome": "always",
     "source.organizeImports.biome": "always"
   },
+  "[javascript][json][jsonc][typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
   "[md][yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json][jsonc][typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
