@@ -137,11 +137,11 @@ export declare namespace Sablier {
     };
   }
 
-  export type VersionAirdrops = "v1.3.0";
+  export type VersionAirdrops = "v1.3";
 
-  export type VersionFlow = "v1.0.0" | "v1.1.0";
+  export type VersionFlow = "v1.0" | "v1.1";
 
-  export type VersionLockup = "v1.2.0" | "v2.0.0";
+  export type VersionLockup = "v1.2" | "v2.0";
 
   /** Version string in the format vX.Y.Z where X, Y, and Z are numbers */
   export type Version = VersionAirdrops | VersionFlow | VersionLockup;

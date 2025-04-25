@@ -4,7 +4,7 @@ import type { Sablier } from "@src/types";
 import manifest from "./manifest";
 
 /**
- * @description Mainnet deployments for Lockup v1.2.0
+ * @description Mainnet deployments for Lockup v1.2
  */
 const mainnets: Sablier.DeploymentLockupV1[] = [
   getDeploymentLockupV1(ChainId.ETHEREUM, {

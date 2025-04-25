@@ -10,11 +10,11 @@ const ROOT_DIR = path.join(__dirname, "..");
  * @example
  * data/
  * ├── lockup/
- * │ └── v2.0.0/
+ * │ └── v2.0/
  * │   └── mainnets/
  * │     └── ethereum.json
  * └── lockup/
- *   └── v1.2.0/
+ *   └── v1.2/
  *     └── core/
  *       └── mainnets/
  *         └── ethereum.json

@@ -3,7 +3,7 @@ import { getDeploymentLockupV1, sortDeployments } from "@src/helpers";
 import type { Sablier } from "@src/types";
 import manifest from "./manifest";
 /**
- * @description Testnet deployments for Lockup v1.2.0
+ * @description Testnet deployments for Lockup v1.2
  */
 const testnets: Sablier.DeploymentLockupV1[] = [
   getDeploymentLockupV1(ChainId.ETHEREUM_SEPOLIA, {
