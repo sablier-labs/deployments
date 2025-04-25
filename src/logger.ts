@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import winston, { format } from "winston";
-
+import type { Sablier } from "./types";
 const LOG_FILE_PATH: string = process.env.LOG_FILE_PATH || "logs/debug.log";
 const LOG_LEVEL: string = process.env.LOG_LEVEL || "info";
 
@@ -44,5 +44,9 @@ const logger = winston.createLogger({
   format: format.combine(format.timestamp(), format.errors({ stack: true })),
   transports,
 });
+
+export function log(level: "info" | "error", release: Sablier.Release, message: string): void {
+  logger[level](`${release.protocol}:${release.version}\t${message}`);
+}
 
 export default logger;

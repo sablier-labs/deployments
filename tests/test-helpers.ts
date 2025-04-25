@@ -1,9 +1,9 @@
 import fs from "node:fs";
-import path from "node:path";
-import logger from "@src/logger";
+import { log } from "@src/logger";
 import type { Sablier } from "@src/types";
+import { globby } from "globby";
 import _ from "lodash";
-import { checkBroadcastPaths, checkZKBroadcastDirs } from "../scripts/check-broadcasts";
+import { checkBroadcast, checkZKBroadcast } from "../scripts/check-broadcast";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./test-types";
 
 const CONTRACT_PREFIX = "contract ";
@@ -11,8 +11,7 @@ const CONTRACT_PREFIX = "contract ";
 /**
  * Finds a contract in the broadcast data.
  */
-export function findContract(data: BroadcastJSON[], contractName: string): Sablier.Contract | null {
-  // Check in contract returns
+export function findContract(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
   const contractFromReturns = findInReturns(data, contractName);
   if (contractFromReturns) return contractFromReturns;
 
@@ -24,7 +23,7 @@ export function findContract(data: BroadcastJSON[], contractName: string): Sabli
 }
 
 export function findZKContract(zkData: ZKBroadcastJSON[], contractName: string): ZKBroadcastJSON | null {
-  return zkData.find((zkBroadcast) => zkBroadcast.contractName === contractName) ?? null;
+  return zkData.find((zk) => zk.contractName === contractName) ?? null;
 }
 
 /**
@@ -37,13 +36,11 @@ export function findZKContract(zkData: ZKBroadcastJSON[], contractName: string):
  *  }
  * }
  */
-export function findInReturns(broadcastData: BroadcastJSON[], contractName: string): Sablier.Contract | null {
-  for (const data of broadcastData) {
-    for (const contractReturn of _.values(data.returns)) {
-      const sanitizedName = contractReturn.internal_type.replace(CONTRACT_PREFIX, "");
-      if (contractName === sanitizedName) {
-        return { address: contractReturn.value, name: contractName };
-      }
+export function findInReturns(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
+  for (const contractReturn of _.values(data.returns)) {
+    const sanitizedName = contractReturn.internal_type.replace(CONTRACT_PREFIX, "");
+    if (contractName === sanitizedName) {
+      return { address: contractReturn.value, name: contractName };
     }
   }
 
@@ -57,46 +54,34 @@ export function findInReturns(broadcastData: BroadcastJSON[], contractName: stri
  *   "src/libraries/Helpers.sol:Helpers:0xf8076E4Fb5cfE8be1C26E61222DC51828Db8C1dc"
  * ]
  */
-export function findInLibraries(broadcastData: BroadcastJSON[], contractName: string): Sablier.Contract | null {
-  for (const data of broadcastData) {
-    for (const library of data.libraries) {
-      // Ensure we have the format "path/to/file.sol:ContractName:0xAddress"
-      const parts = library.split(":");
-      if (parts.length !== 3) continue;
+export function findInLibraries(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
+  for (const library of data.libraries) {
+    // Ensure we have the format "path/to/file.sol:ContractName:0xAddress"
+    const parts = library.split(":");
+    if (parts.length !== 3) continue;
 
-      const libraryName = parts[1];
-      const libraryAddress = parts[2] as `0x${string}`;
+    const libraryName = parts[1];
+    const libraryAddress = parts[2] as `0x${string}`;
 
-      if (contractName === libraryName) {
-        return { address: libraryAddress, name: contractName };
-      }
+    if (contractName === libraryName) {
+      return { address: libraryAddress, name: contractName };
     }
   }
   return null;
 }
 
-export function throwNotFoundErr(release: Sablier.Release, chainName: string, contractName: string): never {
-  let err = `${release.protocol}:${release.version} `;
-  err += `Found broadcasts for ${chainName}, but contract ${contractName} is missing`;
-  logger.error(err);
-  throw new Error(err);
-}
-
-export async function loadBroadcastJSONs(
+export async function loadBroadcastJSON(
   release: Sablier.Release,
   chain: Sablier.Chain,
-): Promise<BroadcastJSON[] | null> {
-  const paths = await checkBroadcastPaths(release, chain);
-  if (paths.found.length === 0) {
+  releaseModule?: string,
+): Promise<BroadcastJSON | null> {
+  const foundPath = await checkBroadcast(release, chain, releaseModule);
+  if (!foundPath) {
     return null;
   }
 
-  const results: BroadcastJSON[] = [];
-  for (const foundPath of paths.found) {
-    const broadcast = await fs.promises.readFile(foundPath, "utf8");
-    results.push(JSON.parse(broadcast));
-  }
-  return results;
+  const broadcast = await fs.promises.readFile(foundPath, "utf8");
+  return JSON.parse(broadcast);
 }
 
 /**
@@ -105,21 +90,27 @@ export async function loadBroadcastJSONs(
 export async function loadZKBroadcastJSONs(
   release: Sablier.Release,
   chain: Sablier.Chain,
+  releaseModule?: string,
 ): Promise<ZKBroadcastJSON[] | null> {
-  const dirs = await checkZKBroadcastDirs(release, chain);
-  if (dirs.found.length === 0) {
+  const dirs = await checkZKBroadcast(release, chain, releaseModule);
+  if (!dirs) {
     return null;
   }
 
-  // Read all files in the directory.
+  // Read all JSON files in the directory.
   const results: ZKBroadcastJSON[] = [];
-  for (const foundDir of dirs.found) {
-    const files = await fs.promises.readdir(foundDir);
-    for (const file of files) {
-      const filePath = path.join(foundDir, file);
+  for (const foundDir of dirs) {
+    const jsonFiles = await globby("*.json", { cwd: foundDir, absolute: true });
+    for (const filePath of jsonFiles) {
       const broadcast = await fs.promises.readFile(filePath, "utf8");
       results.push(JSON.parse(broadcast));
     }
   }
   return results;
+}
+
+export function throwNotFoundErr(release: Sablier.Release, chainName: string, contractName: string): never {
+  const message = `Found broadcasts for ${chainName}, but contract ${contractName} is missing`;
+  log("error", release, message);
+  throw new Error(message);
 }

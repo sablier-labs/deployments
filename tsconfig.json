@@ -23,7 +23,7 @@
       "@src": ["src"],
       "@src/*": ["src/*"]
     },
-    "types": ["node"]
+    "types": ["node", "vitest/globals"]
   },
   "exclude": ["/data", "/node_modules"],
   "include": ["scripts/**/*", "src/**/*", "tests/**/*"]

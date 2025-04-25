@@ -11,8 +11,9 @@
 import { getChain, releases } from "@src";
 import logger from "@src/logger";
 import type { Sablier } from "@src/types";
+import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
-import { checkBroadcastPaths, checkZKBroadcastDirs } from "./check-broadcasts";
+import { checkBroadcast, checkZKBroadcast } from "./check-broadcast";
 
 // Emojis for better visual output
 const EMOJIS = {
@@ -64,14 +65,21 @@ async function checkMissingBroadcasts(): Promise<void> {
   for (const release of releasesToCheck) {
     for (const deployment of release.deployments) {
       const chain = getChain(deployment.chainId);
-      const paths = chain.isZK ? await checkZKBroadcastDirs(release, chain) : await checkBroadcastPaths(release, chain);
 
-      // Note: for LockupV1, we expect both core and periphery paths to exist.
-      if (!paths.hasAllExpected) {
-        if (!missing[release.version]) {
-          missing[release.version] = [];
+      // TODO
+      if (isLockupV1Release(release)) {
+      } else {
+        const paths = chain.isZK
+          ? await checkZKBroadcast(release, chain, "")
+          : await checkBroadcast(release, chain, "");
+
+        // Note: for LockupV1, we expect both core and periphery paths to exist.
+        if (!paths) {
+          if (!missing[release.version]) {
+            missing[release.version] = [];
+          }
+          missing[release.version].push(chain);
         }
-        missing[release.version].push(chain);
       }
     }
   }

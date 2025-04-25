@@ -1,0 +1,6 @@
+---
+description:
+globs: *.ts
+alwaysApply: false
+---
+When you suggest code changes that need to use utility functions such as Object.values, Object.entries, etc., please default to using lodash (_) instead of the Object. syntax. Do this unless I tell you otherwise.
