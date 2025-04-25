@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import winston from "winston";
+import winston, { format } from "winston";
 
 const LOG_FILE_PATH: string = process.env.LOG_FILE_PATH || "logs/debug.log";
 const LOG_LEVEL: string = process.env.LOG_LEVEL || "info";
@@ -8,9 +8,9 @@ const LOG_LEVEL: string = process.env.LOG_LEVEL || "info";
 // Create transports array starting with console
 const transports: winston.transport[] = [
   new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.printf(({ level, message }) => {
+    format: format.combine(
+      format.colorize(),
+      format.printf(({ level, message }) => {
         return `${level}: ${message}`;
       }),
     ),
@@ -28,9 +28,9 @@ if (LOG_FILE_PATH) {
   transports.push(
     new winston.transports.File({
       filename: LOG_FILE_PATH,
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.printf(({ timestamp, level, message }) => {
+      format: format.combine(
+        format.timestamp(),
+        format.printf(({ timestamp, level, message }) => {
           return `${timestamp} ${level}: ${message}`;
         }),
       ),
@@ -41,7 +41,7 @@ if (LOG_FILE_PATH) {
 // Create the logger
 const logger = winston.createLogger({
   level: LOG_LEVEL,
-  format: winston.format.combine(winston.format.timestamp(), winston.format.errors({ stack: true })),
+  format: format.combine(format.timestamp(), format.errors({ stack: true })),
   transports,
 });
 

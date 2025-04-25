@@ -18,7 +18,7 @@ const releaseV2_0_0: Sablier.ReleaseStandard = {
 
 export const lockup: Sablier.Release[] = [releaseV1_2_0, releaseV2_0_0];
 
-export const lockupByVersion: Record<Sablier.Version, Sablier.Release> = {
-  [releaseV1_2_0.version]: releaseV1_2_0,
-  [releaseV2_0_0.version]: releaseV2_0_0,
+export const lockupByVersion: Record<Sablier.VersionLockup, Sablier.Release> = {
+  "v1.2.0": releaseV1_2_0,
+  "v2.0.0": releaseV2_0_0,
 };

@@ -64,9 +64,10 @@ async function checkMissingBroadcasts(): Promise<void> {
   for (const release of releasesToCheck) {
     for (const deployment of release.deployments) {
       const chain = getChain(deployment.chainId);
-      const found = chain.isZK ? await checkZKBroadcastDirs(release, chain) : await checkBroadcastPaths(release, chain);
+      const paths = chain.isZK ? await checkZKBroadcastDirs(release, chain) : await checkBroadcastPaths(release, chain);
 
-      if (!found) {
+      // Note: for LockupV1, we expect both core and periphery paths to exist.
+      if (!paths.hasAllExpected) {
         if (!missing[release.version]) {
           missing[release.version] = [];
         }

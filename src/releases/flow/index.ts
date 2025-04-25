@@ -18,7 +18,7 @@ const releaseV1_1_0: Sablier.ReleaseStandard = {
 
 export const flow: Sablier.Release[] = [releaseV1_0_0, releaseV1_1_0];
 
-export const flowByVersion: Record<Sablier.Version, Sablier.Release> = {
-  [releaseV1_0_0.version]: releaseV1_0_0,
-  [releaseV1_1_0.version]: releaseV1_1_0,
+export const flowByVersion: Record<Sablier.VersionFlow, Sablier.Release> = {
+  "v1.0.0": releaseV1_0_0,
+  "v1.1.0": releaseV1_1_0,
 };

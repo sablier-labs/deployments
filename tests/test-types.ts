@@ -5,11 +5,6 @@ export interface BroadcastJSON {
   };
 }
 
-export interface Contract {
-  name: string;
-  address: `0x${string}`;
-}
-
 export interface ContractReturn {
   internal_type: string;
   value: `0x${string}`;

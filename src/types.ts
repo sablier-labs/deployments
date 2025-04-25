@@ -137,8 +137,14 @@ export declare namespace Sablier {
     };
   }
 
+  export type VersionAirdrops = "v1.3.0";
+
+  export type VersionFlow = "v1.0.0" | "v1.1.0";
+
+  export type VersionLockup = "v1.2.0" | "v2.0.0";
+
   /** Version string in the format vX.Y.Z where X, Y, and Z are numbers */
-  export type Version = `v${number}.${number}.${number}`;
+  export type Version = VersionAirdrops | VersionFlow | VersionLockup;
 }
 
 /** Type guard to check if a manifest is a Lockup v1.x manifest */
@@ -148,5 +154,5 @@ export function isLockupV1Manifest(manifest: Sablier.Manifest): manifest is Sabl
 
 /** Type guard to check if a release is a Lockup v1.x release */
 export function isLockupV1Release(release: Sablier.Release): release is Sablier.ReleaseLockupV1 {
-  return "core" in release.manifest && "periphery" in release.manifest;
+  return release.protocol === "lockup" && release.version.startsWith("v1.");
 }

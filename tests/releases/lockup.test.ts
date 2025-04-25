@@ -1,6 +1,6 @@
 import { releases } from "@src";
-import { createModuleTestSuite } from "../utils";
+import { createTestSuite } from "../test-generators";
 
 for (const release of releases.lockup) {
-  createModuleTestSuite(release);
+  createTestSuite(release);
 }
