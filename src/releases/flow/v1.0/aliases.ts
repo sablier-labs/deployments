@@ -1,7 +1,7 @@
-import { map } from "./manifest";
+import { names } from "./manifest";
 
 const aliases = {
-  [map.SABLIER_FLOW]: "FL",
+  [names.SABLIER_FLOW]: "FL",
 };
 
 export default aliases;

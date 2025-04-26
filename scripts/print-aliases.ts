@@ -18,7 +18,6 @@ async function main() {
 
   for (const release of allReleases) {
     const aliases = release.aliases;
-    const manifest = release.manifest;
     const releaseName = `${release.protocol} ${release.version}`;
 
     // Process each alias in the release
@@ -27,9 +26,13 @@ async function main() {
 
       // Lockup v1.x has core/periphery structure, others are flat
       if (isLockupV1Release(release)) {
+        // Type cast the manifest to ManifestLockupV1
+        const manifest = release.manifest;
         contractName = _.get(manifest.core, key) || _.get(manifest.periphery, key) || key;
       } else {
-        contractName = _.get(manifest, key, key);
+        // For the array-based manifest, we just use the key directly
+        // since the key should be the contract name itself
+        contractName = key;
       }
 
       rows.push({

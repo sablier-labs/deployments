@@ -1,7 +1,7 @@
-import { map } from "./manifest";
+import { names } from "./manifest";
 
 const aliases = {
-  [map.SABLIER_LOCKUP]: "LK",
+  [names.SABLIER_LOCKUP]: "LK",
 };
 
 export default aliases;

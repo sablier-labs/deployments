@@ -1,6 +1,6 @@
 import { getNestedValues } from "@src/helpers";
 
-export const map = {
+export const names = {
   HELPERS: "Helpers",
   LOCKUP_NFT_DESCRIPTOR: "LockupNFTDescriptor",
   SABLIER_BATCH_LOCKUP: "SablierBatchLockup",
@@ -8,4 +8,4 @@ export const map = {
   VESTING_MATH: "VestingMath",
 };
 
-export const manifest = getNestedValues(map);
+export const manifest = getNestedValues(names);

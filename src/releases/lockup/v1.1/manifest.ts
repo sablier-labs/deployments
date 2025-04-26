@@ -1,6 +1,6 @@
 import { getNestedValues } from "@src/helpers";
 
-export const map = {
+export const names = {
   core: {
     SABLIER_V2_COMPTROLLER: "SablierV2Comptroller",
     SABLIER_V2_LOCKUP_DYNAMIC: "SablierV2LockupDynamic",
@@ -14,6 +14,6 @@ export const map = {
 };
 
 export const manifest = {
-  core: getNestedValues(map.core),
-  periphery: getNestedValues(map.periphery),
+  core: getNestedValues(names.core),
+  periphery: getNestedValues(names.periphery),
 };

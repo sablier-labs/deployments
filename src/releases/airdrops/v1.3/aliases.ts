@@ -1,8 +1,8 @@
-import { map } from "./manifest";
+import { names } from "./manifest";
 
 // MSF = Merkle Streamer Factory
 const aliases = {
-  [map.SABLIER_MERKLE_FACTORY]: "MSF4",
+  [names.SABLIER_MERKLE_FACTORY]: "MSF4",
 };
 
 export default aliases;

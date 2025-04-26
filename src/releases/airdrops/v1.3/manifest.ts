@@ -1,7 +1,7 @@
 import { getNestedValues } from "@src/helpers";
 
-export const map = {
+export const names = {
   SABLIER_MERKLE_FACTORY: "SablierMerkleFactory",
 };
 
-export const manifest = getNestedValues(map);
+export const manifest = getNestedValues(names);
