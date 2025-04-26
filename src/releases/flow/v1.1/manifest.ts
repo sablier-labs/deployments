@@ -1,6 +1,8 @@
-const manifest = {
+import { getNestedValues } from "@src/helpers";
+
+export const map = {
   FLOW_NFT_DESCRIPTOR: "FlowNFTDescriptor",
   SABLIER_FLOW: "SablierFlow",
 };
 
-export default manifest;
+export const manifest = getNestedValues(map);

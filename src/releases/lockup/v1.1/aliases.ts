@@ -1,9 +1,9 @@
-import manifest from "./manifest";
+import { map } from "./manifest";
 
 const aliases = {
-  [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: "LD2",
-  [manifest.core.SABLIER_V2_LOCKUP_LINEAR]: "LL2",
-  [manifest.periphery.SABLIER_V2_MERKLE_STREAMER_FACTORY]: "MSF2", // MSF = Merkle Streamer Factory
+  [map.core.SABLIER_V2_LOCKUP_DYNAMIC]: "LD2",
+  [map.core.SABLIER_V2_LOCKUP_LINEAR]: "LL2",
+  [map.periphery.SABLIER_V2_MERKLE_STREAMER_FACTORY]: "MSF2", // MSF = Merkle Streamer Factory
 };
 
 export default aliases;

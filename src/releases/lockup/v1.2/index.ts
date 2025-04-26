@@ -6,5 +6,5 @@ const sortedMainnets = sortDeployments(mainnets);
 const sortedTestnets = sortDeployments(testnets);
 
 export const deployments: Sablier.DeploymentLockupV1[] = [...sortedMainnets, ...sortedTestnets];
-export { default as manifest } from "./manifest";
+export { manifest } from "./manifest";
 export { default as aliases } from "./aliases";

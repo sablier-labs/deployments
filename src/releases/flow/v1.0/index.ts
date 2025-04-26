@@ -7,4 +7,4 @@ const sortedTestnets = sortDeployments(testnets);
 
 export const deployments: Sablier.Deployment[] = [...sortedMainnets, ...sortedTestnets];
 export { default as aliases } from "./aliases";
-export { default as manifest } from "./manifest";
+export { manifest } from "./manifest";

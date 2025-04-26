@@ -1,4 +1,6 @@
-const manifest = {
+import { getNestedValues } from "@src/helpers";
+
+export const map = {
   core: {
     SABLIER_V2_LOCKUP_DYNAMIC: "SablierV2LockupDynamic",
     SABLIER_V2_LOCKUP_LINEAR: "SablierV2LockupLinear",
@@ -11,4 +13,7 @@ const manifest = {
   },
 };
 
-export default manifest;
+export const manifest = {
+  core: getNestedValues(map.core),
+  periphery: getNestedValues(map.periphery),
+};

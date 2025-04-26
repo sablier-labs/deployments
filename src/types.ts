@@ -83,24 +83,12 @@ export declare namespace Sablier {
     thegraph?: TheGraph;
   }
 
-  /**
-   * A map of all contracts and libraries shipped in the release.
-   * The value is the contract name.
-   */
-  export interface ManifestStandard {
-    [contractKey: string]: string;
-  }
-
-  /**
-   * A map of all contracts and libraries shipped in the release, with an extra level of nesting.
-   * Needed for Lockup v1.x releases, which have "core" and "periphery" categories.
-   */
   export interface ManifestLockupV1 {
-    core: ManifestStandard;
-    periphery: ManifestStandard;
+    core: string[];
+    periphery: string[];
   }
 
-  export type Manifest = ManifestStandard | ManifestLockupV1;
+  export type Manifest = string[] | ManifestLockupV1;
 
   /** Supported Sablier protocol types */
   export type Protocol = "airdrops" | "flow" | "lockup";

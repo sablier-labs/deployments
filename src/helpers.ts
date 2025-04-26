@@ -72,6 +72,20 @@ export function getDeploymentLockupV1(
   return deployment;
 }
 
+/**
+ * Extract all string values from a nested object
+ * @param obj The object to extract string values from
+ * @returns Array of all string values from the object
+ */
+export const getNestedValues = <T extends Record<string, unknown>>(obj: T): string[] => {
+  return _.flatMap(obj, (value) => {
+    if (_.isObject(value) && !_.isArray(value)) {
+      return getNestedValues(value as Record<string, unknown>);
+    }
+    return _.isString(value) ? value : [];
+  });
+};
+
 export function sortChains<T extends { name: string }>(chains: T[]): T[] {
   return chains.sort((a, b) => a.name.localeCompare(b.name));
 }

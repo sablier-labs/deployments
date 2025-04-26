@@ -1,7 +1,7 @@
-import type { Sablier } from "@src/types";
+import { getNestedValues } from "@src/helpers";
 
-const manifest: Sablier.ManifestStandard = {
+export const map = {
   SABLIER_MERKLE_FACTORY: "SablierMerkleFactory",
 };
 
-export default manifest;
+export const manifest = getNestedValues(map);

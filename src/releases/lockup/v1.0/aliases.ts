@@ -1,8 +1,8 @@
-import manifest from "./manifest";
+import { map } from "./manifest";
 
 const aliases = {
-  [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: "LD",
-  [manifest.core.SABLIER_V2_LOCKUP_LINEAR]: "LL",
+  [map.core.SABLIER_V2_LOCKUP_DYNAMIC]: "LD",
+  [map.core.SABLIER_V2_LOCKUP_LINEAR]: "LL",
 };
 
 export default aliases;
