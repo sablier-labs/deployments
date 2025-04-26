@@ -3,6 +3,7 @@ import * as v1_0 from "./v1.0";
 import * as v1_1 from "./v1.1";
 
 const releaseV1_0: Sablier.ReleaseStandard = {
+  aliases: v1_0.aliases,
   manifest: v1_0.manifest,
   deployments: v1_0.deployments,
   protocol: "flow",
@@ -10,6 +11,7 @@ const releaseV1_0: Sablier.ReleaseStandard = {
 };
 
 const releaseV1_1: Sablier.ReleaseStandard = {
+  aliases: v1_1.aliases,
   manifest: v1_1.manifest,
   deployments: v1_1.deployments,
   protocol: "flow",

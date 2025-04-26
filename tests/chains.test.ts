@@ -17,10 +17,10 @@ import { globby } from "globby";
 import { beforeAll, describe, expect, it } from "vitest";
 
 const DATA_PATH = path.join(__dirname, "..", "data");
-// TODO: figure out why we don't have broadcasts for these chains
-const EXCLUDED_CHAINS: string[] = ["arbitrum-goerli", "arbitrum-nova", "goerli", "iotex", "tangle", "ultra"];
+// We don't have broadcasts for these chains
+const EXCLUDED_CHAINS: string[] = ["iotex", "tangle", "ultra"];
 
-async function getAllBroadcasts(): Promise<string[]> {
+async function getAllBroadcastChains(): Promise<string[]> {
   // Find all mainnets and testnets directories
   const dirs = await globby([path.join(DATA_PATH, "**/mainnets"), path.join(DATA_PATH, "**/testnets")], {
     onlyDirectories: true,
@@ -53,7 +53,7 @@ describe("Package chains are in sync with broadcasts", () => {
 
   beforeAll(async () => {
     // Get all deployment files
-    broadcastChains = await getAllBroadcasts();
+    broadcastChains = await getAllBroadcastChains();
 
     // Filter excluded chains
     packageChains = chains.all.filter((chain) => !EXCLUDED_CHAINS.includes(chain.key)).map((chain) => chain.key);

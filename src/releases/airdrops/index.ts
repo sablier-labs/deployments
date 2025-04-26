@@ -2,7 +2,8 @@ import type { Sablier } from "@src/types";
 import * as v1_3 from "./v1.3";
 
 const releaseV1_3: Sablier.ReleaseStandard = {
-  manifest: v1_3.contractManifest,
+  aliases: v1_3.aliases,
+  manifest: v1_3.manifest,
   deployments: v1_3.deployments,
   protocol: "airdrops",
   version: "v1.3",

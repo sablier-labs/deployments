@@ -14,7 +14,7 @@ export declare namespace Sablier {
     explorerURL: string;
     /** Chain ID */
     id: number;
-    /** Whether this chain is listed in the Sablier Interface at https://app.sablier.com */
+    /** Whether this chain is supported by the Sablier Interface at https://app.sablier.com */
     isSupportedByUI: boolean;
     /** Whether this is a testnet network */
     isTestnet: boolean;
@@ -49,11 +49,22 @@ export declare namespace Sablier {
    * Can be either a contract or a public library.
    */
   export interface Contract {
+    /** Optional alias for the contract, used in the Sablier Interface and the subgraphs */
+    alias?: string;
+    /** The address of the contract */
     address: Address;
+    /** Compiler settings for the contract */
     compilerSettings?: CompilerSettings;
+    /** URL to the explorer page for the contract */
     explorerURL?: string;
+    /** The name of the contract */
     name: string;
+    /** Repository information for the contract */
     repository?: Repository;
+  }
+
+  export interface ContractMap {
+    [contractName: string]: Address;
   }
 
   export interface Deployment {
@@ -77,7 +88,7 @@ export declare namespace Sablier {
    * The value is the contract name.
    */
   export interface ManifestStandard {
-    [key: string]: string;
+    [contractKey: string]: string;
   }
 
   /**
@@ -98,6 +109,8 @@ export declare namespace Sablier {
    * Base interface for all releases
    */
   export interface ReleaseBase {
+    /** A map of contract names to their aliases, used in the Sablier Interface and the subgraphs */
+    aliases: { [contractName: string]: string };
     /** The Sablier protocol released, e.g. `airdrops`. */
     protocol: Protocol;
     /** The version of the release, e.g., `v1.0.0`. */
@@ -158,7 +171,7 @@ export declare namespace Sablier {
 
   export type VersionFlow = "v1.0" | "v1.1";
 
-  export type VersionLockup = "v1.2" | "v2.0";
+  export type VersionLockup = "v1.0" | "v1.1" | "v1.2" | "v2.0";
 
   export type Version = VersionAirdrops | VersionFlow | VersionLockup;
 }

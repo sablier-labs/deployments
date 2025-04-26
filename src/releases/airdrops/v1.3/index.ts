@@ -1,6 +1,10 @@
+import { sortDeployments } from "@src/helpers";
 import type { Sablier } from "@src/types";
-import mainnets from "./mainnets";
-import testnets from "./testnets";
+import { mainnets, testnets } from "./deployments";
 
-export const deployments: Sablier.Deployment[] = [...mainnets, ...testnets];
-export { default as contractManifest } from "./manifest";
+const sortedMainnets = sortDeployments(mainnets);
+const sortedTestnets = sortDeployments(testnets);
+
+export const deployments: Sablier.Deployment[] = [...sortedMainnets, ...sortedTestnets];
+export { default as aliases } from "./aliases";
+export { default as manifest } from "./manifest";

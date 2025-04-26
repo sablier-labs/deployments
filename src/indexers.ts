@@ -31,9 +31,9 @@ export const envio = {
 
 export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
   airdrops: {
-    /* -------------------------------------------------------------------------- */
-    /*                                  Mainnets                                  */
-    /* -------------------------------------------------------------------------- */
+    // ────────────────────────────────────────────────────────────────────────────────
+    // Mainnets
+    // ────────────────────────────────────────────────────────────────────────────────
     [ChainId.ETHEREUM]: { id: "DFD73EcSue44R7mpHvXeyvcgaT8tR1iKakZFjBsiFpjs", name: "sablier-airdrops-ethereum" },
     [ChainId.ABSTRACT]: { id: "DRrf6mYEhRt9QieKvTjDHnSWcBm3GW96hpedMKVxLABx", name: "sablier-airdrops-abstract" },
     [ChainId.ARBITRUM_ONE]: { id: "HkHDg6NVVVeobhpcU4pTPMktyC25zd6xAQBGpYrWDgRr", name: "sablier-airdrops-arbitrum" },
@@ -51,9 +51,9 @@ export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
     [ChainId.POLYGON]: { id: "FRbBKiDyM5YpFAqHLXRfQWwQdMGzFL82hqoPXPpXzAHE", name: "sablier-airdrops-polygon" },
     [ChainId.SCROLL]: { id: "Ev4xS8VxuoUcpgqz5A2BkTgQxQeskm4Fg41XzVJ2DX9", name: "sablier-airdrops-scroll" },
     [ChainId.ZK_SYNC_ERA]: { id: "64iDUwNVWKukw67nqTXif5taEfLug4Qf1c2suAv5hrqN", name: "sablier-airdrops-zksync" },
-    /* -------------------------------------------------------------------------- */
-    /*                                  Testnets                                  */
-    /* -------------------------------------------------------------------------- */
+    // ────────────────────────────────────────────────────────────────────────────────
+    // Testnets
+    // ────────────────────────────────────────────────────────────────────────────────
     [ChainId.ARBITRUM_SEPOLIA]: {
       id: "3S7v3VkDq8XMBd8EFVhKur2Vk44xScaW8a4BRjoPuYWk",
       name: "sablier-airdrops-arbitrum-sepolia",
@@ -72,9 +72,9 @@ export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
     },
   },
   flow: {
-    /* -------------------------------------------------------------------------- */
-    /*                                  Mainnets                                  */
-    /* -------------------------------------------------------------------------- */
+    // ────────────────────────────────────────────────────────────────────────────────
+    // Mainnets
+    // ────────────────────────────────────────────────────────────────────────────────
     [ChainId.ETHEREUM]: { id: "ECxBJhKceBGaVvK6vqmK3VQAncKwPeAQutEb8TeiUiod", name: "sablier-flow-ethereum" },
     [ChainId.ABSTRACT]: { id: "Gq3e1gihMoSynURwGXQnPoKGVZzdsyomdrMH934vQHuG", name: "sablier-flow-abstract" },
     [ChainId.ARBITRUM_ONE]: { id: "C3kBBUVtW2rxqGpAgSgEuSaT49izkH6Q8UibRt7XFTyW", name: "sablier-flow-arbitrum" },
@@ -92,9 +92,9 @@ export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
     [ChainId.POLYGON]: { id: "ykp38sLarwz3cpmjSSPqo7UuTjYtkZ1KiL4PM2qwmT8", name: "sablier-flow-polygon" },
     [ChainId.SCROLL]: { id: "HFpTrPzJyrHKWZ9ebb4VFRQSxRwpepyfz5wd138daFkF", name: "sablier-flow-scroll" },
     [ChainId.ZK_SYNC_ERA]: { id: "9DRgWhDAMovpkej3eT8izum6jxEKHE62ciArffsTAScx", name: "sablier-flow-zksync" },
-    /* -------------------------------------------------------------------------- */
-    /*                                  Testnets                                  */
-    /* -------------------------------------------------------------------------- */
+    // ────────────────────────────────────────────────────────────────────────────────
+    // Testnets
+    // ────────────────────────────────────────────────────────────────────────────────
     [ChainId.ARBITRUM_SEPOLIA]: {
       id: "2uWnxpYiDMkEMu1urxqt925mLfuax9XbvfcBoD97AU6d",
       name: "sablier-flow-arbitrum-sepolia",
@@ -107,9 +107,9 @@ export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
     },
   },
   lockup: {
-    /* -------------------------------------------------------------------------- */
-    /*                                  Mainnets                                  */
-    /* -------------------------------------------------------------------------- */
+    // ────────────────────────────────────────────────────────────────────────────────
+    // Mainnets
+    // ────────────────────────────────────────────────────────────────────────────────
     [ChainId.ETHEREUM]: { id: "AvDAMYYHGaEwn9F9585uqq6MM5CfvRtYcb7KjK7LKPCt", name: "sablier-lockup-ethereum" },
     [ChainId.ABSTRACT]: { id: "2QjTdDFY233faXksUruMERMiDoQDdtGG5hBLC27aT1Pw", name: "sablier-lockup-abstract" },
     [ChainId.ARBITRUM_ONE]: { id: "yvDXXHSyv6rGPSzfpbBcbQmMFrECac3Q2zADkYsMxam", name: "sablier-lockup-arbitrum" },
@@ -127,9 +127,9 @@ export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
     [ChainId.POLYGON]: { id: "8fgeQMEQ8sskVeWE5nvtsVL2VpezDrAkx2d1VeiHiheu", name: "sablier-lockup-polygon" },
     [ChainId.SCROLL]: { id: "GycpYx8c9eRqxvEAfqnpNd1ZfXeuLzjRhnG7vvYaqEE1", name: "sablier-lockup-scroll" },
     [ChainId.ZK_SYNC_ERA]: { id: "5yDtFSxyRuqyjvGJyyuQhMEW3Uah7Ddy2KFSKVhy9VMa", name: "sablier-lockup-zksync" },
-    /* -------------------------------------------------------------------------- */
-    /*                                  Testnets                                  */
-    /* -------------------------------------------------------------------------- */
+    // ────────────────────────────────────────────────────────────────────────────────
+    // Testnets
+    // ────────────────────────────────────────────────────────────────────────────────
     [ChainId.ARBITRUM_SEPOLIA]: {
       id: "ApEFvaPGARHedGmFp6TRQu7DoDHQKwt1LPWi1ka6DFHT",
       name: "sablier-lockup-arbitrum-sepolia",

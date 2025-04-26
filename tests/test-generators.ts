@@ -1,7 +1,6 @@
 import { getChain } from "@src/helpers";
 import type { Sablier } from "@src/types";
 import { isLockupV1Release } from "@src/types";
-import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   findContract,
@@ -46,33 +45,32 @@ interface TestConfig<BD, CD> {
  */
 function createTestGroup<BD, CD>(
   testGroup: string,
+  testConfig: TestConfig<BD, CD>,
   release: Sablier.Release,
   chain: Sablier.Chain,
   contracts: Sablier.Contract[],
-  config: TestConfig<BD, CD>,
   releaseModule?: string,
 ): void {
   describe(testGroup, () => {
     let broadcastData: BD | null;
 
     beforeAll(async () => {
-      broadcastData = await config.loader(release, chain, releaseModule);
+      broadcastData = await testConfig.loader(release, chain, releaseModule);
     });
 
-    _.forEach(contracts, (contract) => {
+    for (const contract of contracts) {
       it(`validates ${contract.name} deployment`, async () => {
         if (!broadcastData) {
           return;
         }
-
-        const contractData = config.finder(broadcastData, contract.name);
+        // TODO: look at v1.0 deployments for v1.1 Comptroller and NFT Descriptor
+        const contractData = testConfig.finder(broadcastData, contract.name);
         if (!contractData) {
-          console.error({ broadcastData, contract, releaseModule, contractData });
           throwNotFoundErr(release, chain.name, contract.name);
         }
-        config.validator(contract, contractData);
+        testConfig.validator(contract, contractData);
       });
-    });
+    }
   });
 }
 
@@ -80,7 +78,7 @@ function createContractTests<BD, CD>(
   release: Sablier.Release,
   deployment: Sablier.Deployment,
   chain: Sablier.Chain,
-  config: TestConfig<BD, CD>,
+  testConfig: TestConfig<BD, CD>,
 ): void {
   const chainId = deployment.chainId;
   const chainName = chain.name;
@@ -88,11 +86,10 @@ function createContractTests<BD, CD>(
   describe(`${chainName} (ID: ${chainId})`, () => {
     if (isLockupV1Release(release)) {
       const lockupV1Deployment = deployment as Sablier.DeploymentLockupV1;
-
-      createTestGroup("Release LockupV1:core", release, chain, lockupV1Deployment.core, config, "core");
-      createTestGroup("Release LockupV1:periphery", release, chain, lockupV1Deployment.periphery, config, "periphery");
+      createTestGroup("Contracts in core", testConfig, release, chain, lockupV1Deployment.core, "core");
+      createTestGroup("Contracts in periphery", testConfig, release, chain, lockupV1Deployment.periphery, "periphery");
     } else {
-      createTestGroup("Release Standard", release, chain, deployment.contracts, config);
+      createTestGroup("Contracts", testConfig, release, chain, deployment.contracts);
     }
   });
 }
@@ -119,13 +116,13 @@ export function createZKTests(release: Sablier.Release, deployment: Sablier.Depl
 
 export function createTestSuite(release: Sablier.Release): void {
   describe(`${release.protocol} ${release.version}`, () => {
-    _.forEach(release.deployments, (deployment) => {
+    for (const deployment of release.deployments) {
       const chain = getChain(deployment.chainId);
       if (chain.isZK) {
         createZKTests(release, deployment, chain);
       } else {
         createStandardTests(release, deployment, chain);
       }
-    });
+    }
   });
 }

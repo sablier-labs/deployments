@@ -26,5 +26,5 @@
     "types": ["node", "vitest/globals"]
   },
   "exclude": ["/data", "/node_modules"],
-  "include": ["scripts/**/*", "src/**/*", "tests/**/*"]
+  "include": ["scripts/**/*", "src/**/*", "tests/**/*", "extract-addresses.ts"]
 }

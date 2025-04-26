@@ -33,32 +33,20 @@ export function getContractExplorerURL(explorerURL: string, contractAddress: Sab
 export function getDeployment(
   protocol: Sablier.Protocol,
   chainId: number,
-  contractMap: Record<string, Sablier.Address>,
+  contractMap: Sablier.ContractMap,
+  aliases: { [contractName: string]: string },
 ): Sablier.Deployment {
-  let envioEndpoint: string | undefined;
-  if (!(chainId in envio.unsupportedChains)) {
-    envioEndpoint = envio.endpoints[protocol];
-  }
-
-  let thegraph: Sablier.TheGraph | undefined;
-  const subgraph = subgraphs[protocol][chainId];
-  if (subgraph) {
-    thegraph = {
-      explorer: `${BaseURL.TheGraph.EXPLORER}/${subgraph.id}`,
-      studio: `${BaseURL.TheGraph.STUDIO}/${THEGRAPH_ORG_ID}/${subgraph.name}/version/latest`,
-      subgraph: {
-        id: subgraph.id,
-        url: (apiKey: string) => `${BaseURL.TheGraph.GATEWAY}/${apiKey}/subgraphs/id/${subgraph.id}`,
-      },
-    };
-  }
-
   const chain = getChain(chainId);
   const contracts: Sablier.Contract[] = [];
-  for (const [name, address] of _.entries(contractMap)) {
+  for (const [contractName, address] of _.entries(contractMap)) {
+    const alias = aliases[contractName];
     const explorerURL = getContractExplorerURL(chain.explorerURL, address);
-    contracts.push({ address, explorerURL, name });
+    contracts.push({ address, alias, explorerURL, name: contractName });
   }
+
+  const envioEndpoint = getEnvioEndpoint(protocol, chainId);
+  const thegraph = getTheGraph(protocol, chainId);
+
   return {
     chainId,
     contracts,
@@ -71,26 +59,54 @@ export function getDeployment(
 
 export function getDeploymentLockupV1(
   chainId: number,
-  contracts: {
-    core: Record<string, Sablier.Address>;
-    periphery: Record<string, Sablier.Address>;
+  contractMap: {
+    core: Sablier.ContractMap;
+    periphery: Sablier.ContractMap;
   },
+  aliases: { [contractName: string]: string },
 ): Sablier.DeploymentLockupV1 {
-  const mergedContracts = { ...contracts.core, ...contracts.periphery };
-  const deployment = getDeployment("lockup", chainId, mergedContracts) as Sablier.DeploymentLockupV1;
-  deployment.core = _.entries(contracts.core).map(([name, address]) => ({ name, address }));
-  deployment.periphery = _.entries(contracts.periphery).map(([name, address]) => ({ name, address }));
+  const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
+  const deployment = getDeployment("lockup", chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;
+  deployment.core = _.entries(contractMap.core).map(([name, address]) => ({ name, address }));
+  deployment.periphery = _.entries(contractMap.periphery).map(([name, address]) => ({ name, address }));
   return deployment;
 }
 
-export function sortChains(chains: Sablier.Chain[]): Sablier.Chain[] {
+export function sortChains<T extends { name: string }>(chains: T[]): T[] {
   return chains.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function sortDeployments(deployments: Sablier.Deployment[]): Sablier.Deployment[] {
+export function sortDeployments<T extends { chainId: number }>(deployments: T[]): T[] {
   return deployments.sort((a, b) => {
     const aChain = getChain(a.chainId);
     const bChain = getChain(b.chainId);
     return aChain.name.localeCompare(bChain.name);
   });
+}
+
+/*//////////////////////////////////////////////////////////////////////////
+                              PRIVATE FUNCTIONS
+//////////////////////////////////////////////////////////////////////////*/
+
+function getEnvioEndpoint(protocol: Sablier.Protocol, chainId: number): string | undefined {
+  if (chainId in envio.unsupportedChains) {
+    return undefined;
+  }
+  return envio.endpoints[protocol];
+}
+
+function getTheGraph(protocol: Sablier.Protocol, chainId: number): Sablier.TheGraph | undefined {
+  const subgraph = subgraphs[protocol][chainId];
+  if (!subgraph) {
+    return undefined;
+  }
+
+  return {
+    explorer: `${BaseURL.TheGraph.EXPLORER}/${subgraph.id}`,
+    studio: `${BaseURL.TheGraph.STUDIO}/${THEGRAPH_ORG_ID}/${subgraph.name}/version/latest`,
+    subgraph: {
+      id: subgraph.id,
+      url: (apiKey: string) => `${BaseURL.TheGraph.GATEWAY}/${apiKey}/subgraphs/id/${subgraph.id}`,
+    },
+  };
 }

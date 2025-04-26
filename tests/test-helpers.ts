@@ -37,6 +37,7 @@ export function findZKContract(zkData: ZKBroadcastJSON[], contractName: string):
  * }
  */
 export function findInReturns(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
+  if (!data.returns) return null;
   for (const contractReturn of _.values(data.returns)) {
     const sanitizedName = contractReturn.internal_type.replace(CONTRACT_PREFIX, "");
     if (contractName === sanitizedName) {
@@ -55,6 +56,8 @@ export function findInReturns(data: BroadcastJSON, contractName: string): Sablie
  * ]
  */
 export function findInLibraries(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
+  if (!data.libraries) return null;
+
   for (const library of data.libraries) {
     // Ensure we have the format "path/to/file.sol:ContractName:0xAddress"
     const parts = library.split(":");
