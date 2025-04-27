@@ -3,8 +3,8 @@ import { log } from "@src/logger";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import _ from "lodash";
-import { checkBroadcast, checkZKBroadcast } from "../scripts/check-broadcast";
-import type { BroadcastJSON, ZKBroadcastJSON } from "./test-types";
+import { checkBroadcast, checkZKBroadcast } from "../../scripts/check-broadcast";
+import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 const CONTRACT_PREFIX = "contract ";
 

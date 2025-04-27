@@ -1,15 +1,20 @@
 import { getChain } from "@src/helpers";
 import type { Sablier } from "@src/types";
 import { isLockupV1Release } from "@src/types";
+import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
-import {
-  findContract,
-  findZKContract,
-  loadBroadcastJSON,
-  loadZKBroadcastJSONs,
-  throwNotFoundErr,
-} from "./test-helpers";
-import type { BroadcastJSON, ZKBroadcastJSON } from "./test-types";
+import { findContract, findZKContract, loadBroadcastJSON, loadZKBroadcastJSONs } from "./helpers";
+import { isKnownMissing } from "./known-missing";
+import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
+
+/**
+ * Mapping between address, contract name, and chain ID to use as a fallback for already validated contracts.
+ * Uses incremental types and Partial for flexibility and simplicity.
+ */
+type ValidatedByChainId = Partial<Record<number, boolean>>;
+type ValidatedByContractName = Partial<Record<string, ValidatedByChainId>>;
+type ValidatedByContractAddress = Partial<Record<Sablier.Address, ValidatedByContractName>>;
+const validated: ValidatedByContractAddress = {};
 
 export function validateContract(contract: Sablier.Contract, expectedContract: Sablier.Contract): void {
   const address = contract.address.toLowerCase();
@@ -40,18 +45,15 @@ interface TestConfig<BD, CD> {
   validator: (contract: Sablier.Contract, data: CD) => void;
 }
 
-/**
- * Creates a test group for a collection of contracts
- */
-function createTestGroup<BD, CD>(
-  testGroup: string,
+function createInnerTests<BD, CD>(
+  testDescription: string,
   testConfig: TestConfig<BD, CD>,
   release: Sablier.Release,
   chain: Sablier.Chain,
   contracts: Sablier.Contract[],
   releaseModule?: string,
 ): void {
-  describe(testGroup, () => {
+  describe(testDescription, () => {
     let broadcastData: BD | null;
 
     beforeAll(async () => {
@@ -59,16 +61,24 @@ function createTestGroup<BD, CD>(
     });
 
     for (const contract of contracts) {
-      it(`validates ${contract.name} deployment`, async () => {
+      const isMissing = isKnownMissing(release, chain, contract.name);
+
+      it.skipIf(isMissing)(`validates ${contract.name} deployment`, async () => {
         if (!broadcastData) {
           return;
         }
-        // TODO: look at v1.0 deployments for v1.1 Comptroller and NFT Descriptor
+
         const contractData = testConfig.finder(broadcastData, contract.name);
         if (!contractData) {
-          throwNotFoundErr(release, chain.name, contract.name);
+          // As a fallback, we check if this contract has already been validated. Some contracts
+          // are shared between releases (e.g., Comptroller in Lockup v1.0 and v1.1).
+          const previouslyValidated = _.get(validated, [contract.address, contract.name, chain.id]);
+          // TODO: throw more explanatory error message
+          expect(previouslyValidated).toBeTruthy();
+          return;
         }
         testConfig.validator(contract, contractData);
+        _.set(validated, [contract.address, contract.name, chain.id], true);
       });
     }
   });
@@ -86,10 +96,10 @@ function createContractTests<BD, CD>(
   describe(`${chainName} (ID: ${chainId})`, () => {
     if (isLockupV1Release(release)) {
       const lockupV1Deployment = deployment as Sablier.DeploymentLockupV1;
-      createTestGroup("Contracts in core", testConfig, release, chain, lockupV1Deployment.core, "core");
-      createTestGroup("Contracts in periphery", testConfig, release, chain, lockupV1Deployment.periphery, "periphery");
+      createInnerTests("Contracts in core", testConfig, release, chain, lockupV1Deployment.core, "core");
+      createInnerTests("Contracts in periphery", testConfig, release, chain, lockupV1Deployment.periphery, "periphery");
     } else {
-      createTestGroup("Contracts", testConfig, release, chain, deployment.contracts);
+      createInnerTests("Contracts", testConfig, release, chain, deployment.contracts);
     }
   });
 }

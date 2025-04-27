@@ -3,7 +3,9 @@ import type { Sablier } from "@src/types";
 import { isAddress } from "viem";
 import { describe, expect, it } from "vitest";
 
-// Use https://ethsum.netlify.app to fix failing tests
+/**
+ * @note Use https://ethsum.netlify.app to fix failing tests
+ */
 const checkAddressesFor = (protocol: Sablier.Protocol) => {
   const releaseArray = releases[protocol] as Sablier.Release[];
   for (const release of releaseArray) {

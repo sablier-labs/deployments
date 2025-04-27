@@ -18,6 +18,7 @@
     "axios": "^1.8",
     "globby": "^14.1",
     "husky": "^9.1",
+    "immer": "^10.1.1",
     "lint-staged": "^15.5",
     "prettier": "^3.5",
     "typescript": "^5.8",
