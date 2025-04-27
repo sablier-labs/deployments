@@ -20,11 +20,13 @@
     "strict": true,
     "target": "ES2015",
     "paths": {
+      "@scripts": ["scripts"],
+      "@scripts/*": ["scripts/*"],
       "@src": ["src"],
       "@src/*": ["src/*"]
     },
     "types": ["node", "vitest/globals"]
   },
   "exclude": ["/data", "/node_modules"],
-  "include": ["scripts/**/*", "src/**/*", "tests/**/*"]
+  "include": ["**/*.ts"]
 }

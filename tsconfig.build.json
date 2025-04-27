@@ -1,10 +1,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "noEmit": false,
     "rootDir": "./src",
-    "types": ["node"],
-    "baseUrl": "."
+    "paths": {
+      "@src": ["src"],
+      "@src/*": ["src/*"]
+    },
+    "types": ["node"]
   },
   "include": ["src/**/*"]
 }

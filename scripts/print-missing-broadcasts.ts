@@ -9,11 +9,11 @@
  *   bun run scripts/missing-broadcasts.ts --lockup
  */
 import { getChain, releases } from "@src";
-import logger from "@src/logger";
 import type { Sablier } from "@src/types";
 import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
 import { checkBroadcast, checkZKBroadcast } from "./check-broadcast";
+import logger from "./logger";
 
 // Emojis for better visual output
 const EMOJIS = {

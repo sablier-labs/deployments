@@ -1,14 +1,13 @@
 {
   "name": "@sablier/deployments",
   "description": "Keeping track of Sablier deployments",
-  "version": "1.0.0-alpha.10",
+  "version": "1.0.0-alpha.11",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "lodash": "^4.17",
-    "winston": "^3.17"
+    "lodash": "^4.17"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -24,6 +23,7 @@
     "typescript": "^5.8",
     "viem": "^2.28",
     "vite-tsconfig-paths": "^5.1",
+    "winston": "^3.17",
     "vitest": "^3.1"
   },
   "files": ["dist"],

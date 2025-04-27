@@ -1,8 +1,8 @@
-import logger from "@src/logger";
 import { releases } from "@src/releases";
 import type { Sablier } from "@src/types";
 import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
+import logger from "./logger";
 
 interface AliasRow {
   alias: string;

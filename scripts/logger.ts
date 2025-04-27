@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { Sablier } from "@src/types";
 import winston, { format } from "winston";
-import type { Sablier } from "./types";
 const LOG_FILE_PATH: string = process.env.LOG_FILE_PATH || "logs/debug.log";
 const LOG_LEVEL: string = process.env.LOG_LEVEL || "info";
 

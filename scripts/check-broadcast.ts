@@ -1,8 +1,8 @@
 import path from "node:path";
-import { log } from "@src/logger";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import type { Options as GlobbyOptions } from "globby";
+import { log } from "./logger";
 
 const ROOT_DIR = path.join(__dirname, "..");
 

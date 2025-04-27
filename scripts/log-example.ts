@@ -1,4 +1,4 @@
-import logger from "@src/logger";
+import logger from "./logger";
 
 /**
  * Example script to demonstrate Winston logging functionality

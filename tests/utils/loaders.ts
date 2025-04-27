@@ -1,7 +1,7 @@
 import fs from "node:fs";
+import { checkBroadcast, checkZKBroadcast } from "@scripts/check-broadcast";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
-import { checkBroadcast, checkZKBroadcast } from "../../scripts/check-broadcast";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 export async function loadBroadcastJSON(

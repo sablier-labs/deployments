@@ -1,9 +1,9 @@
 import fs from "node:fs";
-import { log } from "@src/logger";
+import { checkBroadcast, checkZKBroadcast } from "@scripts/check-broadcast";
+import { log } from "@scripts/logger";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import _ from "lodash";
-import { checkBroadcast, checkZKBroadcast } from "../../scripts/check-broadcast";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 const CONTRACT_PREFIX = "contract ";
