@@ -3,7 +3,8 @@
   "compilerOptions": {
     "noEmit": false,
     "rootDir": "./src",
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": "."
   },
   "include": ["src/**/*"]
 }
