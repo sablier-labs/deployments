@@ -34,7 +34,7 @@ export function getDeployment(
   protocol: Sablier.Protocol,
   chainId: number,
   contractMap: Sablier.ContractMap,
-  aliases: { [contractName: string]: string },
+  aliases: Sablier.AliasMap,
 ): Sablier.Deployment {
   const chain = getChain(chainId);
   const contracts: Sablier.Contract[] = [];
@@ -63,7 +63,7 @@ export function getDeploymentLockupV1(
     core: Sablier.ContractMap;
     periphery: Sablier.ContractMap;
   },
-  aliases: { [contractName: string]: string },
+  aliases: Sablier.AliasMap,
 ): Sablier.DeploymentLockupV1 {
   const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
   const deployment = getDeployment("lockup", chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;

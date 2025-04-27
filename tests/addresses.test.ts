@@ -7,8 +7,7 @@ import { describe, expect, it } from "vitest";
  * @note Use https://ethsum.netlify.app to fix failing tests
  */
 const checkAddressesFor = (protocol: Sablier.Protocol) => {
-  const releaseArray = releases[protocol] as Sablier.Release[];
-  for (const release of releaseArray) {
+  for (const release of releases[protocol]) {
     describe(`Release ${release.version}`, () => {
       it("should have all addresses checksummed", () => {
         for (const deployment of release.deployments) {

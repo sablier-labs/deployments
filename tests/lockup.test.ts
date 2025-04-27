@@ -1,4 +1,4 @@
-import { lockupByVersion } from "@src/releases";
+import { lockupByVersion } from "@src/releases/lockup";
 import { createTestSuite } from "./utils/generators";
 
 // Note: it's important to run the tests in this order because the contracts in some releases have been

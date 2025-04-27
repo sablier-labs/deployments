@@ -2,6 +2,10 @@ export declare namespace Sablier {
   /** Ethereum address in the format 0x followed by 40 hexadecimal characters */
   export type Address = `0x${string}`;
 
+  export interface AliasMap {
+    [contractName: string]: string;
+  }
+
   /** The native token on an EVM chain, used for paying gas fees */
   export interface NativeToken {
     decimals: number;

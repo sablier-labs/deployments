@@ -1,5 +1,5 @@
 import logger from "@src/logger";
-import { airdrops, flow, lockup } from "@src/releases";
+import { releases } from "@src/releases";
 import type { Sablier } from "@src/types";
 import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
@@ -14,7 +14,7 @@ async function main() {
   const rows: AliasRow[] = [];
 
   // Combine all releases
-  const allReleases: Sablier.Release[] = [...airdrops, ...flow, ...lockup];
+  const allReleases: Sablier.Release[] = [...releases.airdrops, ...releases.flow, ...releases.lockup];
 
   for (const release of allReleases) {
     const aliases = release.aliases;
