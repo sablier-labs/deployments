@@ -4,16 +4,18 @@ import * as v1_1 from "./v1.1";
 
 const releaseV1_0: Sablier.ReleaseStandard = {
   aliases: v1_0.aliases,
-  manifest: v1_0.manifest,
   deployments: v1_0.deployments,
+  isLatest: false,
+  manifest: v1_0.manifest,
   protocol: "flow",
   version: "v1.0",
 };
 
 const releaseV1_1: Sablier.ReleaseStandard = {
   aliases: v1_1.aliases,
-  manifest: v1_1.manifest,
   deployments: v1_1.deployments,
+  isLatest: false,
+  manifest: v1_1.manifest,
   protocol: "flow",
   version: "v1.1",
 };

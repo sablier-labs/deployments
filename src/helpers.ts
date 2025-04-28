@@ -2,7 +2,6 @@ import _ from "lodash";
 import { allById } from "./chains";
 import { BaseURL, THEGRAPH_ORG_ID } from "./constants";
 import { envio, subgraphs } from "./indexers";
-import { airdropsByVersion, flowByVersion, lockupByVersion } from "./releases";
 import type { Sablier } from "./types";
 import versions from "./versions";
 
@@ -74,27 +73,6 @@ export function getDeploymentLockupV1(
   return deployment;
 }
 
-export function getRelease(protocol: Sablier.Protocol, version: Sablier.Version): Sablier.Release | undefined {
-  const versionMap: Record<Sablier.Protocol, (v: Sablier.Version) => boolean> = {
-    airdrops: isValidAirdropsVersion,
-    flow: isValidFlowVersion,
-    lockup: isValidLockupVersion,
-  };
-
-  const isValidVersion = versionMap[protocol];
-  if (!isValidVersion(version)) {
-    return undefined;
-  }
-
-  const releaseMap: Record<Sablier.Protocol, Record<string, Sablier.Release>> = {
-    airdrops: airdropsByVersion,
-    flow: flowByVersion,
-    lockup: lockupByVersion,
-  };
-
-  return releaseMap[protocol][version];
-}
-
 /**
  * Extract all string values from a nested object
  * @param obj The object to extract string values from
@@ -108,6 +86,16 @@ export const getNestedValues = <T extends Record<string, unknown>>(obj: T): stri
     return _.isString(value) ? value : [];
   });
 };
+
+/** Type guard to check if a manifest is a Lockup v1.x manifest. */
+export function isLockupV1Manifest(manifest: Sablier.Manifest): manifest is Sablier.ManifestLockupV1 {
+  return "core" in manifest && "periphery" in manifest;
+}
+
+/** Type guard to check if a release is a Lockup v1.x release. */
+export function isLockupV1Release(release: Sablier.Release): release is Sablier.ReleaseLockupV1 {
+  return release.protocol === "lockup" && release.version.startsWith("v1.");
+}
 
 export function isValidAirdropsVersion(version: Sablier.Version): boolean {
   return version === versions.airdrops.v1_3;

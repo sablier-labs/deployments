@@ -3,8 +3,9 @@ import * as v1_3 from "./v1.3";
 
 const releaseV1_3: Sablier.ReleaseStandard = {
   aliases: v1_3.aliases,
-  manifest: v1_3.manifest,
   deployments: v1_3.deployments,
+  isLatest: true,
+  manifest: v1_3.manifest,
   protocol: "airdrops",
   version: "v1.3",
 };

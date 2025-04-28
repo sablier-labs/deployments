@@ -6,32 +6,36 @@ import * as v2_0 from "./v2.0";
 
 const releaseV1_0: Sablier.ReleaseLockupV1 = {
   aliases: v1_0.aliases,
-  manifest: v1_0.manifest,
   deployments: v1_0.deployments,
+  isLatest: false,
+  manifest: v1_0.manifest,
   protocol: "lockup",
   version: "v1.0",
 };
 
 const releaseV1_1: Sablier.ReleaseLockupV1 = {
   aliases: v1_1.aliases,
-  manifest: v1_1.manifest,
   deployments: v1_1.deployments,
+  isLatest: false,
+  manifest: v1_1.manifest,
   protocol: "lockup",
   version: "v1.1",
 };
 
 const releaseV1_2: Sablier.ReleaseLockupV1 = {
   aliases: v1_2.aliases,
-  manifest: v1_2.manifest,
   deployments: v1_2.deployments,
+  isLatest: false,
+  manifest: v1_2.manifest,
   protocol: "lockup",
   version: "v1.2",
 };
 
 const releaseV2_0: Sablier.ReleaseStandard = {
   aliases: v2_0.aliases,
-  manifest: v2_0.manifest,
   deployments: v2_0.deployments,
+  isLatest: true,
+  manifest: v2_0.manifest,
   protocol: "lockup",
   version: "v2.0",
 };
