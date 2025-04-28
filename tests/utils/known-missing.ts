@@ -2,6 +2,7 @@ import { ChainId } from "@src/chains/ids";
 import { names as lockupNamesV1_0 } from "@src/releases/lockup/v1.0/manifest";
 import { names as lockupNamesV1_1 } from "@src/releases/lockup/v1.1/manifest";
 import type { Sablier } from "@src/types";
+import { versions } from "@src/versions";
 import _ from "lodash";
 
 type ContractMap = Record<string, boolean>;
@@ -11,12 +12,12 @@ type ProtocolMap = Partial<Record<Sablier.Protocol, VersionMap>>;
 
 export const knownMissing: ProtocolMap = {
   lockup: {
-    "v1.0": {
+    [versions.lockup.v1_0]: {
       [ChainId.ARBITRUM_SEPOLIA]: {
         [lockupNamesV1_0.core.SABLIER_V2_COMPTROLLER]: true,
       },
     },
-    "v1.1": {
+    [versions.lockup.v1_1]: {
       [ChainId.ARBITRUM_ONE]: {
         [lockupNamesV1_1.core.SABLIER_V2_LOCKUP_LINEAR]: true,
         [lockupNamesV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,

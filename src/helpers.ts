@@ -2,7 +2,9 @@ import _ from "lodash";
 import { allById } from "./chains";
 import { BaseURL, THEGRAPH_ORG_ID } from "./constants";
 import { envio, subgraphs } from "./indexers";
+import { airdropsByVersion, flowByVersion, lockupByVersion } from "./releases";
 import type { Sablier } from "./types";
+import versions from "./versions";
 
 export function getChain(chainId: number | string): Sablier.Chain {
   const chain = allById[Number(chainId)];
@@ -72,6 +74,27 @@ export function getDeploymentLockupV1(
   return deployment;
 }
 
+export function getRelease(protocol: Sablier.Protocol, version: Sablier.Version): Sablier.Release | undefined {
+  const versionMap: Record<Sablier.Protocol, (v: Sablier.Version) => boolean> = {
+    airdrops: isValidAirdropsVersion,
+    flow: isValidFlowVersion,
+    lockup: isValidLockupVersion,
+  };
+
+  const isValidVersion = versionMap[protocol];
+  if (!isValidVersion(version)) {
+    return undefined;
+  }
+
+  const releaseMap: Record<Sablier.Protocol, Record<string, Sablier.Release>> = {
+    airdrops: airdropsByVersion,
+    flow: flowByVersion,
+    lockup: lockupByVersion,
+  };
+
+  return releaseMap[protocol][version];
+}
+
 /**
  * Extract all string values from a nested object
  * @param obj The object to extract string values from
@@ -85,6 +108,23 @@ export const getNestedValues = <T extends Record<string, unknown>>(obj: T): stri
     return _.isString(value) ? value : [];
   });
 };
+
+export function isValidAirdropsVersion(version: Sablier.Version): boolean {
+  return version === versions.airdrops.v1_3;
+}
+
+export function isValidFlowVersion(version: Sablier.Version): boolean {
+  return version === versions.flow.v1_0 || version === versions.flow.v1_1;
+}
+
+export function isValidLockupVersion(version: Sablier.Version): boolean {
+  return (
+    version === versions.lockup.v1_0 ||
+    version === versions.lockup.v1_1 ||
+    version === versions.lockup.v1_2 ||
+    version === versions.lockup.v2_0
+  );
+}
 
 export function sortChains<T extends { name: string }>(chains: T[]): T[] {
   return chains.sort((a, b) => a.name.localeCompare(b.name));

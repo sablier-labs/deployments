@@ -1,3 +1,5 @@
+import type versions from "./versions";
+
 export declare namespace Sablier {
   /** Ethereum address in the format 0x followed by 40 hexadecimal characters */
   export type Address = `0x${string}`;
@@ -105,7 +107,7 @@ export declare namespace Sablier {
     aliases: { [contractName: string]: string };
     /** The Sablier protocol released, e.g. `airdrops`. */
     protocol: Protocol;
-    /** The version of the release, e.g., `v1.0.0`. */
+    /** The version of the release, e.g., `v1.0`. */
     version: Version;
   }
 
@@ -159,11 +161,15 @@ export declare namespace Sablier {
     };
   }
 
-  export type VersionAirdrops = "v1.3";
+  export type VersionAirdrops = typeof versions.airdrops.v1_3;
 
-  export type VersionFlow = "v1.0" | "v1.1";
+  export type VersionFlow = typeof versions.flow.v1_0 | typeof versions.flow.v1_1;
 
-  export type VersionLockup = "v1.0" | "v1.1" | "v1.2" | "v2.0";
+  export type VersionLockup =
+    | typeof versions.lockup.v1_0
+    | typeof versions.lockup.v1_1
+    | typeof versions.lockup.v1_2
+    | typeof versions.lockup.v2_0;
 
   export type Version = VersionAirdrops | VersionFlow | VersionLockup;
 }
