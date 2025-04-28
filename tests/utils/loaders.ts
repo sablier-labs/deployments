@@ -7,9 +7,9 @@ import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 export async function loadBroadcastJSON(
   release: Sablier.Release,
   chain: Sablier.Chain,
-  releaseModule?: string,
+  componentName?: string,
 ): Promise<BroadcastJSON | null> {
-  const foundPath = await checkBroadcast(release, chain, releaseModule);
+  const foundPath = await checkBroadcast(release, chain, componentName);
   if (!foundPath) {
     return null;
   }
@@ -24,9 +24,9 @@ export async function loadBroadcastJSON(
 export async function loadZKBroadcastJSONs(
   release: Sablier.Release,
   chain: Sablier.Chain,
-  releaseModule?: string,
+  componentName?: string,
 ): Promise<ZKBroadcastJSON[] | null> {
-  const dirs = await checkZKBroadcast(release, chain, releaseModule);
+  const dirs = await checkZKBroadcast(release, chain, componentName);
   if (!dirs) {
     return null;
   }

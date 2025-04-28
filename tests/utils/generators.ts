@@ -1,10 +1,10 @@
 import { getChain } from "@src/helpers";
+import { isLockupV1Release } from "@src/helpers";
 import type { Sablier } from "@src/types";
-import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
 import { findContract, findZKContract, loadBroadcastJSON, loadZKBroadcastJSONs } from "./helpers";
-import { isKnownMissing } from "./known-missing";
+import { isKnownMissing } from "./missing-broadcasts";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 /**
@@ -41,7 +41,7 @@ export function validateZKContract(contract: Sablier.Contract, zkBroadcast: ZKBr
  */
 interface TestConfig<BD, CD> {
   finder: (data: BD, contractName: string) => CD | null;
-  loader: (release: Sablier.Release, chain: Sablier.Chain, releaseModule?: string) => Promise<BD | null>;
+  loader: (release: Sablier.Release, chain: Sablier.Chain, componentName?: string) => Promise<BD | null>;
   validator: (contract: Sablier.Contract, data: CD) => void;
 }
 
@@ -51,13 +51,13 @@ function createInnerTests<BD, CD>(
   release: Sablier.Release,
   chain: Sablier.Chain,
   contracts: Sablier.Contract[],
-  releaseModule?: string,
+  componentName?: string,
 ): void {
   describe(testDescription, () => {
     let broadcastData: BD | null;
 
     beforeAll(async () => {
-      broadcastData = await testConfig.loader(release, chain, releaseModule);
+      broadcastData = await testConfig.loader(release, chain, componentName);
     });
 
     for (const contract of contracts) {
@@ -73,7 +73,6 @@ function createInnerTests<BD, CD>(
           // As a fallback, we check if this contract has already been validated. Some contracts
           // are shared between releases (e.g., Comptroller in Lockup v1.0 and v1.1).
           const previouslyValidated = _.get(validated, [contract.address, contract.name, chain.id]);
-          // TODO: throw more explanatory error message
           expect(previouslyValidated).toBeTruthy();
           return;
         }
