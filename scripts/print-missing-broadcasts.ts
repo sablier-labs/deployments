@@ -4,11 +4,11 @@
  * for all chains, only the ones listed in the releases.
  *
  * Usage:
- *   bun run scripts/missing-broadcasts.ts --airdrops
- *   bun run scripts/missing-broadcasts.ts --flow
- *   bun run scripts/missing-broadcasts.ts --lockup
+ *   bun run scripts/missing-broadcasts.ts airdrops
+ *   bun run scripts/missing-broadcasts.ts flow
+ *   bun run scripts/missing-broadcasts.ts lockup
  */
-import { getChain, releases } from "@src";
+import { getChain, releasesByProtocol } from "@src";
 import type { Sablier } from "@src/types";
 import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
@@ -26,22 +26,21 @@ const EMOJIS = {
   warning: "⚠️",
 } as const;
 
-type BroadcastType = `--${Sablier.Protocol}`;
+type BroadcastType = Sablier.Protocol;
 
 function parseArgs(): BroadcastType {
-  const flag = process.argv[2] as BroadcastType;
-  const validFlags: BroadcastType[] = ["--flow", "--airdrops", "--lockup"];
-  if (!flag || !validFlags.includes(flag)) {
-    logger.error("Error: Please provide one of these flags: --flow, --airdrops, or --lockup");
+  const protocol = process.argv[2] as BroadcastType;
+  const validProtocols: BroadcastType[] = ["flow", "airdrops", "lockup"];
+  if (!protocol || !validProtocols.includes(protocol)) {
+    logger.error("Error: Please provide one of these protocols: flow, airdrops, or lockup");
     process.exit(1);
   }
 
-  return flag;
+  return protocol;
 }
 
 // Get broadcast type from command line
-const broadcastFlag = parseArgs();
-const protocol = broadcastFlag.slice(2) as Sablier.Protocol; // Remove -- prefix
+const protocol = parseArgs();
 
 /**
  * Prints a section header with a nice separator
@@ -58,7 +57,7 @@ function printSectionHeader(text: string): void {
  */
 async function checkMissingBroadcasts(): Promise<void> {
   const missing: Record<string, Sablier.Chain[]> = {};
-  const releasesToCheck = releases[protocol];
+  const releasesToCheck = releasesByProtocol[protocol];
 
   console.log(`\n${EMOJIS.folder} Checking ${protocol} broadcasts...\n`);
 

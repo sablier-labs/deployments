@@ -5,4 +5,4 @@ export * as chains from "./chains";
 export * as indexers from "./indexers";
 export * as nativeTokens from "./native-tokens";
 
-export { releases, releasesByVersion } from "./releases";
+export { releases, releasesByProtocol } from "./releases";

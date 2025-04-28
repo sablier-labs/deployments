@@ -1,5 +1,4 @@
 import { releases } from "@src/releases";
-import type { Sablier } from "@src/types";
 import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
 import logger from "./logger";
@@ -13,10 +12,7 @@ interface AliasRow {
 async function main() {
   const rows: AliasRow[] = [];
 
-  // Combine all releases
-  const allReleases: Sablier.Release[] = [...releases.airdrops, ...releases.flow, ...releases.lockup];
-
-  for (const release of allReleases) {
+  for (const release of releases) {
     const aliases = release.aliases;
     const releaseName = `${release.protocol} ${release.version}`;
 
