@@ -8,15 +8,6 @@ export declare namespace Sablier {
 
   export type AliasMap = Record<string, string>;
 
-  /**
-   * @description The native token on an EVM chain, used for paying gas fees.
-   */
-  export type NativeToken = {
-    decimals: number;
-    name: string;
-    symbol: string;
-  };
-
   export type Chain = {
     /** @description URL of the blockchain explorer. */
     explorerURL: string;
@@ -96,15 +87,18 @@ export declare namespace Sablier {
 
   export type Manifest = string[] | ManifestLockupV1;
 
-  /**
-   * @description Supported Sablier protocol types.
-   */
+  /** @description The native token on an EVM chain, used for paying gas fees. */
+  export type NativeToken = {
+    decimals: number;
+    name: string;
+    symbol: string;
+  };
+
+  /** @description Supported Sablier protocol types. */
   export type Protocol = "airdrops" | "flow" | "legacy" | "lockup";
 
-  /**
-   * @description Base interface for all releases
-   */
-  export type ReleaseBase = {
+  /** @description Common interface for all releases. */
+  export type ReleaseCommon = {
     /** @description A map of contract names to their aliases, used in the Sablier Interface and the subgraphs. */
     aliases?: { [contractName: string]: string };
     /** @description Whether this is the latest release for this protocol. */
@@ -120,8 +114,8 @@ export declare namespace Sablier {
    * core and periphery sub-categories.
    * @see https://github.com/sablier-labs/v2-periphery
    */
-  export type ReleaseLockupV1 = ReleaseBase & {
-    readonly kind: "lockupV1";
+  export type ReleaseLockupV1 = ReleaseCommon & {
+    kind: "lockupV1";
     deployments: DeploymentLockupV1[];
     manifest: ManifestLockupV1;
   };
@@ -130,15 +124,13 @@ export declare namespace Sablier {
    * @description A standard release is a collection of deployments for a given protocol and version.
    * This is the default release type for most protocols.
    */
-  export type ReleaseStandard = ReleaseBase & {
-    readonly kind: "standard";
+  export type ReleaseStandard = ReleaseCommon & {
+    kind: "standard";
     deployments: Deployment[];
     manifest: Manifest;
   };
 
-  /**
-   * @description Union type representing all possible release types
-   */
+  /** @description Union type representing all possible release types. */
   export type Release = ReleaseStandard | ReleaseLockupV1;
 
   export type Repository = {
@@ -146,28 +138,30 @@ export declare namespace Sablier {
     url: `https://github.com/sablier-labs/${string}`;
   };
 
-  export type Subgraph = {
-    id: string;
-    name: string;
-  };
-
-  /**
-   * @description Map of chain IDs to their corresponding subgraph configurations.
-   */
-  export type Subgraphs = Record<number, Subgraph>;
-
-  export type TheGraph = {
+  /** Shared “explorer” + “studio” fields (docs written only once) */
+  interface TheGraphCommon {
     /** @description URL to The Graph explorer. */
-    explorer: string;
+    explorer?: string;
     /** @description URL to The Graph studio. */
-    studio: string;
+    studio?: string;
+  }
+  interface TheGraphCustom extends TheGraphCommon {
+    /** @description URL to a custom subgraph. */
+    customURL: string;
+    subgraph?: never;
+  }
+
+  interface TheGraphOfficial extends TheGraphCommon {
+    customURL?: never;
     subgraph: {
       /** @description ID of the subgraph. */
       id: string;
       /** @description Function to generate the subgraph URL with a user-provided API key. */
       url: (apiKey: string) => string;
     };
-  };
+  }
+
+  export type TheGraph = TheGraphCustom | TheGraphOfficial;
 
   export type VersionAirdrops = typeof versions.airdrops.v1_3;
 

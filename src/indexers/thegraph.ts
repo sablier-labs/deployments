@@ -1,37 +1,14 @@
 /**
  * @see https://docs.sablier.com/api/overview
  */
-import { ChainId } from "./chains/ids";
-import type { Sablier } from "./types";
+import { ChainId } from "@src/chains/ids";
+import type { Sablier } from "@src/types";
 
-const ENVIO_BASE_URL = "https://indexer.hyperindex.xyz";
 const THEGRAPH_ORG_ID = 57079; // Sablier organization ID on The Graph
 
-const envio = {
-  endpoints: {
-    airdrops: `${ENVIO_BASE_URL}/508d217/v1/graphql`,
-    flow: `${ENVIO_BASE_URL}/3b4ea6b/v1/graphql`,
-    lockup: `${ENVIO_BASE_URL}/53b7e25/v1/graphql`,
-  },
-  /**
-   * Chains not supported by Envio. Monitor their docs for updates.
-   * @see https://docs.envio.dev/docs/HyperSync/hypersync-supported-networks
-   * @see https://github.com/enviodev/docs/issues/619
-   */
-  unsupportedChains: {
-    [ChainId.CORE_DAO]: true,
-    [ChainId.FORM]: true,
-    [ChainId.IOTEX]: true,
-    [ChainId.LIGHTLINK]: true,
-    [ChainId.SEI]: true,
-    [ChainId.SUPERSEED]: true,
-    [ChainId.TAIKO]: true,
-    [ChainId.TANGLE]: true,
-    [ChainId.ULTRA]: true,
-  },
-};
+type OfficialSubgraphMap = Record<number, { id: string; name: string }>;
 
-const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
+const officialSubgraphs: Record<Sablier.Protocol, OfficialSubgraphMap> = {
   airdrops: {
     // ────────────────────────────────────────────────────────────────────────────────
     // Mainnets
@@ -162,27 +139,82 @@ const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
   },
 };
 
-/** @internal */
-export function getEnvioEndpoint(protocol: Sablier.Protocol, chainId: number): string | undefined {
-  if (protocol === "legacy" || chainId in envio.unsupportedChains) {
-    return undefined;
-  }
-  return envio.endpoints[protocol];
-}
+type CustomSubgraphMap = Record<number, { explorer?: string; url: string }>;
+
+const baseURLs = {
+  LIGHTLINK: "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink",
+  ULTRA: "https://graph.evm.ultra.io/subgraphs/name/sablier",
+  XDC: "https://graphql.xinfin.network/subgraphs/name/xdc",
+};
+
+const customSubgraphs: Record<Sablier.Protocol, CustomSubgraphMap> = {
+  airdrops: {
+    [ChainId.LIGHTLINK]: {
+      explorer: `${baseURLs.LIGHTLINK}/sablier-airdrops-lightlink/graphql`,
+      url: `${baseURLs.LIGHTLINK}/sablier-airdrops-lightlink`,
+    },
+    [ChainId.ULTRA]: {
+      url: `${baseURLs.ULTRA}/sablier-airdrops-ultra`,
+    },
+    [ChainId.XDC]: {
+      explorer: `${baseURLs.XDC}/sablier-airdrops-xdc/graphql`,
+      url: `${baseURLs.XDC}/sablier-airdrops-xdc`,
+    },
+  },
+  flow: {
+    [ChainId.LIGHTLINK]: {
+      explorer: `${baseURLs.LIGHTLINK}/sablier-flow-lightlink/graphql`,
+      url: `${baseURLs.LIGHTLINK}/sablier-flow-lightlink`,
+    },
+    [ChainId.ULTRA]: {
+      url: `${baseURLs.ULTRA}/sablier-flow-ultra`,
+    },
+    [ChainId.XDC]: {
+      explorer: `${baseURLs.XDC}/sablier-flow-xdc/graphql`,
+      url: `${baseURLs.XDC}/sablier-flow-xdc`,
+    },
+  },
+  legacy: {
+    [ChainId.RONIN]: {
+      url: "https://subgraph.satsuma-prod.com/d8d041c49d56/sablierlabs/sablier-ronin/api",
+    },
+  },
+  lockup: {
+    [ChainId.LIGHTLINK]: {
+      explorer: `${baseURLs.LIGHTLINK}/sablier-lockup-lightlink/graphql`,
+      url: `${baseURLs.LIGHTLINK}/sablier-lockup-lightlink`,
+    },
+    [ChainId.ULTRA]: {
+      url: `${baseURLs.ULTRA}/sablier-lockup-ultra`,
+    },
+    [ChainId.XDC]: {
+      explorer: `${baseURLs.XDC}/sablier-lockup-xdc/graphql`,
+      url: `${baseURLs.XDC}/sablier-lockup-xdc`,
+    },
+  },
+};
 
 /** @internal */
 export function getTheGraph(protocol: Sablier.Protocol, chainId: number): Sablier.TheGraph | undefined {
-  const subgraph = subgraphs[protocol][chainId];
-  if (!subgraph) {
-    return undefined;
+  const officialSubgraph = officialSubgraphs[protocol][chainId];
+  if (officialSubgraph) {
+    return {
+      explorer: `https://thegraph.com/explorer/subgraphs/${officialSubgraph.id}`,
+      studio: `https://api.studio.thegraph.com/query/${THEGRAPH_ORG_ID}/${officialSubgraph.name}/version/latest`,
+      subgraph: {
+        id: officialSubgraph.id,
+        url: (apiKey: string) => `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${officialSubgraph.id}`,
+      },
+    };
   }
 
-  return {
-    explorer: `https://thegraph.com/explorer/subgraphs/${subgraph.id}`,
-    studio: `https://api.studio.thegraph.com/query/${THEGRAPH_ORG_ID}/${subgraph.name}/version/latest`,
-    subgraph: {
-      id: subgraph.id,
-      url: (apiKey: string) => `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraph.id}`,
-    },
-  };
+  const customSubgraph = customSubgraphs[protocol][chainId];
+  if (customSubgraph) {
+    return {
+      customURL: customSubgraph.url,
+      explorer: customSubgraph.explorer,
+    };
+  }
+
+  return undefined;
 }
