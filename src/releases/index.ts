@@ -27,6 +27,10 @@ export function getAllContractsFor(release: Sablier.Release): Sablier.Contract[]
   return release.deployments.flatMap((deployment) => deployment.contracts);
 }
 
+export function getLatestRelease(protocol: Sablier.Protocol): Sablier.Release | undefined {
+  return _.find(releasesByProtocol[protocol], { isLatest: true });
+}
+
 export function getRelease(protocol: Sablier.Protocol, version: Sablier.Version): Sablier.Release | undefined {
   const versionMap: Record<Sablier.Protocol, (v: Sablier.Version) => boolean> = {
     airdrops: isValidAirdropsVersion,

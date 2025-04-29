@@ -200,6 +200,7 @@ export function getTheGraph(protocol: Sablier.Protocol, chainId: number): Sablie
   if (officialSubgraph) {
     return {
       explorer: `https://thegraph.com/explorer/subgraphs/${officialSubgraph.id}`,
+      kind: "official",
       studio: `https://api.studio.thegraph.com/query/${THEGRAPH_ORG_ID}/${officialSubgraph.name}/version/latest`,
       subgraph: {
         id: officialSubgraph.id,
@@ -213,6 +214,7 @@ export function getTheGraph(protocol: Sablier.Protocol, chainId: number): Sablie
     return {
       customURL: customSubgraph.url,
       explorer: customSubgraph.explorer,
+      kind: "custom",
     };
   }
 

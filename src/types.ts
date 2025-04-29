@@ -138,7 +138,7 @@ export declare namespace Sablier {
     url: `https://github.com/sablier-labs/${string}`;
   };
 
-  /** Shared “explorer” + “studio” fields (docs written only once) */
+  /** Shared "explorer" + "studio" fields (docs written only once) */
   interface TheGraphCommon {
     /** @description URL to The Graph explorer. */
     explorer?: string;
@@ -148,11 +148,13 @@ export declare namespace Sablier {
   interface TheGraphCustom extends TheGraphCommon {
     /** @description URL to a custom subgraph. */
     customURL: string;
+    kind: "custom";
     subgraph?: never;
   }
 
   interface TheGraphOfficial extends TheGraphCommon {
     customURL?: never;
+    kind: "official";
     subgraph: {
       /** @description ID of the subgraph. */
       id: string;
