@@ -20,6 +20,7 @@ export const ChainId = {
   MORPH: 2818,
   OP_MAINNET: 10,
   POLYGON: 137,
+  RONIN: 2020,
   SCROLL: 534352,
   SEI: 1329,
   SUPERSEED: 5330,

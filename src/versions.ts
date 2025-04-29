@@ -1,10 +1,12 @@
-import type { Sablier } from "./types";
-
-const versions: Record<Sablier.Protocol, Record<string, string>> = {
+const versions = {
   airdrops: {
     v1_3: "v1.3",
   },
   flow: {
+    v1_0: "v1.0",
+    v1_1: "v1.1",
+  },
+  legacy: {
     v1_0: "v1.0",
     v1_1: "v1.1",
   },

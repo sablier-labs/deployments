@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
@@ -9,24 +10,25 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noImplicitAny": true,
     "outDir": "dist",
     "removeComments": true,
     "resolveJsonModule": true,
     "rootDir": ".",
+    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2015",
+    "target": "ES2020",
     "paths": {
       "@scripts": ["scripts"],
       "@scripts/*": ["scripts/*"],
       "@src": ["src"],
       "@src/*": ["src/*"]
     },
-    "types": ["node", "vitest/globals"]
+    "types": ["node"]
   },
   "exclude": ["/data", "/node_modules"],
-  "include": ["**/*.ts"]
+  "include": ["src/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"]
 }

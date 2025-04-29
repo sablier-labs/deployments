@@ -1,0 +1,35 @@
+name: "Cron: Test Chains"
+
+on:
+  schedule:
+    # Runs at 02:00 UTC every day
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v4"
+
+      - name: "Install Bun"
+        uses: "oven-sh/setup-bun@v2"
+        with:
+          bun-version: "latest"
+
+      - name: "Install the Node.js dependencies"
+        run: "bun install --frozen-lockfile"
+
+      - name: "Check the code"
+        run: "bun run check"
+
+      - name: "Run the tests"
+        env:
+          TEST_JSON_RPC: true
+        run: "bun run test --retry 5 --testTimeout 60000" # run tests with 5 retries and 60 seconds of timeout
+
+      - name: "Add summary"
+        run: | # shell
+          echo "## Test Chains result" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY

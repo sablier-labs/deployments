@@ -2,14 +2,16 @@
  * @see https://docs.sablier.com/api/overview
  */
 import { ChainId } from "./chains/ids";
-import { BaseURL } from "./constants";
 import type { Sablier } from "./types";
 
-export const envio = {
+const ENVIO_BASE_URL = "https://indexer.hyperindex.xyz";
+const THEGRAPH_ORG_ID = 57079; // Sablier organization ID on The Graph
+
+const envio = {
   endpoints: {
-    airdrops: `${BaseURL.ENVIO}/508d217/v1/graphql`,
-    flow: `${BaseURL.ENVIO}/3b4ea6b/v1/graphql`,
-    lockup: `${BaseURL.ENVIO}/53b7e25/v1/graphql`,
+    airdrops: `${ENVIO_BASE_URL}/508d217/v1/graphql`,
+    flow: `${ENVIO_BASE_URL}/3b4ea6b/v1/graphql`,
+    lockup: `${ENVIO_BASE_URL}/53b7e25/v1/graphql`,
   },
   /**
    * Chains not supported by Envio. Monitor their docs for updates.
@@ -29,7 +31,7 @@ export const envio = {
   },
 };
 
-export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
+const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
   airdrops: {
     // ────────────────────────────────────────────────────────────────────────────────
     // Mainnets
@@ -106,6 +108,17 @@ export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
       name: "sablier-flow-optimism-sepolia",
     },
   },
+  legacy: {
+    // ────────────────────────────────────────────────────────────────────────────────
+    // Mainnets
+    // ────────────────────────────────────────────────────────────────────────────────
+    [ChainId.ETHEREUM]: { id: "DkSXWkgJD5qVqfsrfzkLC5WELVX3Dbj3ByWcYjDJieCh", name: "sablier" },
+    [ChainId.ARBITRUM_ONE]: { id: "94SP9QVcxmGV9e2fxuTxUGcZfcv4tjpPCGyyPVyMfLP", name: "sablier-arbitrum" },
+    [ChainId.AVALANCHE]: { id: "DK2gHCprwVaytwzwb5fUrkFS9xy7wh66NX6AFcDzMyF9", name: "sablier-avalanche" },
+    [ChainId.BSC]: { id: "3Gyy7of99oBRqHcCMGJXpHw2xxxZgXxVmFPFR1vL6YhT", name: "sablier-bsc" },
+    [ChainId.OP_MAINNET]: { id: "BEnQbvBdXnohC1DpM9rSb47C1FbowK39HfPNCEHjgrBt", name: "sablier-optimism" },
+    [ChainId.POLYGON]: { id: "6UMNQfMeh3pV5Qmn2NDX2UKNeUk9kh4oZhzzzn5e8rSz", name: "sablier-polygon" },
+  },
   lockup: {
     // ────────────────────────────────────────────────────────────────────────────────
     // Mainnets
@@ -148,3 +161,28 @@ export const subgraphs: Record<Sablier.Protocol, Sablier.Subgraphs> = {
     },
   },
 };
+
+/** @internal */
+export function getEnvioEndpoint(protocol: Sablier.Protocol, chainId: number): string | undefined {
+  if (protocol === "legacy" || chainId in envio.unsupportedChains) {
+    return undefined;
+  }
+  return envio.endpoints[protocol];
+}
+
+/** @internal */
+export function getTheGraph(protocol: Sablier.Protocol, chainId: number): Sablier.TheGraph | undefined {
+  const subgraph = subgraphs[protocol][chainId];
+  if (!subgraph) {
+    return undefined;
+  }
+
+  return {
+    explorer: `https://thegraph.com/explorer/subgraphs/${subgraph.id}`,
+    studio: `https://api.studio.thegraph.com/query/${THEGRAPH_ORG_ID}/${subgraph.name}/version/latest`,
+    subgraph: {
+      id: subgraph.id,
+      url: (apiKey: string) => `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraph.id}`,
+    },
+  };
+}

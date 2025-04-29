@@ -1,5 +1,6 @@
 import { getNestedValues } from "@src/helpers";
 
+/** @internal */
 export const names = {
   core: {
     SABLIER_V2_COMPTROLLER: "SablierV2Comptroller",

@@ -8,9 +8,9 @@
  *   bun run scripts/missing-broadcasts.ts flow
  *   bun run scripts/missing-broadcasts.ts lockup
  */
-import { getChain, releasesByProtocol } from "@src";
+import { getChain } from "@src/chains";
+import { releasesByProtocol } from "@src/releases";
 import type { Sablier } from "@src/types";
-import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
 import { checkBroadcast, checkZKBroadcast } from "./check-broadcast";
 import logger from "./logger";
@@ -30,9 +30,9 @@ type BroadcastType = Sablier.Protocol;
 
 function parseArgs(): BroadcastType {
   const protocol = process.argv[2] as BroadcastType;
-  const validProtocols: BroadcastType[] = ["flow", "airdrops", "lockup"];
+  const validProtocols: BroadcastType[] = ["airdrops", "flow", "legacy", "lockup"];
   if (!protocol || !validProtocols.includes(protocol)) {
-    logger.error("Error: Please provide one of these protocols: flow, airdrops, or lockup");
+    logger.error("Error: Please provide one of these protocols: airdrops, flow, legacy, lockup");
     process.exit(1);
   }
 
@@ -65,20 +65,28 @@ async function checkMissingBroadcasts(): Promise<void> {
     for (const deployment of release.deployments) {
       const chain = getChain(deployment.chainId);
 
-      // TODO
-      if (isLockupV1Release(release)) {
+      let hasValidBroadcasts = false;
+
+      if (release.kind === "lockupV1") {
+        const components = ["core", "periphery"];
+        hasValidBroadcasts = await Promise.all(
+          components.map((component) =>
+            chain.isZK ? checkZKBroadcast(release, chain, component) : checkBroadcast(release, chain, component),
+          ),
+        ).then((results) => results.every(Boolean));
       } else {
         const paths = chain.isZK
           ? await checkZKBroadcast(release, chain, "")
           : await checkBroadcast(release, chain, "");
+        hasValidBroadcasts = !!paths;
+      }
 
-        // Note: for LockupV1, we expect both core and periphery paths to exist.
-        if (!paths) {
-          if (!missing[release.version]) {
-            missing[release.version] = [];
-          }
-          missing[release.version].push(chain);
+      // Add to missing list if broadcasts aren't valid
+      if (!hasValidBroadcasts) {
+        if (!missing[release.version]) {
+          missing[release.version] = [];
         }
+        missing[release.version].push(chain);
       }
     }
   }

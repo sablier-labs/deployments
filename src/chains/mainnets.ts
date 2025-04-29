@@ -281,6 +281,19 @@ export const mainnetsById: Record<number, Sablier.Chain> = {
       public: "https://polygon-bor.publicnode.com",
     },
   },
+  [ChainId.RONIN]: {
+    explorerURL: "https://app.roninchain.com/",
+    id: ChainId.RONIN,
+    isSupportedByUI: false,
+    isTestnet: false,
+    isZK: false,
+    key: "ronin",
+    name: "Ronin",
+    nativeToken: ETH,
+    rpc: {
+      public: "https://api.roninchain.com/rpc",
+    },
+  },
   [ChainId.SCROLL]: {
     explorerURL: "https://scrollscan.com",
     id: ChainId.SCROLL,

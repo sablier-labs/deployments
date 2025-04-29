@@ -60,6 +60,12 @@ export const POL: Sablier.NativeToken = {
   symbol: "POL",
 };
 
+export const RON: Sablier.NativeToken = {
+  decimals: 18,
+  name: "Ronin",
+  symbol: "RON",
+};
+
 export const SEI: Sablier.NativeToken = {
   decimals: 18,
   name: "Sei",

@@ -14,5 +14,21 @@ import { mainnets, mainnetsById } from "./mainnets";
 import { testnets, testnetsById } from "./testnets";
 
 export { mainnets, mainnetsById, testnets, testnetsById };
-export const all: Sablier.Chain[] = [...mainnets, ...testnets];
-export const allById: Record<number, Sablier.Chain> = { ...mainnetsById, ...testnetsById };
+export const chains: Sablier.Chain[] = [...mainnets, ...testnets];
+export const chainsById: Record<number, Sablier.Chain> = { ...mainnetsById, ...testnetsById };
+
+export function getChain(chainId: number | string): Sablier.Chain {
+  const chain = chainsById[Number(chainId)];
+  if (!chain) {
+    throw new Error(`Chain with ID ${chainId} not found`);
+  }
+  return chain;
+}
+
+export function getChainName(chainId: number | string): string {
+  const chainName = chainsById[Number(chainId)].name;
+  if (!chainName) {
+    throw new Error(`Chain with ID ${chainId} not found`);
+  }
+  return chainName;
+}

@@ -1,6 +1,6 @@
 import { ChainId } from "@src/chains/ids";
-import { getDeployment } from "@src/helpers";
 import type { Sablier } from "@src/types";
+import { getDeployment } from "../../helpers";
 import aliases from "./aliases";
 import { names } from "./manifest";
 

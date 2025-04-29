@@ -1,5 +1,4 @@
 import { releases } from "@src/releases";
-import { isLockupV1Release } from "@src/types";
 import _ from "lodash";
 import logger from "./logger";
 
@@ -21,7 +20,7 @@ async function main() {
       let contractName: string;
 
       // Lockup v1.x has core/periphery structure, others are flat
-      if (isLockupV1Release(release)) {
+      if (release.kind === "lockupV1") {
         // Type cast the manifest to ManifestLockupV1
         const manifest = release.manifest;
         contractName = _.get(manifest.core, key) || _.get(manifest.periphery, key) || key;

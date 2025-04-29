@@ -42,7 +42,7 @@ export const testnetsById: Record<number, Sablier.Chain> = {
     name: "Blast Sepolia",
     nativeToken: ETH,
     rpc: {
-      public: "https://sepolia.blast.io",
+      public: "https://rpc.ankr.com/blast_testnet_sepolia",
     },
   },
   [ChainId.ETHEREUM_SEPOLIA]: {

@@ -1,5 +1,4 @@
-import { getChain } from "@src/helpers";
-import { isLockupV1Release } from "@src/helpers";
+import { getChain } from "@src/chains";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -73,7 +72,8 @@ function createInnerTests<BD, CD>(
           // As a fallback, we check if this contract has already been validated. Some contracts
           // are shared between releases (e.g., Comptroller in Lockup v1.0 and v1.1).
           const previouslyValidated = _.get(validated, [contract.address, contract.name, chain.id]);
-          expect(previouslyValidated).toBeTruthy();
+          const message = `Contract ${contract.name} on ${chain.name} has not been found nor validated`;
+          expect(previouslyValidated, message).toBeTruthy();
           return;
         }
         testConfig.validator(contract, contractData);
@@ -93,7 +93,7 @@ function createContractTests<BD, CD>(
   const chainName = chain.name;
 
   describe(`${chainName} (ID: ${chainId})`, () => {
-    if (isLockupV1Release(release)) {
+    if (release.kind === "lockupV1") {
       const lockupV1Deployment = deployment as Sablier.DeploymentLockupV1;
       createInnerTests("Contracts in core", testConfig, release, chain, lockupV1Deployment.core, "core");
       createInnerTests("Contracts in periphery", testConfig, release, chain, lockupV1Deployment.periphery, "periphery");

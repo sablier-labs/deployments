@@ -1,7 +1,7 @@
 {
   "name": "@sablier/deployments",
   "description": "Keeping track of Sablier deployments",
-  "version": "1.0.0-alpha.15",
+  "version": "1.0.0-alpha.16",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
@@ -62,7 +62,7 @@
     "test:ui": "vitest --silent --ui",
     "test:watch": "vitest --silent",
     "tsc:build": "tsc -p tsconfig.build.json && bun tsc-alias -p tsconfig.build.json",
-    "tsc:check": "tsc -p tsconfig.build.json --noEmit"
+    "tsc:check": "tsc -p tsconfig.json --noEmit"
   },
   "types": "./dist/index.d.ts"
 }

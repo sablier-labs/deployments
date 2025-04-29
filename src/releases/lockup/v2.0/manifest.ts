@@ -1,5 +1,6 @@
 import { getNestedValues } from "@src/helpers";
 
+/** @internal */
 export const names = {
   HELPERS: "Helpers",
   LOCKUP_NFT_DESCRIPTOR: "LockupNFTDescriptor",

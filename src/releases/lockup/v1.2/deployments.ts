@@ -1,6 +1,6 @@
 import { ChainId } from "@src/chains/ids";
-import { getDeploymentLockupV1 } from "@src/helpers";
 import type { Sablier } from "@src/types";
+import { getDeploymentLockupV1 } from "../../helpers";
 import aliases from "./aliases";
 import { names } from "./manifest";
 
