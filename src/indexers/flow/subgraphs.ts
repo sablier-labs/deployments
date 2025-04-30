@@ -1,12 +1,13 @@
 import { ChainId } from "@src/chains/ids";
 import type { Sablier } from "@src/types";
+import type { CustomChainId } from "../config";
 import { getCustomSubgraph, getOfficialSubgraph } from "../helpers";
 
-function getCustom(chainId: number, name: string): Sablier.Indexer | undefined {
+function getCustom(chainId: CustomChainId, name: string): Sablier.IndexerSubgraph {
   return getCustomSubgraph("flow", chainId, name);
 }
 
-function getOfficial(chainId: number, name: string, id: string): Sablier.Indexer | undefined {
+function getOfficial(chainId: number, name: string, id: string): Sablier.IndexerSubgraph {
   return getOfficialSubgraph("flow", chainId, name, id);
 }
 

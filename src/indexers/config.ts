@@ -1,9 +1,5 @@
 import { ChainId } from "@src/chains/ids";
-import type { Sablier } from "@src/types";
 import { ENVIO_BASE_URL } from "./constants";
-
-type Endpoints = Partial<Record<Sablier.Protocol, string>>;
-type SubgraphBaseURLs = { [chainId: number]: string };
 
 const config = {
   envio: {
@@ -11,7 +7,7 @@ const config = {
       airdrops: `${ENVIO_BASE_URL}/508d217/v1/graphql`,
       flow: `${ENVIO_BASE_URL}/3b4ea6b/v1/graphql`,
       lockup: `${ENVIO_BASE_URL}/53b7e25/v1/graphql`,
-    } as Endpoints,
+    },
     /** @dev We assume that Envio is available for all protocols, never just a few. */
     supportedChains: [
       /* Mainnets */
@@ -43,8 +39,14 @@ const config = {
       [ChainId.LIGHTLINK]: "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink",
       [ChainId.ULTRA]: "https://graph.evm.ultra.io/subgraphs/name/sablier",
       [ChainId.XDC]: "https://graphql.xinfin.network/subgraphs/name/xdc",
-    } as SubgraphBaseURLs,
+    },
   },
 };
+
+/** @internal */
+export type CustomChainId = keyof typeof config.subgraph.baseURLs;
+
+/** @internal */
+export type EnvioProtocol = keyof typeof config.envio.endpoints;
 
 export default config;

@@ -79,13 +79,13 @@ export declare namespace Sablier {
     protocol: Protocol;
   }
 
-  export interface IndexerEnvio extends IndexerCommon {
+  export type IndexerEnvio = IndexerCommon & {
     envio: string;
-  }
+  };
 
-  export interface IndexerSubgraph extends IndexerCommon {
+  export type IndexerSubgraph = IndexerCommon & {
     subgraph: Subgraph;
-  }
+  };
 
   export type Indexer = IndexerEnvio | IndexerSubgraph;
 
@@ -123,45 +123,46 @@ export declare namespace Sablier {
    * core and periphery sub-categories.
    * @see https://github.com/sablier-labs/v2-periphery
    */
-  export interface ReleaseLockupV1 extends ReleaseCommon {
+  export type ReleaseLockupV1 = ReleaseCommon & {
     deployments: DeploymentLockupV1[];
     kind: "lockupV1";
     manifest: ManifestLockupV1;
-  }
+  };
 
   /**
    * @description A standard release is a collection of deployments for a given protocol and version.
    * This is the default release type for most protocols.
    */
-  export interface ReleaseStandard extends ReleaseCommon {
+  export type ReleaseStandard = ReleaseCommon & {
     deployments: Deployment[];
     kind: "standard";
     manifest: Manifest;
-  }
+  };
 
   /** @description Union type representing all possible release types. */
   export type Release = ReleaseStandard | ReleaseLockupV1;
 
-  export interface Repository {
+  export type Repository = {
     commit: string;
     url: `https://github.com/sablier-labs/${string}`;
-  }
+  };
 
   /** Shared "explorer" + "studio" fields (docs written only once) */
-  interface SubgraphCommon {
+  type SubgraphCommon = {
     /** @description URL to The Graph explorer. */
     explorer?: string;
     /** @description URL to The Graph studio. */
     studio?: string;
-  }
-  export interface SubgraphCustom extends SubgraphCommon {
+  };
+
+  export type SubgraphCustom = SubgraphCommon & {
     /** @description URL to a custom subgraph. */
     customURL: string;
     info?: never;
     kind: "custom";
-  }
+  };
 
-  export interface SubgraphOfficial extends SubgraphCommon {
+  export type SubgraphOfficial = SubgraphCommon & {
     customURL?: never;
     info: {
       /** @description ID of the subgraph. */
@@ -170,7 +171,7 @@ export declare namespace Sablier {
       url: (apiKey: string) => string;
     };
     kind: "official";
-  }
+  };
 
   export type Subgraph = SubgraphCustom | SubgraphOfficial;
 
