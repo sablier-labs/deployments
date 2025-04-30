@@ -1,5 +1,5 @@
 import { sortDeployments } from "@src/helpers";
-import { getStandardRelease } from "@src/releases/helpers";
+import { resolveReleaseStandard } from "@src/releases/helpers";
 import type { Sablier } from "@src/types";
 import aliases from "./aliases";
 import { mainnets, testnets } from "./deployments";
@@ -9,7 +9,7 @@ const sortedMainnets = sortDeployments(mainnets);
 const sortedTestnets = sortDeployments(testnets);
 export const deployments: Sablier.Deployment[] = [...sortedMainnets, ...sortedTestnets];
 
-export const release = getStandardRelease({
+export const release = resolveReleaseStandard({
   aliases: aliases,
   deployments: deployments,
   isLatest: false,

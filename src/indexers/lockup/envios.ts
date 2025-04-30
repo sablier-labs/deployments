@@ -1,8 +1,8 @@
 import config from "../config";
-import { getEnvio } from "../helpers";
+import { resolveEnvio } from "../helpers";
 
 function get(chainId: number) {
-  return getEnvio("lockup", chainId);
+  return resolveEnvio("lockup", chainId);
 }
 
 const envio = config.envio.supportedChains.map(get);

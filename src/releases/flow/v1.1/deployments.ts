@@ -1,11 +1,11 @@
 import { ChainId } from "@src/chains/ids";
 import type { Sablier } from "@src/types";
-import { getDeployment } from "../../helpers";
+import { resolveDeployment } from "../../helpers";
 import aliases from "./aliases";
 import { names } from "./manifest";
 
 function get(chainId: number, contractMap: Sablier.ContractMap): Sablier.Deployment {
-  return getDeployment(chainId, contractMap, aliases);
+  return resolveDeployment(chainId, contractMap, aliases);
 }
 
 /**

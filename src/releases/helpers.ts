@@ -5,7 +5,7 @@ import type { Sablier } from "@src/types";
 import _ from "lodash";
 
 /** @internal */
-export function getDeployment(
+export function resolveDeployment(
   chainId: number,
   contractMap: Sablier.ContractMap,
   aliases: Sablier.AliasMap,
@@ -25,7 +25,7 @@ export function getDeployment(
 }
 
 /** @internal */
-export function getDeploymentLockupV1(
+export function resolveDeploymentLockupV1(
   chainId: number,
   contractMap: {
     core: Sablier.ContractMap;
@@ -34,14 +34,14 @@ export function getDeploymentLockupV1(
   aliases: Sablier.AliasMap,
 ): Sablier.DeploymentLockupV1 {
   const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
-  const deployment = getDeployment(chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;
+  const deployment = resolveDeployment(chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;
   deployment.core = _.entries(contractMap.core).map(([name, address]) => ({ name, address }));
   deployment.periphery = _.entries(contractMap.periphery).map(([name, address]) => ({ name, address }));
   return deployment;
 }
 
 /** @internal */
-export function getStandardRelease(params: Omit<Sablier.ReleaseStandard, "kind">): Sablier.ReleaseStandard {
+export function resolveReleaseStandard(params: Omit<Sablier.ReleaseStandard, "kind">): Sablier.ReleaseStandard {
   return {
     ...params,
     kind: "standard" as const,
@@ -49,7 +49,7 @@ export function getStandardRelease(params: Omit<Sablier.ReleaseStandard, "kind">
 }
 
 /** @internal */
-export function getLockupV1Release(params: Omit<Sablier.ReleaseLockupV1, "kind">): Sablier.ReleaseLockupV1 {
+export function resolveReleaseLockupV1(params: Omit<Sablier.ReleaseLockupV1, "kind">): Sablier.ReleaseLockupV1 {
   return {
     ...params,
     kind: "lockupV1" as const,

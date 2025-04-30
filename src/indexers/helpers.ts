@@ -2,7 +2,8 @@ import type { Sablier } from "@src/types";
 import config, { type CustomChainId, type EnvioProtocol } from "./config";
 import { THEGRAPH_ORG_ID } from "./constants";
 
-export function getCustomSubgraph(
+/** @internal */
+export function resolveCustomSubgraph(
   protocol: Sablier.Protocol,
   chainId: CustomChainId,
   name: string,
@@ -19,7 +20,8 @@ export function getCustomSubgraph(
   };
 }
 
-export function getEnvio(protocol: EnvioProtocol, chainId: number): Sablier.IndexerEnvio {
+/** @internal */
+export function resolveEnvio(protocol: EnvioProtocol, chainId: number): Sablier.IndexerEnvio {
   const endpoint = config.envio.endpoints[protocol];
   return {
     chainId,
@@ -28,7 +30,8 @@ export function getEnvio(protocol: EnvioProtocol, chainId: number): Sablier.Inde
   };
 }
 
-export function getOfficialSubgraph(
+/** @internal */
+export function resolveOfficialSubgraph(
   protocol: Sablier.Protocol,
   chainId: number,
   name: string,
