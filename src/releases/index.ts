@@ -7,6 +7,12 @@ import { legacy, legacyByVersion } from "./legacy";
 import { lockup, lockupByVersion } from "./lockup";
 
 export { airdropsByVersion, flowByVersion, legacyByVersion, lockupByVersion };
+export const latestReleases = [
+  airdrops[airdrops.length - 1],
+  flow[flow.length - 1],
+  legacy[legacy.length - 1],
+  lockup[lockup.length - 1],
+];
 export const releases = [...airdrops, ...flow, ...legacy, ...lockup];
 export const releasesByProtocol = {
   airdrops,
@@ -16,8 +22,8 @@ export const releasesByProtocol = {
 };
 
 /*//////////////////////////////////////////////////////////////////////////
-                                    HELPERS
-  //////////////////////////////////////////////////////////////////////////*/
+                                  HELPERS
+//////////////////////////////////////////////////////////////////////////*/
 
 export function getAllContracts(): Sablier.Contract[] {
   return _.flatMap(releases, (release) => release.deployments.flatMap((deployment) => deployment.contracts));
