@@ -5,7 +5,7 @@ import aliases from "./aliases";
 import { names } from "./manifest";
 
 function get(chainId: number, contractMap: Sablier.ContractMap): Sablier.Deployment {
-  return getDeployment("lockup", chainId, contractMap, aliases);
+  return getDeployment(chainId, contractMap, aliases);
 }
 
 /**

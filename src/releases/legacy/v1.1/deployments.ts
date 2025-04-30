@@ -4,7 +4,7 @@ import { getDeployment } from "../../helpers";
 import { names } from "./manifest";
 
 function get(chainId: number, contractMap: Sablier.ContractMap): Sablier.Deployment {
-  return getDeployment("legacy", chainId, contractMap, {});
+  return getDeployment(chainId, contractMap, {});
 }
 
 /**

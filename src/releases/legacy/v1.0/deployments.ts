@@ -10,7 +10,6 @@ const aliases = {};
  */
 export const mainnets: Sablier.Deployment[] = [
   getDeployment(
-    "legacy",
     ChainId.ETHEREUM,
     {
       [names.PAYROLL]: "0xbd6a40Bb904aEa5a49c59050B5395f7484A4203d",

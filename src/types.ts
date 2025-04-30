@@ -67,7 +67,6 @@ export declare namespace Sablier {
   export type Deployment = {
     chainId: number;
     contracts: Contract[];
-    indexers: Indexers;
   };
 
   export type DeploymentLockupV1 = Deployment & {
@@ -75,10 +74,20 @@ export declare namespace Sablier {
     periphery: Contract[];
   };
 
-  export type Indexers = {
-    envio?: string;
-    thegraph?: TheGraph;
-  };
+  interface IndexerCommon {
+    chainId: number;
+    protocol: Protocol;
+  }
+
+  export interface IndexerEnvio extends IndexerCommon {
+    envio: string;
+  }
+
+  export interface IndexerSubgraph extends IndexerCommon {
+    subgraph: Subgraph;
+  }
+
+  export type Indexer = IndexerEnvio | IndexerSubgraph;
 
   export type ManifestLockupV1 = {
     core: string[];
@@ -114,56 +123,56 @@ export declare namespace Sablier {
    * core and periphery sub-categories.
    * @see https://github.com/sablier-labs/v2-periphery
    */
-  export type ReleaseLockupV1 = ReleaseCommon & {
-    kind: "lockupV1";
+  export interface ReleaseLockupV1 extends ReleaseCommon {
     deployments: DeploymentLockupV1[];
+    kind: "lockupV1";
     manifest: ManifestLockupV1;
-  };
+  }
 
   /**
    * @description A standard release is a collection of deployments for a given protocol and version.
    * This is the default release type for most protocols.
    */
-  export type ReleaseStandard = ReleaseCommon & {
-    kind: "standard";
+  export interface ReleaseStandard extends ReleaseCommon {
     deployments: Deployment[];
+    kind: "standard";
     manifest: Manifest;
-  };
+  }
 
   /** @description Union type representing all possible release types. */
   export type Release = ReleaseStandard | ReleaseLockupV1;
 
-  export type Repository = {
+  export interface Repository {
     commit: string;
     url: `https://github.com/sablier-labs/${string}`;
-  };
+  }
 
   /** Shared "explorer" + "studio" fields (docs written only once) */
-  interface TheGraphCommon {
+  interface SubgraphCommon {
     /** @description URL to The Graph explorer. */
     explorer?: string;
     /** @description URL to The Graph studio. */
     studio?: string;
   }
-  interface TheGraphCustom extends TheGraphCommon {
+  export interface SubgraphCustom extends SubgraphCommon {
     /** @description URL to a custom subgraph. */
     customURL: string;
+    info?: never;
     kind: "custom";
-    subgraph?: never;
   }
 
-  interface TheGraphOfficial extends TheGraphCommon {
+  export interface SubgraphOfficial extends SubgraphCommon {
     customURL?: never;
-    kind: "official";
-    subgraph: {
+    info: {
       /** @description ID of the subgraph. */
       id: string;
       /** @description Function to generate the subgraph URL with a user-provided API key. */
       url: (apiKey: string) => string;
     };
+    kind: "official";
   }
 
-  export type TheGraph = TheGraphCustom | TheGraphOfficial;
+  export type Subgraph = SubgraphCustom | SubgraphOfficial;
 
   export type VersionAirdrops = typeof versions.airdrops.v1_3;
 

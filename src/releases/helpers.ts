@@ -1,12 +1,11 @@
 import { getChain } from "@src/chains";
 import { getContractExplorerURL } from "@src/helpers";
-import { getEnvioEndpoint, getTheGraph } from "@src/indexers";
+import {} from "@src/indexers";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 
 /** @internal */
 export function getDeployment(
-  protocol: Sablier.Protocol,
   chainId: number,
   contractMap: Sablier.ContractMap,
   aliases: Sablier.AliasMap,
@@ -19,16 +18,9 @@ export function getDeployment(
     contracts.push({ address, alias, explorerURL, name: contractName });
   }
 
-  const envioEndpoint = getEnvioEndpoint(protocol, chainId);
-  const thegraph = getTheGraph(protocol, chainId);
-
   return {
     chainId,
     contracts,
-    indexers: {
-      envio: envioEndpoint,
-      thegraph,
-    },
   };
 }
 
@@ -42,7 +34,7 @@ export function getDeploymentLockupV1(
   aliases: Sablier.AliasMap,
 ): Sablier.DeploymentLockupV1 {
   const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
-  const deployment = getDeployment("lockup", chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;
+  const deployment = getDeployment(chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;
   deployment.core = _.entries(contractMap.core).map(([name, address]) => ({ name, address }));
   deployment.periphery = _.entries(contractMap.periphery).map(([name, address]) => ({ name, address }));
   return deployment;
