@@ -34,7 +34,7 @@ const config = {
       ChainId.OP_SEPOLIA,
     ],
   },
-  thegraph: {
+  graph: {
     custom: {
       [ChainId.LIGHTLINK]: "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink",
       [ChainId.ULTRA]: "https://graph.evm.ultra.io/subgraphs/name/sablier",
@@ -47,6 +47,6 @@ const config = {
 export type EnvioProtocol = keyof typeof config.envio.endpoints;
 
 /** @internal */
-export type TheGraphCustomChainId = keyof typeof config.thegraph.custom;
+export type TheGraphCustomChainId = keyof typeof config.graph.custom;
 
 export default config;

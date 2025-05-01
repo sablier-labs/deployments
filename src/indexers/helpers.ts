@@ -8,7 +8,7 @@ export function resolveCustomSubgraph(
   chainId: TheGraphCustomChainId,
   name: string,
 ): Sablier.Indexer.TheGraph {
-  const baseURL = config.thegraph.custom[chainId];
+  const baseURL = config.graph.custom[chainId];
   return {
     chainId,
     graph: {

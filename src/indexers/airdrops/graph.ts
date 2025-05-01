@@ -11,7 +11,7 @@ function resolveOfficial(chainId: number, name: string, id: string): Sablier.Ind
   return resolveOfficialSubgraph("airdrops", chainId, name, id);
 }
 
-const subgraphs = [
+const graph = [
   // ────────────────────────────────────────────────────────────────────────────────
   // Mainnets
   // ────────────────────────────────────────────────────────────────────────────────
@@ -56,4 +56,4 @@ const subgraphs = [
   ),
 ];
 
-export default subgraphs;
+export default graph;

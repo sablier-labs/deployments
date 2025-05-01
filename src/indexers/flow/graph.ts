@@ -11,7 +11,7 @@ function resolveOfficial(chainId: number, name: string, id: string): Sablier.Ind
   return resolveOfficialSubgraph("flow", chainId, name, id);
 }
 
-const subgraphs = [
+const graph = [
   // ────────────────────────────────────────────────────────────────────────────────
   // Mainnets
   // ────────────────────────────────────────────────────────────────────────────────
@@ -48,4 +48,4 @@ const subgraphs = [
   resolveOfficial(ChainId.OP_SEPOLIA, "sablier-flow-optimism-sepolia", "EFKqBB6TeH6etGuHCffnbMbETEgDZ6U29Lgpc4gpYvdB"),
 ];
 
-export default subgraphs;
+export default graph;
