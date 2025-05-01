@@ -4,7 +4,7 @@ import { release as releaseV1_1 } from "./v1.1";
 
 export const legacy: Sablier.Release[] = [releaseV1_0, releaseV1_1];
 
-export const legacyByVersion: Record<Sablier.VersionLegacy, Sablier.Release> = {
+export const legacyByVersion: Record<Sablier.Version.Legacy, Sablier.Release> = {
   "v1.0": releaseV1_0,
   "v1.1": releaseV1_1,
 };

@@ -1,7 +1,7 @@
 {
   "name": "@sablier/deployments",
   "description": "Keeping track of Sablier deployments",
-  "version": "1.0.0-alpha.22",
+  "version": "1.0.0-alpha.23",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"

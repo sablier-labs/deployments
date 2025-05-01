@@ -41,17 +41,17 @@ export function resolveDeploymentLockupV1(
 }
 
 /** @internal */
-export function resolveReleaseStandard(params: Omit<Sablier.ReleaseStandard, "kind">): Sablier.ReleaseStandard {
+export function resolveReleaseStandard(params: Omit<Sablier.Release.Standard, "kind">): Sablier.Release.Standard {
   return {
     ...params,
-    kind: "standard" as const,
+    kind: "standard",
   };
 }
 
 /** @internal */
-export function resolveReleaseLockupV1(params: Omit<Sablier.ReleaseLockupV1, "kind">): Sablier.ReleaseLockupV1 {
+export function resolveReleaseLockupV1(params: Omit<Sablier.Release.LockupV1, "kind">): Sablier.Release.LockupV1 {
   return {
     ...params,
-    kind: "lockupV1" as const,
+    kind: "lockupV1",
   };
 }

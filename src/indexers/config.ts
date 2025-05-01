@@ -34,8 +34,8 @@ const config = {
       ChainId.OP_SEPOLIA,
     ],
   },
-  subgraph: {
-    baseURLs: {
+  thegraph: {
+    custom: {
       [ChainId.LIGHTLINK]: "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink",
       [ChainId.ULTRA]: "https://graph.evm.ultra.io/subgraphs/name/sablier",
       [ChainId.XDC]: "https://graphql.xinfin.network/subgraphs/name/xdc",
@@ -44,9 +44,9 @@ const config = {
 };
 
 /** @internal */
-export type CustomChainId = keyof typeof config.subgraph.baseURLs;
+export type EnvioProtocol = keyof typeof config.envio.endpoints;
 
 /** @internal */
-export type EnvioProtocol = keyof typeof config.envio.endpoints;
+export type TheGraphCustomChainId = keyof typeof config.thegraph.custom;
 
 export default config;
