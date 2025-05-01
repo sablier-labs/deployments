@@ -1,2 +1,2 @@
-export { default as envios } from "./envio";
+export { default as envio } from "./envio";
 export { default as graph } from "./graph";
