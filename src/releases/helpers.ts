@@ -1,6 +1,5 @@
 import { getChain } from "@src/chains";
 import { getContractExplorerURL } from "@src/helpers";
-import {} from "@src/indexers";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 

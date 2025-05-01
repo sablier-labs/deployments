@@ -1,8 +1,7 @@
 import { getChain } from "@src/chains";
-import versions from "./versions";
-
 import _ from "lodash";
 import type { Sablier } from "./types";
+import versions from "./versions";
 
 /**
  * Get the explorer URL for a contract. Compatible with Etherscan, Blockscout, etc.

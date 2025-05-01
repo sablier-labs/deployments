@@ -53,7 +53,7 @@
     "build": "bun run clean && bun run tsc:build",
     "clean": "rm -rf dist",
     "check": "bun run tsc:check && bun run biome:check && bun run prettier:check",
-    "format": "bun run biome:write && bun run prettier:write",
+    "fix": "bun run biome:write && bun run prettier:write",
     "prepack": "bun run build",
     "prepare": "husky",
     "prettier:check": "prettier --cache --check \"**/*.{md,yml}\"",
