@@ -13,6 +13,7 @@ import type { Sablier } from "../types";
 import { mainnets, mainnetsById } from "./mainnets";
 import { testnets, testnetsById } from "./testnets";
 
+export { ChainId } from "./ids";
 export { mainnets, mainnetsById, testnets, testnetsById };
 export const chains: Sablier.Chain[] = [...mainnets, ...testnets];
 export const chainsById: Record<number, Sablier.Chain> = { ...mainnetsById, ...testnetsById };

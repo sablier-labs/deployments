@@ -13,18 +13,27 @@ export function getContractExplorerURL(explorerURL: string, contractAddress: Sab
   return `${explorerURL}/address/${contractAddress}`;
 }
 
-/**
- * Extract all string values from a nested object
- * @param obj The object to extract string values from
- * @returns Array of all string values from the object
- */
-export function getNestedValues<T extends Record<string, unknown>>(obj: T): string[] {
-  return _.flatMap(obj, (value) => {
-    if (_.isObject(value) && !_.isArray(value)) {
-      return getNestedValues(value as Record<string, unknown>);
-    }
-    return _.isString(value) ? value : [];
-  });
+export function getContract(
+  release: Sablier.Release,
+  chainId: number,
+  contractName: string,
+): Sablier.Contract | undefined {
+  const deployment = getDeployment(release, chainId);
+  if (!deployment) {
+    return undefined;
+  }
+  return _.find(deployment.contracts, { name: contractName });
+}
+
+export function getContractForDeployment(
+  deployment: Sablier.Deployment,
+  contractName: string,
+): Sablier.Contract | undefined {
+  return _.find(deployment.contracts, { name: contractName });
+}
+
+export function getDeployment(release: Sablier.Release, chainId: number): Sablier.Deployment | undefined {
+  return _.find(release.deployments, { chainId });
 }
 
 export function isValidAirdropsVersion(version: Sablier.Version): boolean {
@@ -57,5 +66,20 @@ export function sortDeployments<T extends { chainId: number }>(deployments: T[])
     const aChain = getChain(a.chainId);
     const bChain = getChain(b.chainId);
     return aChain.name.localeCompare(bChain.name);
+  });
+}
+
+/**
+ * @internal
+ * Extract all string values from a nested object
+ * @param obj The object to extract string values from
+ * @returns Array of all string values from the object
+ */
+export function getNestedValues<T extends Record<string, unknown>>(obj: T): string[] {
+  return _.flatMap(obj, (value) => {
+    if (_.isObject(value) && !_.isArray(value)) {
+      return getNestedValues(value as Record<string, unknown>);
+    }
+    return _.isString(value) ? value : [];
   });
 }
