@@ -37,9 +37,19 @@ export function getFirstRelease(protocol: Sablier.Protocol): Sablier.Release {
   return releasesByProtocol[protocol][0];
 }
 
-export function getLatestRelease(protocol: Sablier.Protocol): Sablier.Release {
-  const release: Sablier.Release | undefined = _.find(releasesByProtocol[protocol], { isLatest: true });
+export function getFirstReleaseForChain(protocol: Sablier.Protocol, chainId: number): Sablier.Release {
+  const release = releasesByProtocol[protocol].find((release) =>
+    release.deployments.find((deployment) => deployment.chainId === chainId),
+  );
   if (!release) {
+    throw new Error(`No release found for protocol ${protocol} on chain ${chainId}`);
+  }
+  return release;
+}
+
+export function getLatestRelease(protocol: Sablier.Protocol): Sablier.Release {
+  const release = releasesByProtocol[protocol][releasesByProtocol[protocol].length - 1];
+  if (!release.isLatest) {
     throw new Error(`No latest release found for protocol ${protocol}`);
   }
   return release;

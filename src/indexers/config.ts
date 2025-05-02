@@ -10,7 +10,7 @@ const config = {
     },
     /** @dev We assume that Envio is available for all protocols, never just a few. */
     supportedChains: [
-      /* Mainnets */
+      // Mainnets
       ChainId.ARBITRUM_ONE,
       ChainId.AVALANCHE,
       ChainId.BASE,
@@ -27,7 +27,7 @@ const config = {
       ChainId.SUPERSEED,
       ChainId.TANGLE,
       ChainId.ZK_SYNC_ERA,
-      /* Testnets */
+      // Testnets
       ChainId.ARBITRUM_SEPOLIA,
       ChainId.BASE_SEPOLIA,
       ChainId.ETHEREUM_SEPOLIA,

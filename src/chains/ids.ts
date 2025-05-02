@@ -12,7 +12,7 @@ export const ChainId = {
   ETHEREUM: 1,
   FORM: 478,
   GNOSIS: 100,
-  IOTEX: 4690,
+  IOTEX: 4689,
   LIGHTLINK: 1890,
   LINEA: 59144,
   MELD: 333000333,
