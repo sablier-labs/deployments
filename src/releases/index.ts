@@ -42,7 +42,7 @@ export function getFirstReleaseForChain(protocol: Sablier.Protocol, chainId: num
     release.deployments.find((deployment) => deployment.chainId === chainId),
   );
   if (!release) {
-    throw new Error(`No release found for protocol ${protocol} on chain ${chainId}`);
+    throw new Error(`No release found for protocol ${protocol} on chain ID ${chainId}`);
   }
   return release;
 }
