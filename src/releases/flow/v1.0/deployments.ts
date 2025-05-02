@@ -96,6 +96,10 @@ export const mainnets: Sablier.Deployment[] = [
     [names.SABLIER_FLOW]: "0x3d303e4c61285f87da9f61aaadc8c89b7d55dfa2",
     [names.FLOW_NFT_DESCRIPTOR]: "0xe790b6178612eeba6faeec16a2e1354c872f8bde",
   }),
+  get(ChainId.TANGLE, {
+    [names.SABLIER_FLOW]: "0xCff4a803b0Bf55dD1BE38Fb96088478F3D2eeCF2",
+    [names.FLOW_NFT_DESCRIPTOR]: "0x2De92156000269fa2fde7544F10f01E8cBC80fFa",
+  }),
   get(ChainId.ZK_SYNC_ERA, {
     [names.SABLIER_FLOW]: "0x015899a075B7C181e357Cd0ed000683DBB4F1FcE",
     [names.FLOW_NFT_DESCRIPTOR]: "0x01C40608f2822816cF25a0a911c1df330487ba62",
@@ -145,5 +149,9 @@ export const testnets: Sablier.Deployment[] = [
   get(ChainId.TAIKO_HEKLA, {
     [names.SABLIER_FLOW]: "0x29b7bafce0a04638dc91ca0b87a562cab8c3dbde",
     [names.FLOW_NFT_DESCRIPTOR]: "0xd45f45dd34045a368854f7987a84d9485b4b45e9",
+  }),
+  get(ChainId.ZK_SYNC_SEPOLIA, {
+    [names.SABLIER_FLOW]: "0x8e70296F8972eBE94d885B1Caf94Da4836976140",
+    [names.FLOW_NFT_DESCRIPTOR]: "0x900277DBB45a04eB79028b3A44c650Ac81Ca86c4",
   }),
 ];
