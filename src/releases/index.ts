@@ -6,6 +6,7 @@ import { flow, flowByVersion } from "./flow";
 import { legacy, legacyByVersion } from "./legacy";
 import { lockup, lockupByVersion } from "./lockup";
 
+export { airdrops, flow, legacy, lockup };
 export { airdropsByVersion, flowByVersion, legacyByVersion, lockupByVersion };
 export const releases = [...airdrops, ...flow, ...legacy, ...lockup];
 export const releasesByProtocol = {
@@ -33,11 +34,31 @@ export function getAllContractsForProtocol(protocol: Sablier.Protocol): Sablier.
   );
 }
 
-export function getFirstRelease(protocol: Sablier.Protocol): Sablier.Release {
+export function getAllContractsForProtocolAndChain(
+  protocol: Sablier.Protocol,
+  chainId: number,
+): Sablier.Contract[] | undefined {
+  const release = releasesByProtocol[protocol].find((release) =>
+    release.deployments.find((deployment) => deployment.chainId === chainId),
+  );
+  if (!release) {
+    return undefined;
+  }
+  return release.deployments.flatMap((deployment) => deployment.contracts);
+}
+
+export function getDeploymentForReleaseAndChain(
+  release: Sablier.Release,
+  chainId: number,
+): Sablier.Deployment | undefined {
+  return release.deployments.find((deployment) => deployment.chainId === chainId);
+}
+
+export function getFirstReleaseForProtocol(protocol: Sablier.Protocol): Sablier.Release {
   return releasesByProtocol[protocol][0];
 }
 
-export function getFirstReleaseForChain(protocol: Sablier.Protocol, chainId: number): Sablier.Release {
+export function getFirstReleaseForProtocolAndChain(protocol: Sablier.Protocol, chainId: number): Sablier.Release {
   const release = releasesByProtocol[protocol].find((release) =>
     release.deployments.find((deployment) => deployment.chainId === chainId),
   );
@@ -47,7 +68,7 @@ export function getFirstReleaseForChain(protocol: Sablier.Protocol, chainId: num
   return release;
 }
 
-export function getLatestRelease(protocol: Sablier.Protocol): Sablier.Release {
+export function getLatestReleaseForProtocol(protocol: Sablier.Protocol): Sablier.Release {
   const release = releasesByProtocol[protocol][releasesByProtocol[protocol].length - 1];
   if (!release.isLatest) {
     throw new Error(`No latest release found for protocol ${protocol}`);
@@ -55,7 +76,10 @@ export function getLatestRelease(protocol: Sablier.Protocol): Sablier.Release {
   return release;
 }
 
-export function getRelease(protocol: Sablier.Protocol, version: Sablier.Version): Sablier.Release | undefined {
+export function getReleaseForProtocolAndVersion(
+  protocol: Sablier.Protocol,
+  version: Sablier.Version,
+): Sablier.Release | undefined {
   const versionMap: Record<Sablier.Protocol, (v: Sablier.Version) => boolean> = {
     airdrops: isValidAirdropsVersion,
     flow: isValidFlowVersion,
