@@ -1,6 +1,6 @@
 import { ChainId } from "@src/chains/ids";
+import { resolveDeployment } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
-import { resolveDeployment } from "../../helpers";
 import { names } from "./manifest";
 
 const aliases = {};

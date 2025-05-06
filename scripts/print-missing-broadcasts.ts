@@ -1,5 +1,5 @@
 /**
- * This script checks for missing broadcasts for a given protocol. It will look at the releases
+ * @file This script checks for missing broadcasts for a given protocol. It will look at the releases
  * and check if the associated broadcasts exist in the data directory. The script does not check
  * for all chains, only the ones listed in the releases.
  *
@@ -52,10 +52,7 @@ function printSectionHeader(text: string): void {
   console.log(`${separator}\n`);
 }
 
-/**
- * Main function to check for missing broadcasts
- */
-async function checkMissingBroadcasts(): Promise<void> {
+async function main(): Promise<void> {
   const missing: Record<string, Sablier.Chain[]> = {};
   const releasesToCheck = releasesByProtocol[protocol];
 
@@ -150,7 +147,7 @@ async function checkMissingBroadcasts(): Promise<void> {
 }
 
 // Run the script
-checkMissingBroadcasts().catch((error) => {
+main().catch((error) => {
   logger.error(`Error checking missing broadcasts: ${error.message}`);
   if (error.stack) {
     logger.error(error.stack);

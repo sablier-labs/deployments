@@ -100,7 +100,7 @@ export const testnetsById: Record<number, Sablier.Chain> = {
     },
   },
   [ChainId.MORPH_HOLESKY]: {
-    explorerURL: "https://sepolia.morphscan.io",
+    explorerURL: "https://explorer-holesky.morphl2.io",
     id: ChainId.MORPH_HOLESKY,
     isSupportedByUI: false,
     isTestnet: true,

@@ -1,6 +1,6 @@
 import { ChainId } from "@src/chains/ids";
+import { resolveDeploymentLockupV1 } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
-import { resolveDeploymentLockupV1 } from "../../helpers";
 import aliases from "./aliases";
 import { names } from "./manifest";
 
@@ -21,8 +21,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.ETHEREUM, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0xC3Be6BffAeab7B297c03383B4254aa3Af2b9a5BA",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x39EFdC3dbB57B2388CcC4bb40aC4CB1226Bc9E44",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0xB10daee1FCF62243aE27776D7a92D39dC8740f95",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x39EFdC3dbB57B2388CcC4bb40aC4CB1226Bc9E44", 17_613_133],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0xB10daee1FCF62243aE27776D7a92D39dC8740f95", 17_613_137],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0x98F2196fECc01C240d1429B624d007Ca268EEA29",
     },
     periphery: {
@@ -35,8 +35,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.ARBITRUM_ONE, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x17Ec73692F0aDf7E7C554822FBEAACB4BE781762",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0xA9EfBEf1A35fF80041F567391bdc9813b2D50197",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x197D655F3be03903fD25e7828c3534504bfe525e",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xA9EfBEf1A35fF80041F567391bdc9813b2D50197", 107_508_404],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0x197D655F3be03903fD25e7828c3534504bfe525e", 107_508_435],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xc245d6C9608769CeF91C3858e4d2a74802B9f1bB",
     },
     periphery: {
@@ -49,8 +49,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.AVALANCHE, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x66F5431B0765D984f82A4fc4551b2c9ccF7eAC9C",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x665d1C8337F1035cfBe13DD94bB669110b975f5F",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x610346E9088AFA70D6B03e96A800B3267E75cA19",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x665d1C8337F1035cfBe13DD94bB669110b975f5F", 32_164_219],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0x610346E9088AFA70D6B03e96A800B3267E75cA19", 32_164_219],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xFd050AFA2e04aA0596947DaD3Ec5690162aDc77F",
     },
     periphery: {
@@ -63,8 +63,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.BASE, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x7Faaedd40B1385C118cA7432952D9DC6b5CbC49e",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x645B00960Dc352e699F89a81Fc845C0C645231cf",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x6b9a46C8377f21517E65fa3899b3A9Fab19D17f5",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x645B00960Dc352e699F89a81Fc845C0C645231cf", 1_750_275],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0x6b9a46C8377f21517E65fa3899b3A9Fab19D17f5", 1_750_275],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xEFc2896c29F70bc23e82892Df827d4e2259028Fd",
     },
     periphery: {
@@ -77,8 +77,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.BSC, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x33511f69A784Fd958E6713aCaC7c9dCF1A5578E8",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0xF2f3feF2454DcA59ECA929D2D8cD2a8669Cc6214",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x3FE4333f62A75c2a85C8211c6AeFd1b9Bfde6e51",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xF2f3feF2454DcA59ECA929D2D8cD2a8669Cc6214", 29_646_271],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0x3FE4333f62A75c2a85C8211c6AeFd1b9Bfde6e51", 29_646_271],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0x3daD1bF57edCFF979Fb68a802AC54c5AAfB78F4c",
     },
     periphery: {
@@ -91,8 +91,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.GNOSIS, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x73962c44c0fB4cC5e4545FB91732a5c5e87F55C2",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0xeb148E4ec13aaA65328c0BA089a278138E9E53F9",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x685E92c9cA2bB23f1B596d0a7D749c0603e88585",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xeb148E4ec13aaA65328c0BA089a278138E9E53F9", 28_766_600],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0x685E92c9cA2bB23f1B596d0a7D749c0603e88585", 28_766_600],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0x8CE9Cd651e03325Cf6D4Ce9cfa74BE79CDf6d530",
     },
     periphery: {
@@ -105,8 +105,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.OP_MAINNET, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x1EECb6e6EaE6a1eD1CCB4323F3a146A7C5443A10",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x6f68516c21E248cdDfaf4898e66b2b0Adee0e0d6",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0xB923aBdCA17Aed90EB5EC5E407bd37164f632bFD",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x6f68516c21E248cdDfaf4898e66b2b0Adee0e0d6", 106_405_061],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0xB923aBdCA17Aed90EB5EC5E407bd37164f632bFD", 106_405_061],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xe0138C596939CC0D2382046795bC163ad5755e0E",
     },
     periphery: {
@@ -119,8 +119,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.POLYGON, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x9761692EDf10F5F2A69f0150e2fd50dcecf05F2E",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x7313AdDb53f96a4f710D3b91645c62B434190725",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x67422C3E36A908D5C3237e9cFfEB40bDE7060f6E",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x7313AdDb53f96a4f710D3b91645c62B434190725", 44_637_127],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0x67422C3E36A908D5C3237e9cFfEB40bDE7060f6E", 44_637_129],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xA820946EaAceB2a85aF123f706f23192c28bC6B9",
     },
     periphery: {
@@ -133,8 +133,8 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.SCROLL, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x859708495E3B3c61Bbe19e6E3E1F41dE3A5C5C5b",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0xde6a30D851eFD0Fc2a9C922F294801Cfd5FCB3A1",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x80640ca758615ee83801EC43452feEA09a202D33",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xde6a30D851eFD0Fc2a9C922F294801Cfd5FCB3A1", 500_707],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0x80640ca758615ee83801EC43452feEA09a202D33", 501_170],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xC1fa624733203F2B7185c3724039C4D5E5234fE4",
     },
     periphery: {
@@ -153,8 +153,8 @@ export const testnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.ARBITRUM_SEPOLIA, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0xA6A0cfA3442053fbB516D55205A749Ef2D33aed9",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x7938c18a59FaD2bA11426AcfBe8d74F0F598a4D2",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0xa3e36b51B7A456812c92253780f4B15bad56e34c",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x7938c18a59FaD2bA11426AcfBe8d74F0F598a4D2", 2_838_657],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0xa3e36b51B7A456812c92253780f4B15bad56e34c", 2_838_659],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xEe93BFf599C17C6fF8e31F2De6c3e40bd5e51312",
     },
     periphery: {
@@ -166,8 +166,8 @@ export const testnets: Sablier.DeploymentLockupV1[] = [
   get(ChainId.ETHEREUM_SEPOLIA, {
     core: {
       [names.core.SABLIER_V2_COMPTROLLER]: "0x2006d43E65e66C5FF20254836E63947FA8bAaD68",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x421e1E7a53FF360f70A2D02037Ee394FA474e035",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0xd4300c5bc0b9e27c73ebabdc747ba990b1b570db",
+      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x421e1E7a53FF360f70A2D02037Ee394FA474e035", 4_067_889],
+      [names.core.SABLIER_V2_LOCKUP_LINEAR]: ["0xd4300c5bc0b9e27c73ebabdc747ba990b1b570db", 4_067_889],
       [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0x3cb51943EbcEA05B23C35c50491B3d296FF675db",
     },
     periphery: {
@@ -175,34 +175,6 @@ export const testnets: Sablier.DeploymentLockupV1[] = [
       [names.periphery.SABLIER_V2_PROXY_PLUGIN]: "0xa333c8233CfD04740E64AB4fd5447995E357561B",
       [names.periphery.SABLIER_V2_PROXY_TARGET]: "0x5091900B7cF803a7407FCE6333A6bAE4aA779Fd4",
       [names.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0x105E7728C5706Ad41d194EbDc7873B047352F3d2",
-    },
-  }),
-  get(ChainId.OP_SEPOLIA, {
-    core: {
-      [names.core.SABLIER_V2_COMPTROLLER]: "0x1EECb6e6EaE6a1eD1CCB4323F3a146A7C5443A10",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x6f68516c21E248cdDfaf4898e66b2b0Adee0e0d6",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0xB923aBdCA17Aed90EB5EC5E407bd37164f632bFD",
-      [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xe0138C596939CC0D2382046795bC163ad5755e0E",
-    },
-    periphery: {
-      [names.periphery.SABLIER_V2_ARCHIVE]: "0x9A09eC6f991386718854aDDCEe68647776Befd5b",
-      [names.periphery.SABLIER_V2_PROXY_PLUGIN]: "0x77C8516B1F327890C956bb38F93Ac2d6B24795Ea",
-      [names.periphery.SABLIER_V2_PROXY_TARGET]: "0x194ed7D6005C8ba4084A948406545DF299ad37cD",
-      [names.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0x8a6974c162fdc7Cb67996F7dB8bAAFb9a99566e0",
-    },
-  }),
-  get(ChainId.BASE_SEPOLIA, {
-    core: {
-      [names.core.SABLIER_V2_COMPTROLLER]: "0x7Faaedd40B1385C118cA7432952D9DC6b5CbC49e",
-      [names.core.SABLIER_V2_LOCKUP_DYNAMIC]: "0x645B00960Dc352e699F89a81Fc845C0C645231cf",
-      [names.core.SABLIER_V2_LOCKUP_LINEAR]: "0x6b9a46C8377f21517E65fa3899b3A9Fab19D17f5",
-      [names.core.SABLIER_V2_NFT_DESCRIPTOR]: "0xEFc2896c29F70bc23e82892Df827d4e2259028Fd",
-    },
-    periphery: {
-      [names.periphery.SABLIER_V2_ARCHIVE]: "0x1C5Ac71dd48c7ff291743e5E6e3689ba92F73cC6",
-      [names.periphery.SABLIER_V2_PROXY_PLUGIN]: "0x50E8B9dC7F28e5cA9253759455C1077e497c4232",
-      [names.periphery.SABLIER_V2_PROXY_TARGET]: "0x0648C80b969501c7778b6ff3ba47aBb78fEeDF39",
-      [names.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0xf19576Ab425753816eCbF98aca8132A0f693aEc5",
     },
   }),
 ];

@@ -50,17 +50,17 @@ export declare namespace Sablier {
     alias?: string;
     /** @description The address of the contract. */
     address: Address;
+    /** @description The block number at which the contract was deployed. */
+    block?: number;
     /** @description Compiler settings for the contract. */
     compilerSettings?: CompilerSettings;
     /** @description URL to the explorer page for the contract. */
     explorerURL?: string;
     /** @description The name of the contract. */
     name: string;
-    /** @description Repository information for the contract. */
-    repository?: Repository;
   };
 
-  export type ContractMap = Record<string, Address>;
+  export type ContractMap = Record<string, Address | [Address, number]>;
 
   export type Deployment = {
     chainId: number;
@@ -82,6 +82,8 @@ export declare namespace Sablier {
       isLatest: boolean;
       /** @description The Sablier protocol released, e.g. `airdrops`. */
       protocol: Protocol;
+      /** @description Repository information for the release. */
+      repository?: Repository;
       /** @description The version of the release, e.g., `v1.3`. */
       version: Version;
     };

@@ -30,5 +30,5 @@
     "types": ["node"]
   },
   "exclude": ["/data", "/node_modules"],
-  "include": ["src/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"]
+  "include": ["scripts/**/*.ts", "src/**/*.ts", "tests/**/*.ts"]
 }

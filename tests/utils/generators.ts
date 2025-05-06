@@ -2,8 +2,8 @@ import { getChain } from "@src/chains";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
+import { isKnownMissing } from "../setup/missing";
 import { findContract, findZKContract, loadBroadcastJSON, loadZKBroadcastJSONs } from "./helpers";
-import { isKnownMissing } from "./missing-broadcasts";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 /**
@@ -62,7 +62,7 @@ function createInnerTests<BD, CD>(
     for (const contract of contracts) {
       const isMissing = isKnownMissing(release, chain, contract.name);
 
-      it.skipIf(isMissing)(`validates ${contract.name} deployment`, async () => {
+      it.skipIf(isMissing)(contract.name, async () => {
         if (!broadcastData) {
           return;
         }

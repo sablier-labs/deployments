@@ -11,10 +11,12 @@ export function resolveDeployment(
 ): Sablier.Deployment {
   const chain = getChain(chainId);
   const contracts: Sablier.Contract[] = [];
-  for (const [contractName, address] of _.entries(contractMap)) {
+  for (const [contractName, addressOrTuple] of _.entries(contractMap)) {
+    // A contract can be declared either as a static address or as a tuple of [address, blockNumber]
+    const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple, 0];
     const alias = aliases[contractName];
     const explorerURL = getContractExplorerURL(chain.explorerURL, address);
-    contracts.push({ address, alias, explorerURL, name: contractName });
+    contracts.push({ address, alias, block: blockNumber, explorerURL, name: contractName });
   }
 
   return {
@@ -32,10 +34,28 @@ export function resolveDeploymentLockupV1(
   },
   aliases: Sablier.AliasMap,
 ): Sablier.DeploymentLockupV1 {
+  const mapContractsToDeployment = (
+    contracts: Sablier.ContractMap,
+    aliases: Sablier.AliasMap,
+    chain: Sablier.Chain,
+  ): Sablier.Contract[] => {
+    return _.entries(contracts).map(([name, addressOrTuple]) => {
+      const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple, 0];
+      return {
+        alias: aliases[name],
+        address,
+        explorerURL: getContractExplorerURL(chain.explorerURL, address),
+        block: blockNumber,
+        name,
+      };
+    });
+  };
+
   const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
+  const chain = getChain(chainId);
   const deployment = resolveDeployment(chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;
-  deployment.core = _.entries(contractMap.core).map(([name, address]) => ({ name, address }));
-  deployment.periphery = _.entries(contractMap.periphery).map(([name, address]) => ({ name, address }));
+  deployment.core = mapContractsToDeployment(contractMap.core, aliases, chain);
+  deployment.periphery = mapContractsToDeployment(contractMap.periphery, aliases, chain);
   return deployment;
 }
 

@@ -15,7 +15,6 @@ async function main() {
     const aliases = release.aliases;
     const releaseName = `${release.protocol} ${release.version}`;
 
-    // Process each alias in the release
     _.forOwn(aliases, (alias, key) => {
       let contractName: string;
 
@@ -25,8 +24,7 @@ async function main() {
         const manifest = release.manifest;
         contractName = _.get(manifest.core, key) || _.get(manifest.periphery, key) || key;
       } else {
-        // For the array-based manifest, we just use the key directly
-        // since the key should be the contract name itself
+        // For the array-based manifest, the key should be the contract name itself
         contractName = key;
       }
 
@@ -38,7 +36,6 @@ async function main() {
     });
   }
 
-  // Print as a table
   if (rows.length === 0) {
     console.log("❌ No aliases found");
     return;
@@ -46,20 +43,16 @@ async function main() {
 
   console.log(`✅ Found ${rows.length} total aliases\n`);
 
-  // Sort rows alphabetically by alias
   rows.sort((a, b) => a.alias.localeCompare(b.alias));
 
-  // Calculate column widths
   const headers = ["Alias", "Contract Name", "Release"];
   const colWidths = headers.map((h, i) => Math.max(h.length, ...rows.map((row) => Object.values(row)[i].length)));
 
-  // Print header
   const headerRow = headers.map((h, i) => h.padEnd(colWidths[i])).join(" | ");
   const sep = colWidths.map((w) => "-".repeat(w)).join("-|-");
   console.log(headerRow);
   console.log(sep);
 
-  // Print rows
   for (const row of rows) {
     const vals = [row.alias, row.contractName, row.release];
     const line = vals.map((v, i) => v.padEnd(colWidths[i])).join(" | ");
@@ -67,7 +60,10 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  logger.error(err);
+main().catch((error) => {
+  logger.error(`Error checking missing broadcasts: ${error.message}`);
+  if (error.stack) {
+    logger.error(error.stack);
+  }
   process.exit(1);
 });

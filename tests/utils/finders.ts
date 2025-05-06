@@ -1,6 +1,5 @@
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import {} from "../../scripts/check-broadcast";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 const CONTRACT_PREFIX = "contract ";

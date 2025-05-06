@@ -1,5 +1,5 @@
 import { sortDeployments } from "@src/helpers";
-import { resolveReleaseStandard } from "@src/releases/helpers";
+import { resolveReleaseStandard } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import aliases from "./aliases";
 import { mainnets, testnets } from "./deployments";

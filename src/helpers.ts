@@ -13,29 +13,6 @@ export function getContractExplorerURL(explorerURL: string, contractAddress: Sab
   return `${explorerURL}/address/${contractAddress}`;
 }
 
-export function getContract(
-  release: Sablier.Release,
-  chainId: number,
-  contractName: string,
-): Sablier.Contract | undefined {
-  const deployment = getDeployment(release, chainId);
-  if (!deployment) {
-    return undefined;
-  }
-  return _.find(deployment.contracts, { name: contractName });
-}
-
-export function getContractForDeployment(
-  deployment: Sablier.Deployment,
-  contractName: string,
-): Sablier.Contract | undefined {
-  return _.find(deployment.contracts, { name: contractName });
-}
-
-export function getDeployment(release: Sablier.Release, chainId: number): Sablier.Deployment | undefined {
-  return _.find(release.deployments, { chainId });
-}
-
 export function isValidAirdropsVersion(version: Sablier.Version): boolean {
   return version === versions.airdrops.v1_3;
 }

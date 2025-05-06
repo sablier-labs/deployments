@@ -64,7 +64,7 @@ export const mainnetsById: Record<number, Sablier.Chain> = {
     },
   },
   [ChainId.BERACHAIN]: {
-    explorerURL: "https://artio.beratrail.io",
+    explorerURL: "https://berascan.com/",
     id: ChainId.BERACHAIN,
     isSupportedByUI: true,
     isTestnet: false,

@@ -1,4 +1,4 @@
-name: "Cron: Test Chains"
+name: "Cron: Tests"
 
 on:
   schedule:
@@ -26,10 +26,11 @@ jobs:
 
       - name: "Run the tests"
         env:
-          TEST_JSON_RPC: true
-        run: "bun run test --retry 5 --testTimeout 60000" # run tests with 5 retries and 60 seconds of timeout
+          TEST_ONLY_CHAINS: true
+          TEST_ONLY_CONTRACTS: true
+        run: "bun run test"
 
       - name: "Add summary"
         run: | # shell
-          echo "## Test Chains result" >> $GITHUB_STEP_SUMMARY
+          echo "## Cron Tests result" >> $GITHUB_STEP_SUMMARY
           echo "✅ Passed" >> $GITHUB_STEP_SUMMARY

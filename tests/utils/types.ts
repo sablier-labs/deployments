@@ -1,5 +1,11 @@
+/**
+ * @file Type definitions for JSON structures that can be found under `./data`
+ * These types represent the structure of broadcast and ZK broadcast JSON files
+ * used in the deployment process.
+ */
+
 export interface BroadcastJSON {
-  libraries: Array<string>;
+  libraries: string[];
   returns: {
     [key: string]: ContractReturn;
   };

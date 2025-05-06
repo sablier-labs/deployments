@@ -229,6 +229,10 @@
     "lockupDynamic": {
       "internal_type": "contract SablierV2LockupDynamic",
       "value": "0x1fA500262b352d821B4e1c933A20f2242B45383d"
+    },
+    "nftDescriptor": {
+      "internal_type": "contract SablierV2NFTDescriptor",
+      "value": "0x0a6C2E6B61cf05800F9aA91494480440843d6c3c"
     }
   },
   "timestamp": 1731972004,

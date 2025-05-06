@@ -21,33 +21,6 @@ const MALFUNCTIONING_RPC: number[] = [ChainId.MELD];
 const MISSING_BROADCASTS: string[] = ["iotex", "ronin", "tangle", "ultra"];
 const PACKAGE_CHAINS = chains.filter((chain) => !MISSING_BROADCASTS.includes(chain.key)).map((chain) => chain.key);
 
-async function getAllBroadcastChains(): Promise<string[]> {
-  // Find all mainnets and testnets directories
-  const dataPath = path.join(__dirname, "..", "data");
-  const dirs = await globby([path.join(dataPath, "**/mainnets"), path.join(dataPath, "**/testnets")], {
-    onlyDirectories: true,
-  });
-  const results: string[] = [];
-
-  for (const dir of dirs) {
-    const entries = await globby(["*"], { cwd: dir, objectMode: true, onlyFiles: false });
-
-    for (const entry of entries) {
-      // It's a JSON file, use the basename without extension
-      if (entry.path.endsWith(".json")) {
-        results.push(path.basename(entry.path, ".json"));
-      }
-      // It's a directory, add its name
-      else if (entry.dirent.isDirectory()) {
-        results.push(entry.path);
-      }
-    }
-  }
-
-  // Return unique values
-  return results;
-}
-
 describe("Package chains are in sync with broadcasts", () => {
   let broadcastChains: string[] = [];
   const errors: Set<string> = new Set();
@@ -94,7 +67,7 @@ describe("Package chains are in sync with broadcasts", () => {
   });
 });
 
-const envVarsSet = process.env.CI && process.env.TEST_JSON_RPC;
+const envVarsSet = process.env.CI && process.env.TEST_ONLY_CHAINS;
 describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
   for (const chain of chains) {
     const shouldSkip: boolean = !chain.rpc.public || MALFUNCTIONING_RPC.includes(chain.id);
@@ -123,3 +96,28 @@ describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
     });
   }
 });
+
+async function getAllBroadcastChains(): Promise<string[]> {
+  const dataPath = path.join(__dirname, "..", "data");
+  const dirs = await globby([path.join(dataPath, "**/mainnets"), path.join(dataPath, "**/testnets")], {
+    onlyDirectories: true,
+  });
+  const results: string[] = [];
+
+  for (const dir of dirs) {
+    const entries = await globby(["*"], { cwd: dir, objectMode: true, onlyFiles: false });
+
+    for (const entry of entries) {
+      // It's a JSON file, use the basename without extension
+      if (entry.path.endsWith(".json")) {
+        results.push(path.basename(entry.path, ".json"));
+      }
+      // It's a directory, add its name
+      else if (entry.dirent.isDirectory()) {
+        results.push(entry.path);
+      }
+    }
+  }
+
+  return results;
+}
