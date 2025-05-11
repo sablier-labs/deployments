@@ -44,16 +44,6 @@ export const contracts = {
   },
 
   /**
-   * Get all contracts for a protocol excluding v1.0
-   */
-  getAllByProtocolExcludingV1: (protocol: Sablier.Protocol): Sablier.Contract[] => {
-    return _.flatMap(
-      releasesByProtocol[protocol].filter((release) => release.version !== "v1.0"),
-      (release) => release.deployments.flatMap((deployment) => deployment.contracts),
-    );
-  },
-
-  /**
    * Get all contracts for a specific release
    */
   getAllByRelease: (release: Sablier.Release): Sablier.Contract[] => {
@@ -92,18 +82,6 @@ export const deployments = {
    */
   getAll: (): Sablier.Deployment[] => {
     return allReleases.flatMap((release) => release.deployments);
-  },
-
-  /**
-   * Get all deployments for a protocol excluding v1.0
-   */
-  getByProtocolExcludingV1: (protocol: Sablier.Protocol): Sablier.Deployment[] => {
-    return releasesByProtocol[protocol].flatMap((release) => {
-      if (release.version === "v1.0") {
-        return [];
-      }
-      return release.deployments;
-    });
   },
 
   /**

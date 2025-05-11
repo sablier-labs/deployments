@@ -177,7 +177,10 @@ export declare namespace Sablier {
   };
 
   export namespace Version {
-    export type Airdrops = typeof versions.airdrops.v1_3;
+    export type Airdrops =
+      | typeof versions.airdrops.v1_1
+      | typeof versions.airdrops.v1_2
+      | typeof versions.airdrops.v1_3;
 
     export type Flow = typeof versions.flow.v1_0 | typeof versions.flow.v1_1;
 
