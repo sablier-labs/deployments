@@ -3,7 +3,7 @@ import { release as releaseV1_1 } from "./v1.1";
 import { release as releaseV1_2 } from "./v1.2";
 import { release as releaseV1_3 } from "./v1.3";
 
-export const airdrops: Sablier.Release[] = [releaseV1_3];
+export const airdrops: Sablier.Release[] = [releaseV1_1, releaseV1_2, releaseV1_3];
 
 export const airdropsByVersion: Record<Sablier.Version.Airdrops, Sablier.Release> = {
   "v1.1": releaseV1_1,
