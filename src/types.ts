@@ -1,4 +1,4 @@
-import type versions from "./versions";
+import type Version from "./version";
 
 export declare namespace Sablier {
   /** @description Ethereum address in the format 0x followed by 40 hex characters. */
@@ -177,20 +177,17 @@ export declare namespace Sablier {
   };
 
   export namespace Version {
-    export type Airdrops =
-      | typeof versions.airdrops.v1_1
-      | typeof versions.airdrops.v1_2
-      | typeof versions.airdrops.v1_3;
+    export type Airdrops = typeof Version.Airdrops.V1_1 | typeof Version.Airdrops.V1_2 | typeof Version.Airdrops.V1_3;
 
-    export type Flow = typeof versions.flow.v1_0 | typeof versions.flow.v1_1;
+    export type Flow = typeof Version.Flow.V1_0 | typeof Version.Flow.V1_1;
 
-    export type Legacy = typeof versions.legacy.v1_0 | typeof versions.legacy.v1_1;
+    export type Legacy = typeof Version.Legacy.V1_0 | typeof Version.Legacy.V1_1;
 
     export type Lockup =
-      | typeof versions.lockup.v1_0
-      | typeof versions.lockup.v1_1
-      | typeof versions.lockup.v1_2
-      | typeof versions.lockup.v2_0;
+      | typeof Version.Lockup.V1_0
+      | typeof Version.Lockup.V1_1
+      | typeof Version.Lockup.V1_2
+      | typeof Version.Lockup.V2_0;
   }
 
   export type Version = Version.Airdrops | Version.Flow | Version.Legacy | Version.Lockup;

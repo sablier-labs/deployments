@@ -1,7 +1,7 @@
 import { getChain } from "@src/chains";
 import _ from "lodash";
 import type { Sablier } from "./types";
-import versions from "./versions";
+import Version from "./version";
 
 /**
  * Get the explorer URL for a contract. Compatible with Etherscan, Blockscout, etc.
@@ -14,23 +14,23 @@ export function getContractExplorerURL(explorerURL: string, contractAddress: Sab
 }
 
 export function isValidAirdropsVersion(version: Sablier.Version): boolean {
-  return version === versions.airdrops.v1_3;
+  return version === Version.Airdrops.V1_3;
 }
 
 export function isValidFlowVersion(version: Sablier.Version): boolean {
-  return version === versions.flow.v1_0 || version === versions.flow.v1_1;
+  return version === Version.Flow.V1_1;
 }
 
 export function isValidLegacyVersion(version: Sablier.Version): boolean {
-  return version === versions.legacy.v1_0 || version === versions.legacy.v1_1;
+  return version === Version.Legacy.V1_0 || version === Version.Legacy.V1_1;
 }
 
 export function isValidLockupVersion(version: Sablier.Version): boolean {
   return (
-    version === versions.lockup.v1_0 ||
-    version === versions.lockup.v1_1 ||
-    version === versions.lockup.v1_2 ||
-    version === versions.lockup.v2_0
+    version === Version.Lockup.V1_0 ||
+    version === Version.Lockup.V1_1 ||
+    version === Version.Lockup.V1_2 ||
+    version === Version.Lockup.V2_0
   );
 }
 
