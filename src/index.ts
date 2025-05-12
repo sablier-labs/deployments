@@ -4,4 +4,4 @@ export * from "./indexers";
 export * from "./releases";
 export * from "./types";
 export * as nativeTokens from "./native-tokens";
-export { default as versions } from "./version";
+export { default as Version } from "./version";
