@@ -28,6 +28,8 @@ jobs:
         run: "bun run check"
 
       - name: "Run the tests"
+        env:
+          VITE_ETHERSCAN_API_KEY: ${{ secrets.VITE_ETHERSCAN_API_KEY }}
         run: "bun run test"
 
       - name: "Add summary"
