@@ -13,25 +13,21 @@ export function getContractExplorerURL(explorerURL: string, contractAddress: Sab
   return `${explorerURL}/address/${contractAddress}`;
 }
 
-export function isValidAirdropsVersion(version: Sablier.Version): boolean {
-  return version === Version.Airdrops.V1_3;
-}
-
-export function isValidFlowVersion(version: Sablier.Version): boolean {
-  return version === Version.Flow.V1_1;
-}
-
-export function isValidLegacyVersion(version: Sablier.Version): boolean {
-  return version === Version.Legacy.V1_0 || version === Version.Legacy.V1_1;
-}
-
-export function isValidLockupVersion(version: Sablier.Version): boolean {
-  return (
-    version === Version.Lockup.V1_0 ||
-    version === Version.Lockup.V1_1 ||
-    version === Version.Lockup.V1_2 ||
-    version === Version.Lockup.V2_0
-  );
+/**
+ * Check if a version is valid for a given protocol
+ * @see {@link Version}
+ * @param protocol - The protocol to check (airdrops, flow, legacy, lockup)
+ * @param version - The version to validate
+ * @returns Whether the version is valid for the given protocol
+ */
+export function isValidVersion(protocol: Sablier.Protocol, version: Sablier.Version): boolean {
+  const protocolMap = {
+    airdrops: Version.Airdrops,
+    flow: Version.Flow,
+    legacy: Version.Legacy,
+    lockup: Version.Lockup,
+  };
+  return _.some(_.values(protocolMap[protocol]), (v) => v === version);
 }
 
 export function sortChains<T extends { name: string }>(chains: T[]): T[] {

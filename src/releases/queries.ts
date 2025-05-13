@@ -1,4 +1,4 @@
-import { isValidAirdropsVersion, isValidFlowVersion, isValidLegacyVersion, isValidLockupVersion } from "@src/helpers";
+import { isValidVersion } from "@src/helpers";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import {
@@ -100,15 +100,7 @@ export const releases = {
    * Get a release for a protocol and version
    */
   getByProtocolAndVersion: (protocol: Sablier.Protocol, version: Sablier.Version): Sablier.Release | undefined => {
-    const versionMap: Record<Sablier.Protocol, (v: Sablier.Version) => boolean> = {
-      airdrops: isValidAirdropsVersion,
-      flow: isValidFlowVersion,
-      legacy: isValidLegacyVersion,
-      lockup: isValidLockupVersion,
-    };
-
-    const isValidVersion = versionMap[protocol];
-    if (!isValidVersion(version)) {
+    if (!isValidVersion(protocol, version)) {
       return undefined;
     }
 
