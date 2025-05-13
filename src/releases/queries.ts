@@ -34,13 +34,15 @@ export const contracts = {
    * Get all contracts for a protocol and chain
    */
   getAllByProtocolAndChain: (protocol: Sablier.Protocol, chainId: number): Sablier.Contract[] | undefined => {
-    const release = releasesByProtocol[protocol].find((release) =>
-      release.deployments.find((deployment) => deployment.chainId === chainId),
+    const releases = releasesByProtocol[protocol];
+    const matchingDeployments = _.flatMap(releases, (release) =>
+      release.deployments.filter((deployment) => deployment.chainId === chainId),
     );
-    if (!release) {
+
+    if (_.isEmpty(matchingDeployments)) {
       return undefined;
     }
-    return release.deployments.flatMap((deployment) => deployment.contracts);
+    return _.flatMap(matchingDeployments, (deployment) => deployment.contracts);
   },
 
   /**
