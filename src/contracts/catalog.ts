@@ -18,13 +18,13 @@ for (const release of releases) {
 
     for (const contract of contracts) {
       const address = contract.address.toLowerCase(); // lowercase needed for deterministic lookup
-      const info = {
+      const entry = {
         alias: contract.alias,
         name: contract.name,
         protocol,
         version,
       };
-      _.set(catalog, [protocol, chainId, address], info);
+      _.set(catalog, [protocol, chainId, address], entry);
     }
   }
 }

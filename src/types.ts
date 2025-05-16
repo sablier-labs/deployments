@@ -64,7 +64,7 @@ export namespace Sablier {
     name: string;
   };
 
-  export type ContractCatalogInfo = {
+  export type ContractCatalogEntry = {
     alias?: string;
     name: string;
     protocol: Sablier.Protocol;
@@ -77,7 +77,7 @@ export namespace Sablier {
   export type ContractCatalog = {
     [protocol in Protocol]: {
       [chainId: number]: {
-        [address: Address]: ContractCatalogInfo;
+        [address: Address]: ContractCatalogEntry;
       };
     };
   };
