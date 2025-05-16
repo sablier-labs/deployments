@@ -1,7 +1,8 @@
-/** @internal */
-export const names = {
+import type { Sablier } from "@src/types";
+
+const manifest: Sablier.Manifest.Standard = {
   PAYROLL: "Payroll",
   SABLIER: "Sablier",
 };
 
-export const manifest = [names.PAYROLL, names.SABLIER];
+export default manifest;

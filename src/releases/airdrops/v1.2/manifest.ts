@@ -1,8 +1,8 @@
-import { names as lockupV1_2Names } from "../../lockup/v1.2/manifest";
+import type { Sablier } from "@src/types";
+import lockupV1_2 from "../../lockup/v1.2/manifest";
 
-/** @internal */
-export const names = {
-  SABLIER_V2_MERKLE_LOCKUP_FACTORY: lockupV1_2Names.periphery.SABLIER_V2_MERKLE_LOCKUP_FACTORY,
+const manifest: Sablier.Manifest.Standard = {
+  SABLIER_V2_MERKLE_LOCKUP_FACTORY: lockupV1_2.periphery.SABLIER_V2_MERKLE_LOCKUP_FACTORY,
 };
 
-export const manifest = [names.SABLIER_V2_MERKLE_LOCKUP_FACTORY];
+export default manifest;

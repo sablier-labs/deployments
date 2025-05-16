@@ -1,7 +1,7 @@
-import { names } from "./manifest";
+import manifest from "./manifest";
 
 const aliases = {
-  [names.SABLIER_LOCKUP]: "LK",
+  [manifest.SABLIER_LOCKUP]: "LK",
 };
 
 export default aliases;

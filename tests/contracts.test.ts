@@ -1,3 +1,4 @@
+import { logAndThrow } from "@scripts/logger";
 import { chainsById } from "@src/chains";
 import { queries, releases } from "@src/releases";
 import axios from "axios";
@@ -12,7 +13,10 @@ import etherscanChainIds from "./setup/etherscan";
 describe("Address checksums", () => {
   for (const release of releases) {
     describe(`${release.protocol} ${release.version}`, () => {
-      const contracts = queries.contracts.getAllByRelease(release);
+      const contracts = queries.contracts.getAll({ release });
+      if (!contracts) {
+        logAndThrow({ msg: "No contracts found", release });
+      }
 
       for (const contract of contracts) {
         it(`${contract.name} should have a checksummed address`, () => {
@@ -27,9 +31,8 @@ describe("Address checksums", () => {
 const shouldRunBlockTests = process.env.CI && process.env.TEST_ONLY_CONTRACTS;
 describe.runIf(shouldRunBlockTests)("Block numbers", () => {
   const ETHERSCAN_API_KEY = process.env.VITE_ETHERSCAN_API_KEY;
-
   if (!ETHERSCAN_API_KEY) {
-    throw new Error("VITE_ETHERSCAN_API_KEY is not set");
+    logAndThrow({ msg: "VITE_ETHERSCAN_API_KEY is not set" });
   }
 
   /**

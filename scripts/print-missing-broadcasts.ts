@@ -4,9 +4,9 @@
  * for all chains, only the ones listed in the releases.
  *
  * Usage:
- *   bun run scripts/missing-broadcasts.ts airdrops
- *   bun run scripts/missing-broadcasts.ts flow
- *   bun run scripts/missing-broadcasts.ts lockup
+ *   bun run scripts/print-missing-broadcasts.ts airdrops
+ *   bun run scripts/print-missing-broadcasts.ts flow
+ *   bun run scripts/print-missing-broadcasts.ts lockup
  */
 import { getChain } from "@src/chains";
 import { releasesByProtocol } from "@src/releases";
@@ -15,7 +15,6 @@ import _ from "lodash";
 import { checkBroadcast, checkZKBroadcast } from "./check-broadcast";
 import logger from "./logger";
 
-// Emojis for better visual output
 const EMOJIS = {
   check: "✅",
   cross: "❌",
@@ -26,25 +25,18 @@ const EMOJIS = {
   warning: "⚠️",
 } as const;
 
-type BroadcastType = Sablier.Protocol;
-
-function parseArgs(): BroadcastType {
-  const protocol = process.argv[2] as BroadcastType;
-  const validProtocols: BroadcastType[] = ["airdrops", "flow", "legacy", "lockup"];
+function parseArgs(): Sablier.Protocol {
+  const protocol = process.argv[2] as Sablier.Protocol;
+  const validProtocols: Sablier.Protocol[] = ["airdrops", "flow", "legacy", "lockup"];
   if (!protocol || !validProtocols.includes(protocol)) {
-    logger.error("Error: Please provide one of these protocols: airdrops, flow, legacy, lockup");
-    process.exit(1);
+    const msg = `Error: Please provide one of these protocols: ${validProtocols.join(", ")}`;
+    logger.error(msg);
+    throw new Error(msg);
   }
 
   return protocol;
 }
 
-// Get broadcast type from command line
-const protocol = parseArgs();
-
-/**
- * Prints a section header with a nice separator
- */
 function printSectionHeader(text: string): void {
   const separator = "═".repeat(50);
   console.log(`\n${separator}`);
@@ -54,11 +46,11 @@ function printSectionHeader(text: string): void {
 
 async function main(): Promise<void> {
   const missing: Record<string, Sablier.Chain[]> = {};
-  const releasesToCheck = releasesByProtocol[protocol];
+  const protocol = parseArgs();
 
-  console.log(`\n${EMOJIS.folder} Checking ${protocol} broadcasts...\n`);
+  logger.info(`\n${EMOJIS.folder} Checking ${protocol} broadcasts...\n`);
 
-  for (const release of releasesToCheck) {
+  for (const release of releasesByProtocol[protocol]) {
     for (const deployment of release.deployments) {
       const chain = getChain(deployment.chainId);
 
@@ -146,11 +138,10 @@ async function main(): Promise<void> {
   console.log(`${EMOJIS.testnet} Missing testnet broadcasts: ${testnetCount}\n`);
 }
 
-// Run the script
 main().catch((error) => {
   logger.error(`Error checking missing broadcasts: ${error.message}`);
   if (error.stack) {
     logger.error(error.stack);
   }
-  process.exit(1);
+  throw error;
 });

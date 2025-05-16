@@ -1,7 +1,6 @@
-import { getNestedValues } from "@src/helpers";
+import type { Sablier } from "@src/types";
 
-/** @internal */
-export const names = {
+const manifest: Sablier.Manifest.Standard = {
   HELPERS: "Helpers",
   LOCKUP_NFT_DESCRIPTOR: "LockupNFTDescriptor",
   SABLIER_BATCH_LOCKUP: "SablierBatchLockup",
@@ -9,4 +8,4 @@ export const names = {
   VESTING_MATH: "VestingMath",
 };
 
-export const manifest = getNestedValues(names);
+export default manifest;

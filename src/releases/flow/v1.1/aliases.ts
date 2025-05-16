@@ -1,7 +1,7 @@
-import { names } from "./manifest";
+import manifest from "./manifest";
 
 const aliases = {
-  [names.SABLIER_FLOW]: "FL2",
+  [manifest.SABLIER_FLOW]: "FL2",
 };
 
 export default aliases;

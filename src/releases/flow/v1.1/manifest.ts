@@ -1,7 +1,8 @@
-/** @internal */
-export const names = {
+import type { Sablier } from "@src/types";
+
+const manifest: Sablier.Manifest.Standard = {
   FLOW_NFT_DESCRIPTOR: "FlowNFTDescriptor",
   SABLIER_FLOW: "SablierFlow",
 };
 
-export const manifest = [names.FLOW_NFT_DESCRIPTOR, names.SABLIER_FLOW];
+export default manifest;

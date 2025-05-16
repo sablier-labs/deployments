@@ -4,20 +4,16 @@
 import { getChain } from "@src/chains";
 import _ from "lodash";
 import { deployments } from "../../lockup/v1.2";
-import { names } from "./manifest";
+import manifest from "./manifest";
 
 export const mainnets = _.filter(deployments, (deployment) => {
   const chain = getChain(deployment.chainId);
-  return (
-    !chain.isTestnet &&
-    _.some(deployment.periphery, (contract) => contract.name === names.SABLIER_V2_MERKLE_LOCKUP_FACTORY)
-  );
+  const found = _.some(deployment.periphery, (contract) => contract.name === manifest.SABLIER_V2_MERKLE_LOCKUP_FACTORY);
+  return !chain.isTestnet && found;
 });
 
 export const testnets = _.filter(deployments, (deployment) => {
   const chain = getChain(deployment.chainId);
-  return (
-    chain.isTestnet &&
-    _.some(deployment.periphery, (contract) => contract.name === names.SABLIER_V2_MERKLE_LOCKUP_FACTORY)
-  );
+  const found = _.some(deployment.periphery, (contract) => contract.name === manifest.SABLIER_V2_MERKLE_LOCKUP_FACTORY);
+  return chain.isTestnet && found;
 });

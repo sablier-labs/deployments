@@ -1,5 +1,5 @@
-import { flowByVersion } from "@src/releases/flow";
+import { releasesByVersion } from "@src/releases";
 import { createTestSuite } from "./utils/generators";
 
-createTestSuite(flowByVersion["v1.0"]);
-createTestSuite(flowByVersion["v1.1"]);
+createTestSuite(releasesByVersion.flow["v1.0"]);
+createTestSuite(releasesByVersion.flow["v1.1"]);

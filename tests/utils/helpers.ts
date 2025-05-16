@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { checkBroadcast, checkZKBroadcast } from "@scripts/check-broadcast";
-import { log } from "@scripts/logger";
+import { logAndThrow } from "@scripts/logger";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import _ from "lodash";
@@ -113,7 +113,6 @@ export async function loadZKBroadcastJSONs(
 }
 
 export function throwNotFoundErr(release: Sablier.Release, chainName: string, contractName: string): never {
-  const message = `Found broadcasts for ${chainName}, but contract ${contractName} is missing`;
-  log("error", release, message);
-  throw new Error(message);
+  const msg = `Found broadcasts for ${chainName}, but contract ${contractName} is missing`;
+  logAndThrow({ msg, release });
 }

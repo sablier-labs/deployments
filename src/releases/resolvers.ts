@@ -1,5 +1,5 @@
 import { getChain } from "@src/chains";
-import { getContractExplorerURL } from "@src/helpers";
+import { getContractExplorerURL, getNestedValues } from "@src/helpers";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 
@@ -60,17 +60,23 @@ export function resolveDeploymentLockupV1(
 }
 
 /** @internal */
-export function resolveReleaseStandard(params: Omit<Sablier.Release.Standard, "kind">): Sablier.Release.Standard {
+export function releaseLockupV1Release(
+  params: Omit<Sablier.Release.LockupV1, "kind" | "contractNames">,
+): Sablier.Release.LockupV1 {
   return {
     ...params,
-    kind: "standard",
+    contractNames: getNestedValues(params.manifest),
+    kind: "lockupV1",
   };
 }
 
 /** @internal */
-export function resolveReleaseLockupV1(params: Omit<Sablier.Release.LockupV1, "kind">): Sablier.Release.LockupV1 {
+export function resolveStandardRelease(
+  params: Omit<Sablier.Release.Standard, "kind" | "contractNames">,
+): Sablier.Release.Standard {
   return {
     ...params,
-    kind: "lockupV1",
+    contractNames: getNestedValues(params.manifest),
+    kind: "standard",
   };
 }

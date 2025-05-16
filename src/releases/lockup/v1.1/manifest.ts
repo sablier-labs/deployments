@@ -1,7 +1,6 @@
-import { getNestedValues } from "@src/helpers";
+import type { Sablier } from "@src/types";
 
-/** @internal */
-export const names = {
+const manifest: Sablier.Manifest.LockupV1 = {
   core: {
     SABLIER_V2_COMPTROLLER: "SablierV2Comptroller",
     SABLIER_V2_LOCKUP_DYNAMIC: "SablierV2LockupDynamic",
@@ -14,7 +13,4 @@ export const names = {
   },
 };
 
-export const manifest = {
-  core: getNestedValues(names.core),
-  periphery: getNestedValues(names.periphery),
-};
+export default manifest;

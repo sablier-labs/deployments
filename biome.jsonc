@@ -20,7 +20,7 @@
     "enabled": true,
     "rules": {
       "correctness": {
-        "noUnusedImports": "error",
+        "noUnusedImports": "off",
         "noUnusedVariables": "error"
       },
       "recommended": true

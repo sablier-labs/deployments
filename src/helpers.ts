@@ -1,7 +1,6 @@
 import { getChain } from "@src/chains";
 import _ from "lodash";
 import type { Sablier } from "./types";
-import Version from "./version";
 
 /**
  * Get the explorer URL for a contract. Compatible with Etherscan, Blockscout, etc.
@@ -11,23 +10,6 @@ import Version from "./version";
  */
 export function getContractExplorerURL(explorerURL: string, contractAddress: Sablier.Address) {
   return `${explorerURL}/address/${contractAddress}`;
-}
-
-/**
- * Check if a version is valid for a given protocol
- * @see {@link Version}
- * @param protocol - The protocol to check (airdrops, flow, legacy, lockup)
- * @param version - The version to validate
- * @returns Whether the version is valid for the given protocol
- */
-export function isValidVersion(protocol: Sablier.Protocol, version: Sablier.Version): boolean {
-  const protocolMap = {
-    airdrops: Version.Airdrops,
-    flow: Version.Flow,
-    legacy: Version.Legacy,
-    lockup: Version.Lockup,
-  };
-  return _.some(_.values(protocolMap[protocol]), (v) => v === version);
 }
 
 export function sortChains<T extends { name: string }>(chains: T[]): T[] {

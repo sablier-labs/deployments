@@ -1,47 +1,41 @@
 import { releases } from "@src/releases";
 import _ from "lodash";
 import logger from "./logger";
-
 interface AliasRow {
   alias: string;
   contractName: string;
-  release: string;
+  releaseName: string;
 }
 
 async function main() {
   const rows: AliasRow[] = [];
 
   for (const release of releases) {
-    const aliases = release.aliases;
     const releaseName = `${release.protocol} ${release.version}`;
+    if (!release.aliases) {
+      logger.verbose(`Skipping ${releaseName} because it has no aliases`);
+      continue;
+    }
 
-    _.forOwn(aliases, (alias, key) => {
-      let contractName: string;
-
-      // Lockup v1.x has core/periphery structure, others are flat
-      if (release.kind === "lockupV1") {
-        // Type cast the manifest to ManifestLockupV1
-        const manifest = release.manifest;
-        contractName = _.get(manifest.core, key) || _.get(manifest.periphery, key) || key;
-      } else {
-        // For the array-based manifest, the key should be the contract name itself
-        contractName = key;
+    _.forOwn(release.aliases, (alias, contractName) => {
+      // Exclude the MerkleFactory from being printed twice in the table
+      if (release.protocol === "lockup" && alias.startsWith("MSF")) {
+        return;
       }
-
       rows.push({
         alias,
         contractName,
-        release: releaseName,
+        releaseName,
       });
     });
   }
 
   if (rows.length === 0) {
-    console.log("❌ No aliases found");
+    logger.info("❌ No aliases found");
     return;
   }
 
-  console.log(`✅ Found ${rows.length} total aliases\n`);
+  logger.info(`✅ Found ${rows.length} total aliases\n`);
 
   rows.sort((a, b) => a.alias.localeCompare(b.alias));
 
@@ -54,9 +48,9 @@ async function main() {
   console.log(sep);
 
   for (const row of rows) {
-    const vals = [row.alias, row.contractName, row.release];
-    const line = vals.map((v, i) => v.padEnd(colWidths[i])).join(" | ");
-    console.log(line);
+    const cellValues = [row.alias, row.contractName, row.releaseName];
+    const content = cellValues.map((v, i) => v.padEnd(colWidths[i])).join(" | ");
+    console.log(content);
   }
 }
 
@@ -65,5 +59,5 @@ main().catch((error) => {
   if (error.stack) {
     logger.error(error.stack);
   }
-  process.exit(1);
+  throw error;
 });

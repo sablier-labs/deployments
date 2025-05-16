@@ -71,8 +71,24 @@ const logger = winston.createLogger({
   transports,
 });
 
-export function log(level: "info" | "error", release: Sablier.Release, message: string): void {
-  logger[level](`${release.protocol}:${release.version}\t${message}`);
+export function logInfo(params: { msg: string; release?: Sablier.Release }): void {
+  const { msg, release } = params;
+  if (release) {
+    logger.info(`${formatRelease(release)}\t${msg}`);
+  } else {
+    logger.info(msg);
+  }
+}
+
+export function logAndThrow(params: { msg: string; release?: Sablier.Release }): never {
+  const { msg, release } = params;
+  const errorMsg = release ? `${formatRelease(release)}\t${msg}` : msg;
+  logger.error(errorMsg);
+  throw new Error(errorMsg);
+}
+
+function formatRelease(release: Sablier.Release): string {
+  return `${release.protocol}:${release.version}`;
 }
 
 export default logger;

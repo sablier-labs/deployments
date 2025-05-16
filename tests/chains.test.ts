@@ -11,6 +11,7 @@
  * Additionally, it pings the public JSON-RPC servers of all chains to ensure they are reachable.
  */
 import path from "node:path";
+import { logAndThrow } from "@scripts/logger";
 import { chains } from "@src/chains";
 import { ChainId } from "@src/chains/ids";
 import axios from "axios";
@@ -30,7 +31,7 @@ describe("Package chains are in sync with broadcasts", () => {
     broadcastChains = await getAllBroadcastChains();
   });
 
-  it("should have every chain in at least one broadcast", () => {
+  it("should have every package chain in at least one broadcast", () => {
     errors.clear();
     for (const chainKey of PACKAGE_CHAINS) {
       if (!broadcastChains.includes(chainKey)) {
@@ -39,11 +40,11 @@ describe("Package chains are in sync with broadcasts", () => {
     }
 
     if (errors.size > 0) {
-      throw new Error(
-        `❌ Missing chains:\n${Array.from(errors)
+      logAndThrow({
+        msg: `❌ Missing chains:\n${Array.from(errors)
           .map((e) => `  🔍 ${e}`)
           .join("\n")}`,
-      );
+      });
     }
     expect(errors.size).toBe(0);
   });
@@ -57,11 +58,11 @@ describe("Package chains are in sync with broadcasts", () => {
     }
 
     if (errors.size > 0) {
-      throw new Error(
-        `❌ Extra chains:\n${Array.from(errors)
+      logAndThrow({
+        msg: `❌ Extra chains:\n${Array.from(errors)
           .map((e) => `  ⚠️ ${e}`)
           .join("\n")}`,
-      );
+      });
     }
     expect(errors.size).toBe(0);
   });

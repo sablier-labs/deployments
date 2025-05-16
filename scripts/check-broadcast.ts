@@ -2,7 +2,7 @@ import path from "node:path";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import type { Options as GlobbyOptions } from "globby";
-import { log } from "./logger";
+import { logInfo } from "./logger";
 
 const ROOT_DIR = path.join(__dirname, "..");
 
@@ -37,7 +37,7 @@ async function checkPath(
 
   if (!pathExists) {
     const relativePath = path.relative(ROOT_DIR, pathToCheck);
-    log("info", release, `No broadcasts for ${chain.name} at ${relativePath}`);
+    logInfo({ msg: `No broadcasts for ${chain.name} at ${relativePath}`, release });
     return null;
   }
 

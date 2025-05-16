@@ -4,7 +4,7 @@ export declare namespace Sablier {
   /** @description Ethereum address in the format 0x followed by 40 hex characters. */
   export type Address = `0x${string}`;
 
-  export type AliasMap = Record<string, string>;
+  export type AliasMap = { [contractName: string]: string };
 
   export type Chain = {
     /** @description URL of the blockchain explorer. */
@@ -74,12 +74,63 @@ export declare namespace Sablier {
 
   export type Protocol = "airdrops" | "flow" | "legacy" | "lockup";
 
+  export type Release = Release.Standard | Release.LockupV1;
+
+  export type Repository = {
+    commit: string;
+    url: `https://github.com/sablier-labs/${string}`;
+  };
+
+  /** @description The native token on an EVM chain, used for paying gas fees. */
+  export type NativeToken = {
+    decimals: number;
+    name: string;
+    symbol: string;
+  };
+
+  export namespace Indexer {
+    type Common = {
+      chainId: number;
+      protocol: Protocol;
+    };
+
+    export type Envio = Common & {
+      envio: string;
+    };
+
+    export type TheGraph = Common & {
+      graph: TheGraph.Subgraph;
+    };
+  }
+
+  export type Indexer = Indexer.Envio | Indexer.TheGraph;
+
+  export namespace Manifest {
+    export type LockupV1 = {
+      core: Standard;
+      periphery: Standard;
+    };
+
+    export type Standard = {
+      [contractKey: string]: string;
+    };
+  }
+
+  export type Manifest = Manifest.Standard | Manifest.LockupV1;
+
+  /**
+   * @description A collection of deployments for a given protocol and version.
+   */
   export namespace Release {
-    export type Common = {
+    type Common = {
       /** @description A map of contract names to their aliases, used in the Sablier Interface and the TheGraphs. */
-      aliases?: { [contractName: string]: string };
+      aliases?: AliasMap;
+      /** @description An array of contract names. */
+      contractNames: string[];
       /** @description Whether this is the latest release for this protocol. */
       isLatest: boolean;
+      /** @description The kind of release. */
+      kind: "standard" | "lockupV1";
       /** @description The Sablier protocol released, e.g. `airdrops`. */
       protocol: Protocol;
       /** @description Repository information for the release. */
@@ -89,44 +140,33 @@ export declare namespace Sablier {
     };
 
     /**
-     * @description A Lockup v1.x release is a historical release that used to separate Lockup contracts into
-     * core and periphery sub-categories.
+     * @description Lockup v1.x release used to separate Lockup contracts into core and periphery sub-categories.
      * @see https://github.com/sablier-labs/v2-periphery
      */
     export type LockupV1 = Common & {
       deployments: DeploymentLockupV1[];
       kind: "lockupV1";
-      manifest: ManifestLockupV1;
+      manifest: Manifest.LockupV1;
     };
 
-    /**
-     * @description A standard release is a collection of deployments for a given protocol and version.
-     * This is the default release type for most protocols.
-     */
     export type Standard = Common & {
       deployments: Deployment[];
       kind: "standard";
-      manifest: Manifest;
+      manifest: Manifest.Standard;
     };
   }
 
-  export type Release = Release.Standard | Release.LockupV1;
-
-  export type Repository = {
-    commit: string;
-    url: `https://github.com/sablier-labs/${string}`;
-  };
-
   export namespace TheGraph {
-    export type SubgraphCommon = {
+    type SubgraphCommon = {
       /** @description URL to The Graph explorer. */
       explorerURL?: string;
+      /** @description The kind of subgraph. */
+      kind: "custom" | "official";
       /** @description URL to The Graph studio. */
       studioURL?: string;
     };
 
     export type SubgraphCustom = SubgraphCommon & {
-      /** @description URL to a custom TheGraph. */
       kind: "custom";
       subgraphURL: string;
       subgraph?: never;
@@ -144,37 +184,6 @@ export declare namespace Sablier {
 
     export type Subgraph = SubgraphCustom | SubgraphOfficial;
   }
-
-  export namespace Indexer {
-    export type Common = {
-      chainId: number;
-      protocol: Protocol;
-    };
-
-    export type Envio = Common & {
-      envio: string;
-    };
-
-    export type TheGraph = Common & {
-      graph: TheGraph.Subgraph;
-    };
-  }
-
-  export type Indexer = Indexer.Envio | Indexer.TheGraph;
-
-  export type ManifestLockupV1 = {
-    core: string[];
-    periphery: string[];
-  };
-
-  export type Manifest = string[] | ManifestLockupV1;
-
-  /** @description The native token on an EVM chain, used for paying gas fees. */
-  export type NativeToken = {
-    decimals: number;
-    name: string;
-    symbol: string;
-  };
 
   export namespace Version {
     export type Airdrops = typeof Version.Airdrops.V1_1 | typeof Version.Airdrops.V1_2 | typeof Version.Airdrops.V1_3;

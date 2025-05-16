@@ -1,2 +1,2 @@
 export * from "./data";
-export * as queries from "./queries";
+export { default as queries } from "./queries";
