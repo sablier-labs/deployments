@@ -1,14 +1,15 @@
 import { ChainId } from "@src/chains/ids";
+import { Protocol } from "@src/enums";
 import type { Sablier } from "@src/types";
 import type { TheGraphCustomChainId } from "../config";
 import { resolveCustomSubgraph, resolveOfficialSubgraph } from "../helpers";
 
 function resolveCustom(chainId: TheGraphCustomChainId, name: string): Sablier.Indexer.TheGraph {
-  return resolveCustomSubgraph("lockup", chainId, name);
+  return resolveCustomSubgraph(Protocol.Lockup, chainId, name);
 }
 
 function resolveOfficial(chainId: number, name: string, id: string): Sablier.Indexer.TheGraph {
-  return resolveOfficialSubgraph("lockup", chainId, name, id);
+  return resolveOfficialSubgraph(Protocol.Lockup, chainId, name, id);
 }
 
 const graph = [

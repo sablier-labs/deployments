@@ -1,8 +1,9 @@
+import { Protocol } from "@src/enums";
 import config from "../config";
 import { resolveEnvio } from "../helpers";
 
 function get(chainId: number) {
-  return resolveEnvio("flow", chainId);
+  return resolveEnvio(Protocol.Flow, chainId);
 }
 
 const envio = config.envio.supportedChains.map(get);

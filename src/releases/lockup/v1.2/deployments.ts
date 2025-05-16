@@ -10,14 +10,14 @@ function get(
     core: Sablier.ContractMap;
     periphery: Sablier.ContractMap;
   },
-): Sablier.DeploymentLockupV1 {
+): Sablier.Deployment.LockupV1 {
   return resolveDeploymentLockupV1(chainId, contractMap, aliases);
 }
 
 /**
  * @description Mainnet deployments for Lockup v1.2
  */
-export const mainnets: Sablier.DeploymentLockupV1[] = [
+export const mainnets: Sablier.Deployment.LockupV1[] = [
   get(ChainId.ETHEREUM, {
     core: {
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x9DeaBf7815b42Bf4E9a03EEc35a486fF74ee7459", 20_240_097],
@@ -305,7 +305,7 @@ export const mainnets: Sablier.DeploymentLockupV1[] = [
 /**
  * @description Testnet deployments for Lockup v1.2
  */
-export const testnets: Sablier.DeploymentLockupV1[] = [
+export const testnets: Sablier.Deployment.LockupV1[] = [
   get(ChainId.ETHEREUM_SEPOLIA, {
     core: {
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x73BB6dD3f5828d60F8b3dBc8798EB10fbA2c5636", 6_239_030],

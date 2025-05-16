@@ -1,6 +1,7 @@
 import { logAndThrow } from "@scripts/logger";
 import { chainsById } from "@src/chains";
-import { queries, releases } from "@src/releases";
+import { catalog } from "@src/contracts";
+import { queries, releases, releasesByVersion } from "@src/releases";
 import axios from "axios";
 import _ from "lodash";
 import { isAddress } from "viem";
@@ -24,6 +25,30 @@ describe("Address checksums", () => {
           expect(isAddress(contract.address), message).toBe(true);
         });
       }
+    });
+  }
+});
+
+describe("Contract catalog", () => {
+  const releasesToTest = [
+    releasesByVersion.airdrops["v1.3"],
+    releasesByVersion.flow["v1.1"],
+    releasesByVersion.legacy["v1.1"],
+    releasesByVersion.lockup["v2.0"],
+  ];
+
+  for (const release of releasesToTest) {
+    it(`should have a valid catalog for ${release.protocol} ${release.version}`, () => {
+      const deployment = release.deployments[0];
+      const contract = deployment.contracts[0];
+      const lowercaseAddress = contract.address.toLowerCase();
+      const info = _.get(catalog, [release.protocol, deployment.chainId, lowercaseAddress]);
+
+      expect(info).toBeDefined();
+      expect(info.alias).toBe(contract.alias);
+      expect(info.name).toBe(contract.name);
+      expect(info.protocol).toBe(release.protocol);
+      expect(info.version).toBe(release.version);
     });
   }
 });

@@ -1,8 +1,8 @@
+import { Protocol } from "@src/enums";
 import config from "../config";
 import { resolveEnvio } from "../helpers";
-
 function get(chainId: number) {
-  return resolveEnvio("airdrops", chainId);
+  return resolveEnvio(Protocol.Airdrops, chainId);
 }
 
 const envio = config.envio.supportedChains.map(get);

@@ -1,35 +1,39 @@
-import type Version from "./version";
+import type { Protocol, Version } from "./enums";
 
-export declare namespace Sablier {
-  /** @description Ethereum address in the format 0x followed by 40 hex characters. */
+export namespace Sablier {
+  /* -------------------------------------------------------------------------- */
+  /*                                    TYPES                                   */
+  /* -------------------------------------------------------------------------- */
+
+  /** Ethereum address in the format 0x followed by 40 hex characters. */
   export type Address = `0x${string}`;
 
   export type AliasMap = { [contractName: string]: string };
 
   export type Chain = {
-    /** @description URL of the blockchain explorer. */
+    /** URL of the blockchain explorer. */
     explorerURL: string;
-    /** @description Chain ID. */
+    /** Chain ID. */
     id: number;
-    /** @description Whether this chain is supported by the Sablier Interface at https://app.sablier.com. */
+    /** Whether this chain is supported by the Sablier Interface at https://app.sablier.com. */
     isSupportedByUI: boolean;
-    /** @description Whether this is a testnet network. */
+    /** Whether this is a testnet network. */
     isTestnet: boolean;
-    /** @description Whether this is a zkVM like zkSync. */
+    /** Whether this is a zkVM like zkSync. */
     isZK: boolean;
-    /** @description Used in deployment files to identify the chain. */
+    /** Used in deployment files to identify the chain. */
     key: string;
-    /** @description Native token information for this chain. */
+    /** Native token information for this chain. */
     nativeToken: NativeToken;
-    /** @description Name of the chain. */
+    /** Name of the chain. */
     name: string;
-    /** @description JSON-RPC configuration. */
+    /** JSON-RPC configuration. */
     rpc: {
-      /** @description Alchemy RPC URL generator. */
+      /** Alchemy RPC URL generator. */
       alchemy?: (apiKey: string) => string;
-      /** @description Infura RPC URL generator. */
+      /** Infura RPC URL generator. */
       infura?: (apiKey: string) => string;
-      /** @description Public RPC URL; might be unreliable for production use. */
+      /** Public RPC URL; might be unreliable for production use. */
       public: string;
     };
   };
@@ -43,36 +47,51 @@ export declare namespace Sablier {
   };
 
   /**
-   * @description Can be either a contract or a public library.
+   * The base contract type.
    */
   export type Contract = {
-    /** @description Optional alias for the contract, used in the Sablier Interface and the indexers. */
+    /** Optional alias for the contract, used in the Sablier Interface and the indexers. */
     alias?: string;
-    /** @description The address of the contract. */
+    /** The address of the contract. */
     address: Address;
-    /** @description The block number at which the contract was deployed. */
+    /** The block number at which the contract was deployed. */
     block?: number;
-    /** @description Compiler settings for the contract. */
+    /** Compiler settings for the contract. */
     compilerSettings?: CompilerSettings;
-    /** @description URL to the explorer page for the contract. */
+    /** URL to the explorer page for the contract. */
     explorerURL?: string;
-    /** @description The name of the contract. */
+    /** The name of the contract. */
     name: string;
   };
 
-  export type ContractMap = Record<string, Address | [Address, number]>;
-
-  export type Deployment = {
-    chainId: number;
-    contracts: Contract[];
+  export type ContractCatalogInfo = {
+    alias?: string;
+    name: string;
+    protocol: Sablier.Protocol;
+    version: Sablier.Version;
   };
 
-  export type DeploymentLockupV1 = Deployment & {
-    core: Contract[];
-    periphery: Contract[];
+  /**
+   * Look up contract information by address.
+   */
+  export type ContractCatalog = {
+    [protocol in Protocol]: {
+      [chainId: number]: {
+        [address: Address]: ContractCatalogInfo;
+      };
+    };
   };
 
-  export type Protocol = "airdrops" | "flow" | "legacy" | "lockup";
+  /** @internal */
+  export type ContractMap = {
+    [contractName: string]: Address | [Address, number];
+  };
+
+  export type Protocol =
+    | typeof Protocol.Airdrops
+    | typeof Protocol.Flow
+    | typeof Protocol.Legacy
+    | typeof Protocol.Lockup;
 
   export type Release = Release.Standard | Release.LockupV1;
 
@@ -81,12 +100,29 @@ export declare namespace Sablier {
     url: `https://github.com/sablier-labs/${string}`;
   };
 
-  /** @description The native token on an EVM chain, used for paying gas fees. */
+  /** The native token on an EVM chain, used for paying gas fees. */
   export type NativeToken = {
     decimals: number;
     name: string;
     symbol: string;
   };
+
+  /* -------------------------------------------------------------------------- */
+  /*                                 NAMESPACES                                 */
+  /* -------------------------------------------------------------------------- */
+  export namespace Deployment {
+    export type Standard = {
+      chainId: number;
+      contracts: Contract[];
+    };
+
+    export type LockupV1 = Standard & {
+      core: Contract[];
+      periphery: Contract[];
+    };
+  }
+
+  export type Deployment = Deployment.Standard | Deployment.LockupV1;
 
   export namespace Indexer {
     type Common = {
@@ -103,8 +139,6 @@ export declare namespace Sablier {
     };
   }
 
-  export type Indexer = Indexer.Envio | Indexer.TheGraph;
-
   export namespace Manifest {
     export type LockupV1 = {
       core: Standard;
@@ -116,41 +150,41 @@ export declare namespace Sablier {
     };
   }
 
-  export type Manifest = Manifest.Standard | Manifest.LockupV1;
+  export type Manifest = Manifest.LockupV1 | Manifest.Standard;
 
   /**
-   * @description A collection of deployments for a given protocol and version.
+   * A collection of deployments for a given protocol and version.
    */
   export namespace Release {
     type Common = {
-      /** @description A map of contract names to their aliases, used in the Sablier Interface and the TheGraphs. */
+      /** A map of contract names to their aliases, used in the Sablier Interface and the TheGraphs. */
       aliases?: AliasMap;
-      /** @description An array of contract names. */
+      /** An array of contract names. */
       contractNames: string[];
-      /** @description Whether this is the latest release for this protocol. */
+      /** Whether this is the latest release for this protocol. */
       isLatest: boolean;
-      /** @description The kind of release. */
+      /** The kind of release. */
       kind: "standard" | "lockupV1";
-      /** @description The Sablier protocol released, e.g. `airdrops`. */
+      /** The Sablier protocol released, e.g. `airdrops`. */
       protocol: Protocol;
-      /** @description Repository information for the release. */
+      /** Repository information for the release. */
       repository?: Repository;
-      /** @description The version of the release, e.g., `v1.3`. */
+      /** The version of the release, e.g., `v1.3`. */
       version: Version;
     };
 
     /**
-     * @description Lockup v1.x release used to separate Lockup contracts into core and periphery sub-categories.
+     * Lockup v1.x release used to separate Lockup contracts into core and periphery sub-categories.
      * @see https://github.com/sablier-labs/v2-periphery
      */
     export type LockupV1 = Common & {
-      deployments: DeploymentLockupV1[];
+      deployments: Deployment.LockupV1[];
       kind: "lockupV1";
       manifest: Manifest.LockupV1;
     };
 
     export type Standard = Common & {
-      deployments: Deployment[];
+      deployments: Deployment.Standard[];
       kind: "standard";
       manifest: Manifest.Standard;
     };
@@ -158,11 +192,11 @@ export declare namespace Sablier {
 
   export namespace TheGraph {
     type SubgraphCommon = {
-      /** @description URL to The Graph explorer. */
+      /** URL to The Graph explorer. */
       explorerURL?: string;
-      /** @description The kind of subgraph. */
+      /** The kind of subgraph. */
       kind: "custom" | "official";
-      /** @description URL to The Graph studio. */
+      /** URL to The Graph studio. */
       studioURL?: string;
     };
 
@@ -177,7 +211,7 @@ export declare namespace Sablier {
       subgraphURL?: never;
       subgraph: {
         id: string;
-        /** @description Function to generate the TheGraph URL with a user-provided API key. */
+        /** Function to generate the TheGraph URL with a user-provided API key. */
         url: (apiKey: string) => string;
       };
     };

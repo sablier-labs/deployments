@@ -1,6 +1,6 @@
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import { releases as allReleases, releasesByProtocol } from "./data";
+import { releases as allReleases, releasesByProtocol } from "./releases/data";
 
 const contracts = {
   /**

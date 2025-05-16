@@ -33,7 +33,7 @@ export function resolveDeploymentLockupV1(
     periphery: Sablier.ContractMap;
   },
   aliases: Sablier.AliasMap,
-): Sablier.DeploymentLockupV1 {
+): Sablier.Deployment.LockupV1 {
   const mapContractsToDeployment = (
     contracts: Sablier.ContractMap,
     aliases: Sablier.AliasMap,
@@ -53,14 +53,14 @@ export function resolveDeploymentLockupV1(
 
   const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
   const chain = getChain(chainId);
-  const deployment = resolveDeployment(chainId, mergedContracts, aliases) as Sablier.DeploymentLockupV1;
+  const deployment = resolveDeployment(chainId, mergedContracts, aliases) as Sablier.Deployment.LockupV1;
   deployment.core = mapContractsToDeployment(contractMap.core, aliases, chain);
   deployment.periphery = mapContractsToDeployment(contractMap.periphery, aliases, chain);
   return deployment;
 }
 
 /** @internal */
-export function releaseLockupV1Release(
+export function resolveLockupV1(
   params: Omit<Sablier.Release.LockupV1, "kind" | "contractNames">,
 ): Sablier.Release.LockupV1 {
   return {
@@ -71,7 +71,7 @@ export function releaseLockupV1Release(
 }
 
 /** @internal */
-export function resolveStandardRelease(
+export function resolveStandard(
   params: Omit<Sablier.Release.Standard, "kind" | "contractNames">,
 ): Sablier.Release.Standard {
   return {

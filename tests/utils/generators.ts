@@ -94,7 +94,7 @@ function createContractTests<BD, CD>(
 
   describe(`${chainName} (ID: ${chainId})`, () => {
     if (release.kind === "lockupV1") {
-      const lockupV1Deployment = deployment as Sablier.DeploymentLockupV1;
+      const lockupV1Deployment = deployment as Sablier.Deployment.LockupV1;
       createInnerTests("Contracts in core", testConfig, release, chain, lockupV1Deployment.core, "core");
       createInnerTests("Contracts in periphery", testConfig, release, chain, lockupV1Deployment.periphery, "periphery");
     } else {

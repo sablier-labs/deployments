@@ -1,3 +1,13 @@
+/**
+ * @file The types in {@link file://./types.ts} are generated from these enums.
+ */
+export const Protocol = {
+  Airdrops: "airdrops",
+  Flow: "flow",
+  Legacy: "legacy",
+  Lockup: "lockup",
+} as const;
+
 export const Version = {
   Airdrops: {
     V1_1: "v1.1",
@@ -19,5 +29,3 @@ export const Version = {
     V2_0: "v2.0",
   },
 } as const;
-
-export default Version;

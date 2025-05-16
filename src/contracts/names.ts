@@ -13,18 +13,6 @@ import type { Sablier } from "@src/types";
 import _ from "lodash";
 
 /**
- * At runtime: for v1.x, merge `core` + `periphery`; for v2.0, use the top-level record directly.
- */
-function flattenNames(manifest: Sablier.Manifest): Record<string, string> {
-  if ("core" in manifest && "periphery" in manifest) {
-    const lockupManifest = manifest as Sablier.Manifest.LockupV1;
-    return { ...lockupManifest.core, ...lockupManifest.periphery };
-  }
-  // v2.0 has no core/periphery nesting
-  return { ...manifest } as Record<string, string>;
-}
-
-/**
  * Works at compile-time!
  */
 type LeafKeys<T> = T extends { core: Record<string, unknown>; periphery: Record<string, unknown> }
@@ -66,8 +54,16 @@ const manifests = [
   lockupV1_2,
   lockupV2_0,
 ];
-const flattened = manifests.map(flattenNames);
 
+function flattenNames(manifest: Sablier.Manifest): Record<string, string> {
+  if ("core" in manifest && "periphery" in manifest) {
+    const lockupManifest = manifest as Sablier.Manifest.LockupV1;
+    return { ...lockupManifest.core, ...lockupManifest.periphery };
+  }
+  return { ...manifest } as Record<string, string>;
+}
+
+const flattened = manifests.map(flattenNames);
 const names: ContractNames = _.merge({}, ...flattened) as ContractNames;
 
 export default names;
