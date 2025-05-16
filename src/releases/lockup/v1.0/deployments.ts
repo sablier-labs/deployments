@@ -1,4 +1,5 @@
 import { ChainId } from "@src/chains/ids";
+import { Protocol } from "@src/enums";
 import { resolveDeploymentLockupV1 } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import aliases from "./aliases";
@@ -11,7 +12,7 @@ function get(
     periphery: Sablier.ContractMap;
   },
 ): Sablier.Deployment.LockupV1 {
-  return resolveDeploymentLockupV1(chainId, contractMap, aliases);
+  return resolveDeploymentLockupV1(Protocol.Lockup, "v1.0", chainId, aliases, contractMap);
 }
 
 /**

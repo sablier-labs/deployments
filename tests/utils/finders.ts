@@ -1,13 +1,12 @@
-import type { Sablier } from "@src/types";
 import _ from "lodash";
-import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
+import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 const CONTRACT_PREFIX = "contract ";
 
 /**
  * Finds a contract in the broadcast data.
  */
-export function findContract(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
+export function findContract(data: BroadcastJSON, contractName: string): BasicContract | null {
   const contractFromReturns = findInReturns(data, contractName);
   if (contractFromReturns) return contractFromReturns;
 
@@ -32,7 +31,7 @@ export function findZKContract(zkData: ZKBroadcastJSON[], contractName: string):
  *  }
  * }
  */
-export function findInReturns(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
+export function findInReturns(data: BroadcastJSON, contractName: string): BasicContract | null {
   if (!data.returns) return null;
   for (const contractReturn of _.values(data.returns)) {
     const sanitizedName = contractReturn.internal_type.replace(CONTRACT_PREFIX, "");
@@ -51,7 +50,7 @@ export function findInReturns(data: BroadcastJSON, contractName: string): Sablie
  *   "src/libraries/Helpers.sol:Helpers:0xf8076E4Fb5cfE8be1C26E61222DC51828Db8C1dc"
  * ]
  */
-export function findInLibraries(data: BroadcastJSON, contractName: string): Sablier.Contract | null {
+export function findInLibraries(data: BroadcastJSON, contractName: string): BasicContract | null {
   if (!data.libraries) return null;
 
   for (const library of data.libraries) {

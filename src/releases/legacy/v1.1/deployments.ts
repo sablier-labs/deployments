@@ -1,10 +1,13 @@
 import { ChainId } from "@src/chains/ids";
+import { Protocol } from "@src/enums";
 import { resolveDeployment } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import manifest from "./manifest";
 
+const aliasMap = {};
+
 function get(chainId: number, contractMap: Sablier.ContractMap): Sablier.Deployment {
-  return resolveDeployment(chainId, contractMap, {});
+  return resolveDeployment(Protocol.Legacy, "v1.1", chainId, aliasMap, contractMap);
 }
 
 /**

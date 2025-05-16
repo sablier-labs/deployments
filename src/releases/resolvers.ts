@@ -5,18 +5,28 @@ import _ from "lodash";
 
 /** @internal */
 export function resolveDeployment(
+  protocol: Sablier.Protocol,
+  version: Sablier.Version,
   chainId: number,
+  aliasMap: Sablier.AliasMap,
   contractMap: Sablier.ContractMap,
-  aliases: Sablier.AliasMap,
 ): Sablier.Deployment {
   const chain = getChain(chainId);
   const contracts: Sablier.Contract[] = [];
+
   for (const [contractName, addressOrTuple] of _.entries(contractMap)) {
     // A contract can be declared either as a static address or as a tuple of [address, blockNumber]
     const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple, 0];
-    const alias = aliases[contractName];
-    const explorerURL = getContractExplorerURL(chain.explorerURL, address);
-    contracts.push({ address, alias, block: blockNumber, explorerURL, name: contractName });
+    const contract = {
+      address,
+      alias: aliasMap[contractName],
+      block: blockNumber,
+      explorerURL: getContractExplorerURL(chain.explorerURL, address),
+      name: contractName,
+      protocol,
+      version,
+    };
+    contracts.push(contract);
   }
 
   return {
@@ -27,35 +37,46 @@ export function resolveDeployment(
 
 /** @internal */
 export function resolveDeploymentLockupV1(
+  protocol: Sablier.Protocol,
+  version: Sablier.Version,
   chainId: number,
+  aliasMap: Sablier.AliasMap,
   contractMap: {
     core: Sablier.ContractMap;
     periphery: Sablier.ContractMap;
   },
-  aliases: Sablier.AliasMap,
 ): Sablier.Deployment.LockupV1 {
-  const mapContractsToDeployment = (
+  // Function to convert the contract map to deployment contracts
+  function mapContracts(
     contracts: Sablier.ContractMap,
-    aliases: Sablier.AliasMap,
     chain: Sablier.Chain,
-  ): Sablier.Contract[] => {
+    aliasMap: Sablier.AliasMap,
+  ): Sablier.Contract[] {
     return _.entries(contracts).map(([name, addressOrTuple]) => {
       const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple, 0];
       return {
-        alias: aliases[name],
+        alias: aliasMap[name],
         address,
         explorerURL: getContractExplorerURL(chain.explorerURL, address),
         block: blockNumber,
         name,
+        protocol,
+        version,
       };
     });
-  };
+  }
 
   const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
   const chain = getChain(chainId);
-  const deployment = resolveDeployment(chainId, mergedContracts, aliases) as Sablier.Deployment.LockupV1;
-  deployment.core = mapContractsToDeployment(contractMap.core, aliases, chain);
-  deployment.periphery = mapContractsToDeployment(contractMap.periphery, aliases, chain);
+  const deployment = resolveDeployment(
+    protocol,
+    version,
+    chainId,
+    aliasMap,
+    mergedContracts,
+  ) as Sablier.Deployment.LockupV1;
+  deployment.core = mapContracts(contractMap.core, chain, aliasMap);
+  deployment.periphery = mapContracts(contractMap.periphery, chain, aliasMap);
   return deployment;
 }
 

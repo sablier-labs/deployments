@@ -1,11 +1,12 @@
 import { ChainId } from "@src/chains/ids";
+import { Protocol } from "@src/enums";
 import { resolveDeployment } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import aliases from "./aliases";
 import manifest from "./manifest";
 
 function get(chainId: number, contractMap: Sablier.ContractMap): Sablier.Deployment {
-  return resolveDeployment(chainId, contractMap, aliases);
+  return resolveDeployment(Protocol.Airdrops, "v1.3", chainId, aliases, contractMap);
 }
 
 /**

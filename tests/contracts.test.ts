@@ -44,12 +44,7 @@ describe("Contract catalog", () => {
       const contract = deployment.contracts[0];
       const lowercaseAddress = contract.address.toLowerCase();
       const entry = _.get(catalog, [release.protocol, deployment.chainId, lowercaseAddress]);
-
-      expect(entry).toBeDefined();
-      expect(entry.alias).toBe(contract.alias);
-      expect(entry.name).toBe(contract.name);
-      expect(entry.protocol).toBe(release.protocol);
-      expect(entry.version).toBe(release.version);
+      expect(entry).toStrictEqual(contract);
     });
   }
 });

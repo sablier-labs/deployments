@@ -4,18 +4,18 @@ import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
 import { isKnownMissing } from "../setup/missing";
 import { findContract, findZKContract, loadBroadcastJSON, loadZKBroadcastJSONs } from "./helpers";
-import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
+import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "./types";
 
-/**
- * Mapping between address, contract name, and chain ID to use as a fallback for already validated contracts.
- * Uses incremental types and Partial for flexibility and simplicity.
- */
-type ValidatedByChainId = Partial<Record<number, boolean>>;
-type ValidatedByContractName = Partial<Record<string, ValidatedByChainId>>;
-type ValidatedByContractAddress = Partial<Record<Sablier.Address, ValidatedByContractName>>;
-const validated: ValidatedByContractAddress = {};
+type Validated = {
+  [chainId: number]: {
+    [contractName: string]: {
+      [contractAddress: string]: boolean;
+    };
+  };
+};
+const validatedContracts: Validated = {};
 
-export function validateContract(contract: Sablier.Contract, expectedContract: Sablier.Contract): void {
+export function validateContract(contract: BasicContract, expectedContract: BasicContract): void {
   const address = contract.address.toLowerCase();
   const expectedAddress = expectedContract.address.toLowerCase();
   expect(address).toBe(expectedAddress);
@@ -24,7 +24,7 @@ export function validateContract(contract: Sablier.Contract, expectedContract: S
   expect(name).toBe(expectedContract.name);
 }
 
-export function validateZKContract(contract: Sablier.Contract, zkBroadcast: ZKBroadcastJSON): void {
+export function validateZKContract(contract: BasicContract, zkBroadcast: ZKBroadcastJSON): void {
   const address = contract.address.toLowerCase();
   const expectedAddress = zkBroadcast.entries[0].address.toLowerCase();
   expect(address).toBe(expectedAddress);
@@ -41,7 +41,7 @@ export function validateZKContract(contract: Sablier.Contract, zkBroadcast: ZKBr
 interface TestConfig<BD, CD> {
   finder: (data: BD, contractName: string) => CD | null;
   loader: (release: Sablier.Release, chain: Sablier.Chain, componentName?: string) => Promise<BD | null>;
-  validator: (contract: Sablier.Contract, data: CD) => void;
+  validator: (contract: BasicContract, data: CD) => void;
 }
 
 function createInnerTests<BD, CD>(
@@ -49,7 +49,7 @@ function createInnerTests<BD, CD>(
   testConfig: TestConfig<BD, CD>,
   release: Sablier.Release,
   chain: Sablier.Chain,
-  contracts: Sablier.Contract[],
+  contracts: BasicContract[],
   componentName?: string,
 ): void {
   describe(testDescription, () => {
@@ -71,13 +71,15 @@ function createInnerTests<BD, CD>(
         if (!contractData) {
           // As a fallback, we check if this contract has already been validated. Some contracts
           // are shared between releases (e.g., Comptroller in Lockup v1.0 and v1.1).
-          const previouslyValidated = _.get(validated, [contract.address, contract.name, chain.id]);
+          const previouslyValidated = _.get(validatedContracts, [chain.id, contract.name, contract.address]);
           const message = `Contract ${contract.name} on ${chain.name} has not been found nor validated`;
           expect(previouslyValidated, message).toBeTruthy();
           return;
         }
         testConfig.validator(contract, contractData);
-        _.set(validated, [contract.address, contract.name, chain.id], true);
+
+        // Mark this contract as validated for this chain.
+        _.set(validatedContracts, [chain.id, contract.name, contract.address], true);
       });
     }
   });
@@ -108,7 +110,7 @@ export function createStandardTests(
   deployment: Sablier.Deployment,
   chain: Sablier.Chain,
 ): void {
-  createContractTests<BroadcastJSON, Sablier.Contract>(release, deployment, chain, {
+  createContractTests<BroadcastJSON, BasicContract>(release, deployment, chain, {
     loader: loadBroadcastJSON,
     finder: findContract,
     validator: validateContract,

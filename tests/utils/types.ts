@@ -1,8 +1,14 @@
+import type { Sablier } from "@src/types";
 /**
- * @file Type definitions for JSON structures that can be found under `./data`
- * These types represent the structure of broadcast and ZK broadcast JSON files
- * used in the deployment process.
+ * @file Many of these are type definitions for the JSON structures that can be found
+ *  under `./data`. These types represent the structure of broadcast and ZK broadcast
+ * JSON files used in the deployment process.
  */
+
+export type BasicContract = {
+  address: Sablier.Address;
+  name: string;
+};
 
 export interface BroadcastJSON {
   libraries: string[];
@@ -19,7 +25,7 @@ export interface ContractReturn {
 export interface ZKBroadcastJSON {
   contractName: string;
   entries: Array<{
-    address: `0x${string}`;
+    address: Sablier.Address;
     salt: string;
   }>;
 }

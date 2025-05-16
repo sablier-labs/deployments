@@ -50,10 +50,10 @@ export namespace Sablier {
    * The base contract type.
    */
   export type Contract = {
-    /** Optional alias for the contract, used in the Sablier Interface and the indexers. */
-    alias?: string;
     /** The address of the contract. */
     address: Address;
+    /** Optional alias for the contract, used in the Sablier Interface and the indexers. */
+    alias?: string;
     /** The block number at which the contract was deployed. */
     block?: number;
     /** Compiler settings for the contract. */
@@ -62,22 +62,19 @@ export namespace Sablier {
     explorerURL?: string;
     /** The name of the contract. */
     name: string;
-  };
-
-  export type ContractCatalogEntry = {
-    alias?: string;
-    name: string;
+    /** The protocol the contract is part of. */
     protocol: Sablier.Protocol;
+    /** The release version the contract is part of. */
     version: Sablier.Version;
   };
 
   /**
-   * Look up contract information by address.
+   * Reverse mapping of contracts so that we can look up contracts by address.
    */
   export type ContractCatalog = {
     [protocol in Protocol]: {
       [chainId: number]: {
-        [address: Address]: ContractCatalogEntry;
+        [address: Address]: Contract;
       };
     };
   };
