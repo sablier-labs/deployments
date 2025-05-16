@@ -1,6 +1,6 @@
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import { releases as allReleases, releasesByProtocol } from "./releases";
+import { releases as allReleases, releasesByProtocol, releasesByVersion } from "./releases";
 
 const contracts = {
   /**
@@ -95,6 +95,10 @@ const deployments = {
 };
 
 const releases = {
+  get: (opts: { protocol: Sablier.Protocol; version: Sablier.Version }): Sablier.Release | undefined => {
+    const { protocol, version } = opts;
+    return _.get(releasesByVersion, [protocol, version]);
+  },
   /**
    * Get the first release:
    * - {protocol}          ⇒ first overall

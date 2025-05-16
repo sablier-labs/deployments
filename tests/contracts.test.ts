@@ -1,7 +1,8 @@
 import { logAndThrow } from "@scripts/logger";
 import { chainsById } from "@src/chains";
 import { catalog } from "@src/contracts";
-import { queries, releases, releasesByVersion } from "@src/releases";
+import queries from "@src/queries";
+import { releases, releasesByVersion } from "@src/releases";
 import axios from "axios";
 import _ from "lodash";
 import { isAddress } from "viem";
