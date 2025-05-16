@@ -1,6 +1,6 @@
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import { releases as allReleases, releasesByProtocol } from "./releases/data";
+import { releases as allReleases, releasesByProtocol } from "./releases";
 
 const contracts = {
   /**
@@ -81,22 +81,16 @@ const deployments = {
    * Get many deployments.
    * - no options           ⇒ all across all releases
    * - {release}            ⇒ that release's deployments
-   * - {release, chainId}   ⇒ single deployment
    */
-  get: (opts?: {
-    release?: Sablier.Release;
-    chainId?: number;
-  }): Sablier.Deployment[] | Sablier.Deployment | undefined => {
-    const { release, chainId } = opts || {};
-
-    if (release) {
-      if (chainId) {
-        return _.find(release.deployments, (d) => d.chainId === chainId);
-      }
-      return release.deployments;
-    }
-
+  getAll: (): Sablier.Deployment[] | undefined => {
     return allReleases.flatMap((r) => r.deployments);
+  },
+  get: (opts: {
+    release: Sablier.Release;
+    chainId: number;
+  }): Sablier.Deployment | undefined => {
+    const { release, chainId } = opts || {};
+    return _.find(release.deployments, (d) => d.chainId === chainId);
   },
 };
 
