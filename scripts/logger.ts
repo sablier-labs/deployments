@@ -1,6 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
+import * as path from "node:path";
 import type { Sablier } from "@src/types";
+import * as fs from "fs-extra";
 import winston, { format } from "winston";
 
 const LOG_FILE_PATH: string = process.env.LOG_FILE_PATH || "logs/debug.log";
@@ -18,25 +18,20 @@ const transports: winston.transport[] = [
   }),
 ];
 
-// Add file transport if LOG_FILE_PATH is set
 if (LOG_FILE_PATH) {
-  // Ensure directory exists
   const logDir = path.dirname(LOG_FILE_PATH);
-  if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-  }
+  fs.ensureDirSync(logDir);
 
-  transports.push(
-    new winston.transports.File({
-      filename: LOG_FILE_PATH,
-      format: format.combine(
-        format.timestamp(),
-        format.printf(({ timestamp, level, message }) => {
-          return `${timestamp} ${level}: ${message}`;
-        }),
-      ),
-    }),
-  );
+  const fileTransport = new winston.transports.File({
+    filename: LOG_FILE_PATH,
+    format: format.combine(
+      format.timestamp(),
+      format.printf(({ timestamp, level, message }) => {
+        return `${timestamp} ${level}: ${message}`;
+      }),
+    ),
+  });
+  transports.push(fileTransport);
 }
 
 /**
@@ -71,6 +66,13 @@ const logger = winston.createLogger({
   transports,
 });
 
+export function logAndThrow(params: { msg: string; release?: Sablier.Release }): never {
+  const { msg, release } = params;
+  const errorMsg = release ? `${formatRelease(release)}\t${msg}` : msg;
+  logger.error(errorMsg);
+  throw new Error(errorMsg);
+}
+
 export function logInfo(params: { msg: string; release?: Sablier.Release }): void {
   const { msg, release } = params;
   if (release) {
@@ -78,13 +80,6 @@ export function logInfo(params: { msg: string; release?: Sablier.Release }): voi
   } else {
     logger.info(msg);
   }
-}
-
-export function logAndThrow(params: { msg: string; release?: Sablier.Release }): never {
-  const { msg, release } = params;
-  const errorMsg = release ? `${formatRelease(release)}\t${msg}` : msg;
-  logger.error(errorMsg);
-  throw new Error(errorMsg);
 }
 
 function formatRelease(release: Sablier.Release): string {
