@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { sortChains } from "../helpers";
-import { AVAX, BERA, BNB, CHZ, CORE, ETH, IOTX, POL, SEI, TNT, UOS, XDC, gMELD, xDAI } from "../native-tokens";
+import { AVAX, BERA, BNB, CHZ, CORE, ETH, gMELD, IOTX, POL, SEI, TNT, UOS, XDC, xDAI } from "../native-tokens";
 import type { Sablier } from "../types";
 import { ChainId } from "./ids";
 import { getAlchemyRPC, getInfuraRPC } from "./rpc";

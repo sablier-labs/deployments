@@ -61,8 +61,8 @@ if (LOG_FILE_PATH) {
  * LOG_LEVEL=silly bun run scripts/your-script.ts
  */
 const logger = winston.createLogger({
-  level: LOG_LEVEL,
   format: format.combine(format.timestamp(), format.errors({ stack: true })),
+  level: LOG_LEVEL,
   transports,
 });
 

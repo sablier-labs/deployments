@@ -1,5 +1,4 @@
-export const ChainId = {
-  // Mainnets
+const mainnets = {
   ABSTRACT: 2741,
   ARBITRUM_ONE: 42161,
   AVALANCHE: 43114,
@@ -30,8 +29,9 @@ export const ChainId = {
   UNICHAIN: 130,
   XDC: 50,
   ZK_SYNC_ERA: 324,
+} as const;
 
-  // Testnets
+const testnets = {
   ARBITRUM_SEPOLIA: 421614,
   BASE_SEPOLIA: 84532,
   BLAST_SEPOLIA: 168587773,
@@ -44,4 +44,9 @@ export const ChainId = {
   SUPERSEED_SEPOLIA: 53302,
   TAIKO_HEKLA: 167009,
   ZK_SYNC_SEPOLIA: 300,
+} as const;
+
+export const ChainId = {
+  ...mainnets,
+  ...testnets,
 } as const;

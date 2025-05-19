@@ -38,11 +38,11 @@ export function validateZKContract(contract: BasicContract, zkBroadcast: ZKBroad
  * @param BD - Broadcast data.
  * @param CD - Contract data.
  */
-interface TestConfig<BD, CD> {
+type TestConfig<BD, CD> = {
   finder: (data: BD, contractName: string) => CD | null;
   loader: (release: Sablier.Release, chain: Sablier.Chain, componentName?: string) => Promise<BD | null>;
   validator: (contract: BasicContract, data: CD) => void;
-}
+};
 
 function createInnerTests<BD, CD>(
   testDescription: string,
@@ -111,16 +111,16 @@ export function createStandardTests(
   chain: Sablier.Chain,
 ): void {
   createContractTests<BroadcastJSON, BasicContract>(release, deployment, chain, {
-    loader: loadBroadcastJSON,
     finder: findContract,
+    loader: loadBroadcastJSON,
     validator: validateContract,
   });
 }
 
 export function createZKTests(release: Sablier.Release, deployment: Sablier.Deployment, chain: Sablier.Chain): void {
   createContractTests<ZKBroadcastJSON[], ZKBroadcastJSON>(release, deployment, chain, {
-    loader: loadZKBroadcastJSONs,
     finder: findZKContract,
+    loader: loadZKBroadcastJSONs,
     validator: validateZKContract,
   });
 }

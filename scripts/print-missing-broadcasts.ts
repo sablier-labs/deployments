@@ -12,8 +12,8 @@ import { getChain } from "@src/chains";
 import { releasesByProtocol } from "@src/releases";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import { checkBroadcast, checkZKBroadcast } from "./check-broadcast";
-import logger from "./logger";
+import { checkBroadcast, checkZKBroadcast } from "./check-broadcasts";
+import logger, { logAndThrow } from "./logger";
 
 const EMOJIS = {
   check: "✅",
@@ -25,24 +25,9 @@ const EMOJIS = {
   warning: "⚠️",
 } as const;
 
-function parseArgs(): Sablier.Protocol {
-  const protocol = process.argv[2] as Sablier.Protocol;
-  const validProtocols: Sablier.Protocol[] = ["airdrops", "flow", "legacy", "lockup"];
-  if (!protocol || !validProtocols.includes(protocol)) {
-    const msg = `Error: Please provide one of these protocols: ${validProtocols.join(", ")}`;
-    logger.error(msg);
-    throw new Error(msg);
-  }
-
-  return protocol;
-}
-
-function printSectionHeader(text: string): void {
-  const separator = "═".repeat(50);
-  console.log(`\n${separator}`);
-  console.log(text);
-  console.log(`${separator}\n`);
-}
+/* -------------------------------------------------------------------------- */
+/*                                    MAIN                                    */
+/* -------------------------------------------------------------------------- */
 
 async function main(): Promise<void> {
   const missing: Record<string, Sablier.Chain[]> = {};
@@ -67,7 +52,7 @@ async function main(): Promise<void> {
         const paths = chain.isZK
           ? await checkZKBroadcast(release, chain, "")
           : await checkBroadcast(release, chain, "");
-        hasValidBroadcasts = !!paths;
+        hasValidBroadcasts = !_.isEmpty(paths);
       }
 
       // Add to missing list if broadcasts aren't valid
@@ -139,9 +124,28 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  logger.error(`Error checking missing broadcasts: ${error.message}`);
-  if (error.stack) {
-    logger.error(error.stack);
-  }
-  throw error;
+  logAndThrow({ msg: `Error checking missing broadcasts: ${error.message}` });
 });
+
+/* -------------------------------------------------------------------------- */
+/*                                   HELPERS                                  */
+/* -------------------------------------------------------------------------- */
+
+function parseArgs(): Sablier.Protocol {
+  const protocol = process.argv[2] as Sablier.Protocol;
+  const validProtocols: Sablier.Protocol[] = ["airdrops", "flow", "legacy", "lockup"];
+  if (!protocol || !validProtocols.includes(protocol)) {
+    const msg = `Error: Please provide one of these protocols: ${validProtocols.join(", ")}`;
+    logger.error(msg);
+    throw new Error(msg);
+  }
+
+  return protocol;
+}
+
+function printSectionHeader(text: string): void {
+  const separator = "═".repeat(50);
+  console.log(`\n${separator}`);
+  console.log(text);
+  console.log(`${separator}\n`);
+}

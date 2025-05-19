@@ -10,22 +10,22 @@ export type BasicContract = {
   name: string;
 };
 
-export interface BroadcastJSON {
+export type BroadcastJSON = {
   libraries: string[];
   returns: {
     [key: string]: ContractReturn;
   };
-}
+};
 
-export interface ContractReturn {
+export type ContractReturn = {
   internal_type: string;
   value: `0x${string}`;
-}
+};
 
-export interface ZKBroadcastJSON {
+export type ZKBroadcastJSON = {
   contractName: string;
   entries: Array<{
     address: Sablier.Address;
     salt: string;
   }>;
-}
+};

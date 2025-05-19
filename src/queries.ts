@@ -4,6 +4,33 @@ import { releases as allReleases, releasesByProtocol, releasesByVersion } from "
 
 const contracts = {
   /**
+   * Get a single contract by name.
+   * - {release, chainId}
+   * - {deployment}
+   */
+  get: (opts: {
+    contractName: string;
+    release?: Sablier.Release;
+    chainId?: number;
+    deployment?: Sablier.Deployment;
+  }): Sablier.Contract | undefined => {
+    const { contractName, deployment, release, chainId } = opts;
+
+    if (deployment) {
+      return _.find(deployment.contracts, { name: contractName });
+    }
+
+    if (release) {
+      if (!chainId) {
+        return undefined;
+      }
+      const dep = _.find(release.deployments, (d) => d.chainId === chainId);
+      return dep && _.find(dep.contracts, { name: contractName });
+    }
+
+    return undefined;
+  },
+  /**
    * Get many contracts.
    * - no options           ⇒ all
    * - {protocol}           ⇒ all for that protocol
@@ -46,37 +73,13 @@ const contracts = {
     // no filters → all
     return _.flatMap(allReleases, (r) => r.deployments.flatMap((d) => d.contracts));
   },
-
-  /**
-   * Get a single contract by name.
-   * - {release, chainId}
-   * - {deployment}
-   */
-  get: (opts: {
-    contractName: string;
-    release?: Sablier.Release;
-    chainId?: number;
-    deployment?: Sablier.Deployment;
-  }): Sablier.Contract | undefined => {
-    const { contractName, deployment, release, chainId } = opts;
-
-    if (deployment) {
-      return _.find(deployment.contracts, { name: contractName });
-    }
-
-    if (release) {
-      if (!chainId) {
-        return undefined;
-      }
-      const dep = _.find(release.deployments, (d) => d.chainId === chainId);
-      return dep && _.find(dep.contracts, { name: contractName });
-    }
-
-    return undefined;
-  },
 };
 
 const deployments = {
+  get: (opts: { release: Sablier.Release; chainId: number }): Sablier.Deployment | undefined => {
+    const { release, chainId } = opts || {};
+    return _.find(release.deployments, (d) => d.chainId === chainId);
+  },
   /**
    * Get many deployments.
    * - no options           ⇒ all across all releases
@@ -84,13 +87,6 @@ const deployments = {
    */
   getAll: (): Sablier.Deployment[] | undefined => {
     return allReleases.flatMap((r) => r.deployments);
-  },
-  get: (opts: {
-    release: Sablier.Release;
-    chainId: number;
-  }): Sablier.Deployment | undefined => {
-    const { release, chainId } = opts || {};
-    return _.find(release.deployments, (d) => d.chainId === chainId);
   },
 };
 

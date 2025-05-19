@@ -10,7 +10,7 @@
     "lodash": "^4.17"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.0-beta.4",
     "@sablier/configs": "github:sablier-labs/configs",
     "@types/fs-extra": "^11.0",
     "@types/lodash": "^4.17",
@@ -29,7 +29,9 @@
     "vitest": "^3.1",
     "winston": "^3.17"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "airdrops",
     "blockchain",
@@ -51,7 +53,7 @@
   "repository": "github.com:sablier-labs/deployments",
   "scripts": {
     "biome:check": "biome check .",
-    "biome:write": "biome check --write .",
+    "biome:write": "biome check --write . && bun run biome:write:imports",
     "biome:write:imports": "biome lint --write --only correctness/noUnusedImports .",
     "build": "bun run clean && bun run tsc:build",
     "clean": "rm -rf dist",

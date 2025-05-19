@@ -1,13 +1,14 @@
 import { releases } from "@src/releases";
 import _ from "lodash";
-import logger from "./logger";
-interface AliasRow {
+import logger, { logAndThrow } from "./logger";
+
+type AliasRow = {
   alias: string;
   contractName: string;
   releaseName: string;
-}
+};
 
-async function main() {
+async function main(): Promise<void> {
   const rows: AliasRow[] = [];
 
   for (const release of releases) {
@@ -40,7 +41,7 @@ async function main() {
   rows.sort((a, b) => a.alias.localeCompare(b.alias));
 
   const headers = ["Alias", "Contract Name", "Release"];
-  const colWidths = headers.map((h, i) => Math.max(h.length, ...rows.map((row) => Object.values(row)[i].length)));
+  const colWidths = headers.map((h, i) => Math.max(h.length, ...rows.map((row) => _.values(row)[i].length)));
 
   const headerRow = headers.map((h, i) => h.padEnd(colWidths[i])).join(" | ");
   const sep = colWidths.map((w) => "-".repeat(w)).join("-|-");
@@ -55,9 +56,5 @@ async function main() {
 }
 
 main().catch((error) => {
-  logger.error(`Error checking missing broadcasts: ${error.message}`);
-  if (error.stack) {
-    logger.error(error.stack);
-  }
-  throw error;
+  logAndThrow({ msg: `Error printing aliases: ${error.message}` });
 });

@@ -75,8 +75,8 @@ describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
 
     it.skipIf(shouldSkip)(`${chain.name} (ID: ${chain.id})`, async () => {
       const rpcRequest = {
-        jsonrpc: "2.0",
         id: 1,
+        jsonrpc: "2.0",
         method: "eth_chainId",
         params: [],
       };
@@ -87,12 +87,12 @@ describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
           timeout: 10_000, // 10 seconds
         }),
       ).resolves.toMatchObject({
-        status: 200,
         data: {
-          jsonrpc: "2.0",
           id: 1,
+          jsonrpc: "2.0",
           result: expect.any(String),
         },
+        status: 200,
       });
     });
   }

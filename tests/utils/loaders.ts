@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { checkBroadcast, checkZKBroadcast } from "@scripts/check-broadcast";
+import { checkBroadcast, checkZKBroadcast } from "@scripts/check-broadcasts";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
@@ -34,7 +34,7 @@ export async function loadZKBroadcastJSONs(
   // Read all JSON files in the directory.
   const results: ZKBroadcastJSON[] = [];
   for (const foundDir of dirs) {
-    const jsonFiles = await globby("*.json", { cwd: foundDir, absolute: true });
+    const jsonFiles = await globby("*.json", { absolute: true, cwd: foundDir });
     for (const filePath of jsonFiles) {
       const broadcast = await fs.promises.readFile(filePath, "utf8");
       results.push(JSON.parse(broadcast));

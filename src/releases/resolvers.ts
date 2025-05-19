@@ -55,10 +55,10 @@ export function resolveDeploymentLockupV1(
     return _.entries(contracts).map(([name, addressOrTuple]) => {
       const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple, 0];
       return {
-        alias: aliasMap[name],
         address,
-        explorerURL: getContractExplorerURL(chain.explorerURL, address),
+        alias: aliasMap[name],
         block: blockNumber,
+        explorerURL: getContractExplorerURL(chain.explorerURL, address),
         name,
         protocol,
         version,
