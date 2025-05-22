@@ -7,7 +7,9 @@ const manifest = {
   },
   periphery: {
     SABLIER_V2_BATCH_LOCKUP: "SablierV2BatchLockup",
+    SABLIER_V2_MERKLE_LL: "SablierV2MerkleLL",
     SABLIER_V2_MERKLE_LOCKUP_FACTORY: "SablierV2MerkleLockupFactory",
+    SABLIER_V2_MERKLE_LT: "SablierV2MerkleLT",
   },
 };
 

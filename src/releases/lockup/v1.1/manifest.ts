@@ -8,6 +8,7 @@ const manifest = {
   periphery: {
     SABLIER_V2_BATCH: "SablierV2Batch",
     SABLIER_V2_MERKLE_STREAMER_FACTORY: "SablierV2MerkleStreamerFactory",
+    SABLIER_V2_MERKLE_STREAMER_LL: "SablierV2MerkleStreamerLL",
   },
 };
 
