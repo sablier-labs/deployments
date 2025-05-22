@@ -1,1 +1,0 @@
-"*.{json,md,yml}": "bun run prettier:write"

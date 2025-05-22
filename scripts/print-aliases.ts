@@ -1,0 +1,60 @@
+import { releases } from "@src/releases";
+import _ from "lodash";
+import logger, { logAndThrow } from "./logger";
+
+type AliasRow = {
+  alias: string;
+  contractName: string;
+  releaseName: string;
+};
+
+async function main(): Promise<void> {
+  const rows: AliasRow[] = [];
+
+  for (const release of releases) {
+    const releaseName = `${release.protocol} ${release.version}`;
+    if (!release.aliases) {
+      logger.verbose(`Skipping ${releaseName} because it has no aliases`);
+      continue;
+    }
+
+    _.forOwn(release.aliases, (alias, contractName) => {
+      // Exclude the MerkleFactory from being printed twice in the table
+      if (release.protocol === "lockup" && alias.startsWith("MSF")) {
+        return;
+      }
+      rows.push({
+        alias,
+        contractName,
+        releaseName,
+      });
+    });
+  }
+
+  if (rows.length === 0) {
+    logger.info("❌ No aliases found");
+    return;
+  }
+
+  logger.info(`✅ Found ${rows.length} total aliases\n`);
+
+  rows.sort((a, b) => a.alias.localeCompare(b.alias));
+
+  const headers = ["Alias", "Contract Name", "Release"];
+  const colWidths = headers.map((h, i) => Math.max(h.length, ...rows.map((row) => _.values(row)[i].length)));
+
+  const headerRow = headers.map((h, i) => h.padEnd(colWidths[i])).join(" | ");
+  const sep = colWidths.map((w) => "-".repeat(w)).join("-|-");
+  console.log(headerRow);
+  console.log(sep);
+
+  for (const row of rows) {
+    const cellValues = [row.alias, row.contractName, row.releaseName];
+    const content = cellValues.map((v, i) => v.padEnd(colWidths[i])).join(" | ");
+    console.log(content);
+  }
+}
+
+main().catch((error) => {
+  logAndThrow({ msg: `Error printing aliases: ${error.message}` });
+});

@@ -1,5 +1,7 @@
 # Sablier Deployments
 
+TODO: rewrite this
+
 This repository keeps track of Sablier deployment bundles, each of which includes:
 
 1. Contract artifacts and ABIs.
@@ -63,6 +65,26 @@ The rationale for using CREATE2 is not to generate deterministic deployment addr
 to have different addresses on each chain. By using CREATE2, we can systematically differentiate the contract addresses
 by passing a salt, whereas if we had used CREATE, the deployer's nonce would have impacted the resulting deployment
 address.
+
+## Logging
+
+This project uses Winston for logging. By default, logs are output to the console, but they can also be written to a
+file by setting the following environment variables:
+
+- `LOG_FILE_PATH`: Path to the log file (e.g., `./logs/deployments.log`). When set, logs will be written to this file in
+  addition to the console.
+- `LOG_LEVEL`: Set the logging level (default: `info`). Valid values are: `error`, `warn`, `info`, `verbose`, `debug`,
+  and `silly`.
+
+Example usage:
+
+```bash
+# Log to both console and file
+LOG_FILE_PATH=./logs/deployments.log bun run build
+
+# Set a custom log level
+LOG_LEVEL=debug LOG_FILE_PATH=./logs/debug.log bun run test
+```
 
 ## License
 
