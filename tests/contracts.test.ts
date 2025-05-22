@@ -1,6 +1,6 @@
 import { logAndThrow } from "@scripts/logger";
 import { chainsById } from "@src/chains";
-import { catalog } from "@src/contracts";
+import { queryCatalog } from "@src/contracts";
 import queries from "@src/queries";
 import { releases, releasesByVersion } from "@src/releases";
 import axios from "axios";
@@ -43,7 +43,7 @@ describe("Contract catalog", () => {
       const deployment = release.deployments[0];
       const contract = deployment.contracts[0];
       const lowercaseAddress = contract.address.toLowerCase();
-      const entry = _.get(catalog, [release.protocol, deployment.chainId, lowercaseAddress]);
+      const entry = queryCatalog(release.protocol, deployment.chainId, lowercaseAddress);
       expect(entry).toStrictEqual(contract);
     });
   }

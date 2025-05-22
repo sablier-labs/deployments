@@ -15,9 +15,7 @@ import _ from "lodash";
 /**
  * Works at compile-time!
  */
-type LeafKeys<T> = T extends { core: Record<string, unknown>; periphery: Record<string, unknown> }
-  ? keyof T["core"] | keyof T["periphery"]
-  : keyof T;
+type LeafKeys<T> = keyof T;
 
 type A1_1 = LeafKeys<typeof airdropsV1_1>;
 type A1_2 = LeafKeys<typeof airdropsV1_2>;
@@ -29,33 +27,18 @@ type F1_1 = LeafKeys<typeof flowV1_1>;
 type LEGACY_1_0 = LeafKeys<typeof legacyV1_0>;
 type LEGACY_1_1 = LeafKeys<typeof legacyV1_1>;
 
-type L1_0 = LeafKeys<typeof lockupV1_0>;
-type L1_1 = LeafKeys<typeof lockupV1_1>;
-type L1_2 = LeafKeys<typeof lockupV1_2>;
+type L1_0 = LeafKeys<typeof lockupV1_0.core> | LeafKeys<typeof lockupV1_0.periphery>;
+type L1_1 = LeafKeys<typeof lockupV1_1.core> | LeafKeys<typeof lockupV1_1.periphery>;
+type L1_2 = LeafKeys<typeof lockupV1_2.core> | LeafKeys<typeof lockupV1_2.periphery>;
 type L2_0 = LeafKeys<typeof lockupV2_0>;
 
 // Final exported type: only these known keys allowed
-export type ContractNames = Record<
+type ContractNames = Record<
   A1_1 | A1_2 | A1_3 | F1_0 | F1_1 | LEGACY_1_0 | LEGACY_1_1 | L1_0 | L1_1 | L1_2 | L2_0,
   string
 >;
 
-// Runtime: flatten & merge across all releases
-const manifests = [
-  airdropsV1_1,
-  airdropsV1_2,
-  airdropsV1_3,
-  flowV1_0,
-  flowV1_1,
-  legacyV1_0,
-  legacyV1_1,
-  lockupV1_0,
-  lockupV1_1,
-  lockupV1_2,
-  lockupV2_0,
-];
-
-function flattenNames(manifest: Sablier.Manifest): Record<string, string> {
+function flatten(manifest: Sablier.Manifest): Record<string, string> {
   if ("core" in manifest && "periphery" in manifest) {
     const lockupManifest = manifest as Sablier.Manifest.LockupV1;
     return { ...lockupManifest.core, ...lockupManifest.periphery };
@@ -63,7 +46,32 @@ function flattenNames(manifest: Sablier.Manifest): Record<string, string> {
   return { ...manifest } as Record<string, string>;
 }
 
-const flattened = manifests.map(flattenNames);
-const names: ContractNames = _.merge({}, ...flattened) as ContractNames;
+/**
+ * Flatten & merge across all releases
+ * @example
+ * ```ts
+ * const lockupName = names.SABLIER_LOCKUP; // "SablierLockup"
+ * const flowName = names.SABLIER_FLOW; //"SablierFlow"
+ * ```
+ */
+function getNames(): ContractNames {
+  const manifests = [
+    airdropsV1_1,
+    airdropsV1_2,
+    airdropsV1_3,
+    flowV1_0,
+    flowV1_1,
+    legacyV1_0,
+    legacyV1_1,
+    lockupV1_0,
+    lockupV1_1,
+    lockupV1_2,
+    lockupV2_0,
+  ];
 
+  const flattened = manifests.map(flatten);
+  return _.merge({}, ...flattened) as ContractNames;
+}
+
+const names = getNames();
 export default names;

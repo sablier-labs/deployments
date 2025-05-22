@@ -3,28 +3,39 @@ import { releases } from "@src/releases";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 
-const catalog: Sablier.ContractCatalog = {
-  [Protocol.Airdrops]: {},
-  [Protocol.Flow]: {},
-  [Protocol.Legacy]: {},
-  [Protocol.Lockup]: {},
-};
+function getCatalog(): Sablier.ContractCatalog {
+  const catalog: Sablier.ContractCatalog = {
+    [Protocol.Airdrops]: {},
+    [Protocol.Flow]: {},
+    [Protocol.Legacy]: {},
+    [Protocol.Lockup]: {},
+  };
 
-for (const release of releases) {
-  const { protocol, version, deployments } = release;
+  for (const release of releases) {
+    const { protocol, version, deployments } = release;
 
-  for (const deployment of deployments) {
-    const { chainId, contracts } = deployment;
+    for (const deployment of deployments) {
+      const { chainId, contracts } = deployment;
 
-    for (const contract of contracts) {
-      const address = contract.address.toLowerCase(); // lowercase needed for deterministic lookup
-      const entry = _.merge(contract, {
-        protocol,
-        version,
-      });
-      _.set(catalog, [protocol, chainId, address], entry);
+      for (const contract of contracts) {
+        const address = contract.address.toLowerCase(); // lowercase needed for deterministic lookup
+        const entry = _.merge(contract, {
+          protocol,
+          version,
+        });
+        _.set(catalog, [protocol, chainId, address], entry);
+      }
     }
   }
+  return catalog;
 }
 
-export default catalog;
+export const catalog = getCatalog();
+
+export function queryCatalog(
+  protocol: Sablier.Protocol,
+  chainId: number,
+  contractAddress: string,
+): Sablier.Contract | undefined {
+  return _.get(catalog, [protocol, chainId, contractAddress]);
+}

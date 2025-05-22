@@ -1,6 +1,4 @@
-import type { Sablier } from "@src/types";
-
-const manifest: Sablier.Manifest.Standard = {
+const manifest = {
   HELPERS: "Helpers",
   LOCKUP_NFT_DESCRIPTOR: "LockupNFTDescriptor",
   SABLIER_BATCH_LOCKUP: "SablierBatchLockup",

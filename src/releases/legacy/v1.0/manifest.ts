@@ -1,6 +1,4 @@
-import type { Sablier } from "@src/types";
-
-const manifest: Sablier.Manifest.Standard = {
+const manifest = {
   PAYROLL: "Payroll",
   SABLIER: "Sablier",
 };

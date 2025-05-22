@@ -1,31 +1,50 @@
+import { queryCatalog } from "@src/contracts/catalog";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { releases as allReleases, releasesByProtocol, releasesByVersion } from "./releases";
 
 const contracts = {
   /**
-   * Get a single contract by name.
-   * - {release, chainId}
-   * - {deployment}
+   * Get a single contract by name or by address.
+   * - {name, deployment}
+   * - {name, release, chainId}
+   * - {address}
    */
   get: (opts: {
-    contractName: string;
-    release?: Sablier.Release;
     chainId?: number;
+    contractAddress?: string;
+    contractName?: string;
     deployment?: Sablier.Deployment;
+    release?: Sablier.Release;
   }): Sablier.Contract | undefined => {
-    const { contractName, deployment, release, chainId } = opts;
+    const { contractAddress, contractName, deployment, release, chainId } = opts;
 
-    if (deployment) {
-      return _.find(deployment.contracts, { name: contractName });
+    if (contractAddress && contractName) {
+      throw new Error("Cannot specify both contractAddress and contractNam as query options");
     }
 
-    if (release) {
-      if (!chainId) {
-        return undefined;
+    if (contractName) {
+      if (deployment) {
+        return _.find(deployment.contracts, { name: contractName });
       }
-      const dep = _.find(release.deployments, (d) => d.chainId === chainId);
-      return dep && _.find(dep.contracts, { name: contractName });
+
+      if (release) {
+        if (!chainId) {
+          throw new Error("Cannot specify release without chainId");
+        }
+        const dep = _.find(release.deployments, { chainId });
+        return dep && _.find(dep.contracts, { name: contractName });
+      }
+    }
+
+    if (contractAddress) {
+      if (!release) {
+        throw new Error("Cannot specify contractAddress without release");
+      }
+      if (!chainId) {
+        throw new Error("Cannot specify contractAddress without chainId");
+      }
+      return queryCatalog(release.protocol, chainId, contractAddress);
     }
 
     return undefined;
@@ -39,14 +58,14 @@ const contracts = {
    * - {release, chainId}   ⇒ that slice of deployments
    */
   getAll: (opts?: {
+    chainId?: number;
     protocol?: Sablier.Protocol;
     release?: Sablier.Release;
-    chainId?: number;
   }): Sablier.Contract[] | undefined => {
     const { protocol, chainId, release } = opts || {};
 
     if (protocol && release) {
-      throw new Error("Cannot specify both protocol and release query options");
+      throw new Error("Cannot specify both protocol and release as query options");
     }
 
     // by protocol
@@ -54,7 +73,7 @@ const contracts = {
       const releases = releasesByProtocol[protocol];
       let deps = _.flatMap(releases, (r) => r.deployments);
       if (chainId) {
-        deps = deps.filter((d) => d.chainId === chainId);
+        deps = _.filter(deps, { chainId });
         if (deps.length === 0) return undefined;
       }
       return _.flatMap(deps, (d) => d.contracts);
@@ -64,7 +83,7 @@ const contracts = {
     if (release) {
       let deps = release.deployments;
       if (chainId) {
-        deps = deps.filter((d) => d.chainId === chainId);
+        deps = _.filter(deps, { chainId });
         if (deps.length === 0) return undefined;
       }
       return _.flatMap(deps, (d) => d.contracts);
@@ -76,7 +95,7 @@ const contracts = {
 };
 
 const deployments = {
-  get: (opts: { release: Sablier.Release; chainId: number }): Sablier.Deployment | undefined => {
+  get: (opts: { chainId: number; release: Sablier.Release }): Sablier.Deployment | undefined => {
     const { release, chainId } = opts || {};
     return _.find(release.deployments, (d) => d.chainId === chainId);
   },
@@ -100,12 +119,12 @@ const releases = {
    * - {protocol}          ⇒ first overall
    * - {protocol,chainId}  ⇒ first on that chain
    */
-  getFirst: (opts: { protocol: Sablier.Protocol; chainId?: number }) => {
+  getFirst: (opts: { protocol: Sablier.Protocol; chainId?: number }): Sablier.Release | undefined => {
     const { protocol, chainId } = opts;
     const list = releasesByProtocol[protocol];
 
     if (chainId) {
-      return list.find((r) => r.deployments.some((d) => d.chainId === chainId));
+      return _.find(list, (r) => _.some(r.deployments, { chainId }));
     }
 
     return list[0];
@@ -115,14 +134,13 @@ const releases = {
    * Get the latest release for a protocol.
    * - {protocol}
    */
-  getLatest: (opts: { protocol: Sablier.Protocol }) => {
+  getLatest: (opts: { protocol: Sablier.Protocol }): Sablier.Release => {
     const list = releasesByProtocol[opts.protocol];
-    const release = list[list.length - 1];
-    if (!release.isLatest) {
-      console.warn(`No latest release for ${opts.protocol}`);
-      return undefined;
+    const latest = list[list.length - 1];
+    if (!latest.isLatest) {
+      throw new Error(`Latest release not found for Sablier ${opts.protocol}. Please report on GitHub.`);
     }
-    return release;
+    return latest;
   },
 };
 

@@ -1,2 +1,2 @@
-export { default as catalog } from "./catalog";
+export * from "./catalog";
 export { default as names } from "./names";

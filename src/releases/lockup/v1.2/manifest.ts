@@ -1,6 +1,4 @@
-import type { Sablier } from "@src/types";
-
-const manifest: Sablier.Manifest.LockupV1 = {
+const manifest = {
   core: {
     SABLIER_V2_LOCKUP_DYNAMIC: "SablierV2LockupDynamic",
     SABLIER_V2_LOCKUP_LINEAR: "SablierV2LockupLinear",
