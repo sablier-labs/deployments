@@ -7,11 +7,11 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
+    "@sablier/devkit": "github:sablier-labs/devkit",
     "lodash": "^4.17"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.0-beta.4",
-    "@sablier/configs": "github:sablier-labs/configs",
     "@types/fs-extra": "^11.0",
     "@types/lodash": "^4.17",
     "@types/node": "^22.14",
@@ -52,22 +52,8 @@
   },
   "repository": "github.com:sablier-labs/deployments",
   "scripts": {
-    "biome:check": "biome check .",
-    "biome:write": "biome check --write . && bun run biome:write:imports",
-    "biome:write:imports": "biome lint --write --only correctness/noUnusedImports .",
-    "build": "bun run clean && bun run tsc:build",
-    "clean": "rm -rf dist",
-    "check": "bun run biome:check && bun run prettier:check && bun run tsc:check",
-    "fix": "bun run biome:write && bun run prettier:write",
-    "prepack": "bun run build",
-    "prepare": "husky",
-    "prettier:check": "prettier --cache --check \"**/*.{md,yml}\"",
-    "prettier:write": "prettier --cache --write \"**/*.{md,yml}\"",
-    "test": "vitest run --silent",
-    "test:ui": "vitest --silent --ui",
-    "test:watch": "vitest --silent",
-    "tsc:build": "tsc -p tsconfig.build.json && bun tsc-alias -p tsconfig.build.json",
-    "tsc:check": "tsc -p tsconfig.json --noEmit"
+    "prepack": "bun install --frozen-lockfile && just build",
+    "prepare": "husky"
   },
   "types": "./dist/index.d.ts"
 }

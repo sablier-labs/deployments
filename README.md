@@ -1,5 +1,7 @@
 # Sablier Deployments
 
+TODO: rewrite this
+
 This repository keeps track of Sablier deployment bundles, each of which includes:
 
 1. Contract artifacts and ABIs.
