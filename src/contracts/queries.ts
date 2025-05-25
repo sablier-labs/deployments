@@ -11,40 +11,31 @@ const queries = {
    * - {address}
    */
   get: (opts: {
-    chainId?: number;
+    chainId: number;
     contractAddress?: string;
     contractName?: string;
-    deployment?: Sablier.Deployment;
-    release?: Sablier.Release;
+    deployments?: Sablier.Deployment[];
+    protocol?: Sablier.Protocol;
   }): Sablier.Contract | undefined => {
-    const { contractAddress, contractName, deployment, release, chainId } = opts;
+    const { chainId, deployments, contractAddress, contractName, protocol } = opts;
 
     if (contractAddress && contractName) {
-      throw new Error("Cannot specify both contractAddress and contractNam as query options");
+      throw new Error("Cannot specify both contractAddress and contractName as query options");
     }
 
     if (contractName) {
-      if (deployment) {
-        return _.find(deployment.contracts, { name: contractName });
+      if (!deployments) {
+        throw new Error("Cannot specify contractName without deployments");
       }
-
-      if (release) {
-        if (!chainId) {
-          throw new Error("Cannot specify release without chainId");
-        }
-        const dep = _.find(release.deployments, { chainId });
-        return dep && _.find(dep.contracts, { name: contractName });
-      }
+      const dep = _.find(deployments, { chainId });
+      return dep && _.find(dep.contracts, { name: contractName });
     }
 
     if (contractAddress) {
-      if (!release) {
-        throw new Error("Cannot specify contractAddress without release");
+      if (!protocol) {
+        throw new Error("Cannot specify contractAddress without protocol");
       }
-      if (!chainId) {
-        throw new Error("Cannot specify contractAddress without chainId");
-      }
-      return _.get(catalog, [release.protocol, chainId, contractAddress]);
+      return _.get(catalog, [protocol, chainId, contractAddress]);
     }
 
     return undefined;

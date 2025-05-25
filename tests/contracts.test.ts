@@ -44,7 +44,7 @@ describe("Contract catalog", () => {
       const entry = queries.contracts.get({
         chainId: deployment.chainId,
         contractAddress: lowercaseAddress,
-        release,
+        protocol: release.protocol,
       });
       expect(entry).toStrictEqual(contract);
     });
