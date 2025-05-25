@@ -1,37 +1,63 @@
 {
   "name": "@sablier/deployments",
-  "description": "Keeping track of Sablier deployments",
-  "version": "1.0.0",
+  "description": "Deployment data for the Sablier Protocol",
+  "version": "1.0.0-alpha.44",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
-  "devDependencies": {
-    "husky": "^9.1.4",
-    "lint-staged": "^15.4.3",
-    "prettier": "^2.8.8"
+  "dependencies": {
+    "@sablier/devkit": "github:sablier-labs/devkit",
+    "lodash": "^4.17"
   },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.0-beta.4",
+    "@types/fs-extra": "^11.0",
+    "@types/lodash": "^4.17",
+    "@types/node": "^22.14",
+    "@vitest/ui": "^3.1",
+    "axios": "^1.8",
+    "fs-extra": "^11.3",
+    "globby": "^14.1",
+    "husky": "^9.1",
+    "lint-staged": "^15.5",
+    "prettier": "^3.5",
+    "rimraf": "^6.0.1",
+    "tsc-alias": "^1.8",
+    "typescript": "^5.8",
+    "viem": "^2.30",
+    "vite-tsconfig-paths": "^5.1",
+    "vitest": "^3.1",
+    "winston": "^3.17"
+  },
+  "files": [
+    "dist"
+  ],
   "keywords": [
-    "asset-streaming",
+    "airdrops",
     "blockchain",
-    "cryptoasset-streaming",
-    "cryptoassets",
+    "deployments",
     "ethereum",
-    "foundry",
-    "money-streaming",
-    "real-time-finance",
+    "evm",
     "sablier",
-    "sablier-v2",
     "smart-contracts",
     "solidity",
-    "token-streaming"
+    "token-streaming",
+    "token-vesting",
+    "web3"
   ],
   "license": "GPL-3.0-or-later",
-  "private": true,
+  "main": "dist/index.js",
+  "peerDependencies": {
+    "viem": "^2.30"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "github.com:sablier-labs/deployments",
   "scripts": {
-    "prepare": "husky",
-    "prettier:check": "prettier --cache --check \"**/*.{json,md,yml}\"",
-    "prettier:write": "prettier --cache --write \"**/*.{json,md,yml}\""
-  }
+    "build": "bun rimraf dist && bun tsc -p tsconfig.build.json && bun tsc-alias -p tsconfig.build.json",
+    "prepack": "bun install --frozen-lockfile && bun run build"
+  },
+  "types": "./dist/index.d.ts"
 }
