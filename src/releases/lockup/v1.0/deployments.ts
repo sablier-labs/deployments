@@ -1,6 +1,6 @@
-import { ChainId } from "@src/chains/ids";
+import { chains } from "@src/chains";
 import { Protocol } from "@src/enums";
-import { resolveDeploymentLockupV1 } from "@src/releases/resolvers";
+import resolvers from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import aliases from "./aliases";
 import manifest from "./manifest";
@@ -12,14 +12,20 @@ function get(
     periphery: Sablier.ContractMap;
   },
 ): Sablier.Deployment.LockupV1 {
-  return resolveDeploymentLockupV1(Protocol.Lockup, "v1.0", chainId, aliases, contractMap);
+  return resolvers.deployment.lockupV1({
+    aliasMap: aliases,
+    chainId,
+    contractMap,
+    protocol: Protocol.Lockup,
+    version: "v1.0",
+  });
 }
 
 /**
  * @description Mainnet deployments for Lockup v1.2
  */
 export const mainnets: Sablier.Deployment.LockupV1[] = [
-  get(ChainId.ETHEREUM, {
+  get(chains.ethereum.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0xC3Be6BffAeab7B297c03383B4254aa3Af2b9a5BA",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x39EFdC3dbB57B2388CcC4bb40aC4CB1226Bc9E44", 17_613_133],
@@ -33,7 +39,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0x638a7aC8315767cEAfc57a6f5e3559454347C3f6",
     },
   }),
-  get(ChainId.ARBITRUM_ONE, {
+  get(chains.arbitrum.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x17Ec73692F0aDf7E7C554822FBEAACB4BE781762",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xA9EfBEf1A35fF80041F567391bdc9813b2D50197", 107_508_404],
@@ -47,7 +53,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0x90cc23dc3e12e80f27c05b8137b5f0d2b1edfa20",
     },
   }),
-  get(ChainId.AVALANCHE, {
+  get(chains.avalanche.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x66F5431B0765D984f82A4fc4551b2c9ccF7eAC9C",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x665d1C8337F1035cfBe13DD94bB669110b975f5F", 32_164_219],
@@ -61,7 +67,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0x817fE1364A9d57d1fB951945B53942234163Ef10",
     },
   }),
-  get(ChainId.BASE, {
+  get(chains.base.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x7Faaedd40B1385C118cA7432952D9DC6b5CbC49e",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x645B00960Dc352e699F89a81Fc845C0C645231cf", 1_750_275],
@@ -75,7 +81,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0xf19576Ab425753816eCbF98aca8132A0f693aEc5",
     },
   }),
-  get(ChainId.BSC, {
+  get(chains.bsc.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x33511f69A784Fd958E6713aCaC7c9dCF1A5578E8",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xF2f3feF2454DcA59ECA929D2D8cD2a8669Cc6214", 29_646_271],
@@ -89,7 +95,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0xc9bf2A6bD467A813908d836c1506efE61E465761",
     },
   }),
-  get(ChainId.GNOSIS, {
+  get(chains.gnosis.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x73962c44c0fB4cC5e4545FB91732a5c5e87F55C2",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xeb148E4ec13aaA65328c0BA089a278138E9E53F9", 28_766_600],
@@ -103,7 +109,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0x89AfE038714e547C29Fa881029DD4B5CFB008454",
     },
   }),
-  get(ChainId.OP_MAINNET, {
+  get(chains.optimism.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x1EECb6e6EaE6a1eD1CCB4323F3a146A7C5443A10",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x6f68516c21E248cdDfaf4898e66b2b0Adee0e0d6", 106_405_061],
@@ -117,7 +123,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0x8a6974c162fdc7Cb67996F7dB8bAAFb9a99566e0",
     },
   }),
-  get(ChainId.POLYGON, {
+  get(chains.polygon.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x9761692EDf10F5F2A69f0150e2fd50dcecf05F2E",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x7313AdDb53f96a4f710D3b91645c62B434190725", 44_637_127],
@@ -131,7 +137,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET_APPROVE]: "0xccA6dd77bA2cfcccEdA01A82CB309e2A17901682",
     },
   }),
-  get(ChainId.SCROLL, {
+  get(chains.scroll.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x859708495E3B3c61Bbe19e6E3E1F41dE3A5C5C5b",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xde6a30D851eFD0Fc2a9C922F294801Cfd5FCB3A1", 500_707],
@@ -151,7 +157,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
  * @description Testnet deployments for Lockup v1.0
  */
 export const testnets: Sablier.Deployment.LockupV1[] = [
-  get(ChainId.ARBITRUM_SEPOLIA, {
+  get(chains.arbitrumSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0xA6A0cfA3442053fbB516D55205A749Ef2D33aed9",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x7938c18a59FaD2bA11426AcfBe8d74F0F598a4D2", 2_838_657],
@@ -164,7 +170,7 @@ export const testnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_PROXY_TARGET]: "0x396A3a169918A4C0B339ECf86C583f46D696254E",
     },
   }),
-  get(ChainId.ETHEREUM_SEPOLIA, {
+  get(chains.ethereumSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x2006d43E65e66C5FF20254836E63947FA8bAaD68",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x421e1E7a53FF360f70A2D02037Ee394FA474e035", 4_067_889],

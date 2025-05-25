@@ -13,30 +13,32 @@
 import path from "node:path";
 import { logAndThrow } from "@scripts/logger";
 import { chains } from "@src/chains";
-import { ChainId } from "@src/chains/ids";
 import axios from "axios";
 import { globby } from "globby";
+import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
 
-const MALFUNCTIONING_RPC: number[] = [ChainId.MELD];
+const MALFUNCTIONING_RPC: number[] = [chains.meld.id];
 const MISSING_BROADCASTS: string[] = ["iotex", "ronin", "tangle", "ultra"];
-const PACKAGE_CHAINS = chains.filter((chain) => !MISSING_BROADCASTS.includes(chain.key)).map((chain) => chain.key);
+const KNOWN_SLUGS = _.values(chains)
+  .filter((chain) => !MISSING_BROADCASTS.includes(chain.slug))
+  .map((chain) => chain.slug);
 
 describe("Package chains are in sync with broadcasts", () => {
-  let broadcastChains: string[] = [];
+  let broadcastSlugs: string[] = [];
   const errors: Set<string> = new Set();
 
   beforeAll(async () => {
     // Get all deployment files
-    broadcastChains = await getAllBroadcastChains();
+    broadcastSlugs = await getAllBroadcastSlugs();
   });
 
   it("should have every package chain in at least one broadcast", () => {
     errors.clear();
-    for (const chainKey of PACKAGE_CHAINS) {
-      if (!broadcastChains.includes(chainKey)) {
-        errors.add(`Chain "${chainKey}" is defined in package but NOT found in any broadcast`);
-      }
+    const missingChains = _.difference(KNOWN_SLUGS, broadcastSlugs);
+
+    for (const slug of missingChains) {
+      errors.add(`Chain "${slug}" is defined in package but NOT found in any broadcast`);
     }
 
     if (errors.size > 0) {
@@ -51,10 +53,11 @@ describe("Package chains are in sync with broadcasts", () => {
 
   it("should not have any unknown chain in broadcasts", () => {
     errors.clear();
-    for (const chainKey of broadcastChains) {
-      if (!PACKAGE_CHAINS.includes(chainKey) && !MISSING_BROADCASTS.includes(chainKey)) {
-        errors.add(`Chain "${chainKey}" found in broadcasts but NOT defined in package`);
-      }
+    const allowedSlugs = [...KNOWN_SLUGS, ...MISSING_BROADCASTS];
+    const extraChains = _.difference(broadcastSlugs, allowedSlugs);
+
+    for (const slug of extraChains) {
+      errors.add(`Chain "${slug}" found in broadcasts but NOT defined in package`);
     }
 
     if (errors.size > 0) {
@@ -70,8 +73,8 @@ describe("Package chains are in sync with broadcasts", () => {
 
 const envVarsSet = process.env.CI && process.env.TEST_ONLY_CHAINS;
 describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
-  for (const chain of chains) {
-    const shouldSkip: boolean = !chain.rpc.public || MALFUNCTIONING_RPC.includes(chain.id);
+  for (const chain of _.values(chains)) {
+    const shouldSkip: boolean = MALFUNCTIONING_RPC.includes(chain.id);
 
     it.skipIf(shouldSkip)(`${chain.name} (ID: ${chain.id})`, async () => {
       const rpcRequest = {
@@ -82,7 +85,7 @@ describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
       };
 
       await expect(
-        axios.post(chain.rpc.public, rpcRequest, {
+        axios.post(chain.rpcUrls.default.http[0], rpcRequest, {
           headers: { "Content-Type": "application/json" },
           timeout: 10_000, // 10 seconds
         }),
@@ -98,7 +101,7 @@ describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
   }
 });
 
-async function getAllBroadcastChains(): Promise<string[]> {
+async function getAllBroadcastSlugs(): Promise<string[]> {
   const dataPath = path.join(__dirname, "..", "data");
   const dirs = await globby([path.join(dataPath, "**/mainnets"), path.join(dataPath, "**/testnets")], {
     onlyDirectories: true,

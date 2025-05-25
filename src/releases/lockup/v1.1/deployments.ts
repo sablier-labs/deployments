@@ -1,6 +1,6 @@
-import { ChainId } from "@src/chains/ids";
+import { chains } from "@src/chains";
 import { Protocol } from "@src/enums";
-import { resolveDeploymentLockupV1 } from "@src/releases/resolvers";
+import resolvers from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import aliases from "./aliases";
 import manifest from "./manifest";
@@ -12,29 +12,20 @@ function get(
     periphery: Sablier.ContractMap;
   },
 ): Sablier.Deployment.LockupV1 {
-  return resolveDeploymentLockupV1(Protocol.Lockup, "v1.1", chainId, aliases, contractMap);
+  return resolvers.deployment.lockupV1({
+    aliasMap: aliases,
+    chainId,
+    contractMap,
+    protocol: Protocol.Lockup,
+    version: "v1.1",
+  });
 }
 
 /**
  * @description Mainnet deployments for Lockup v1.1
  */
 export const mainnets: Sablier.Deployment.LockupV1[] = [
-  get(ChainId.ETHEREUM, {
-    core: {
-      [manifest.core.SABLIER_V2_COMPTROLLER]: "0xC3Be6BffAeab7B297c03383B4254aa3Af2b9a5BA",
-      [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x7CC7e125d83A581ff438608490Cc0f7bDff79127", 18_821_269],
-      [manifest.core.SABLIER_V2_LOCKUP_LINEAR]: ["0xAFb979d9afAd1aD27C5eFf4E27226E3AB9e5dCC9", 18_820_775],
-      [manifest.core.SABLIER_V2_NFT_DESCRIPTOR]: "0x23eD5DA55AF4286c0dE55fAcb414dEE2e317F4CB",
-    },
-    periphery: {
-      [manifest.periphery.SABLIER_V2_BATCH]: "0xEa07DdBBeA804E7fe66b958329F8Fa5cDA95Bd55",
-      [manifest.periphery.SABLIER_V2_MERKLE_STREAMER_FACTORY]: [
-        "0x1A272b596b10f02931480BC7a3617db4a8d154E3",
-        18_811_605,
-      ],
-    },
-  }),
-  get(ChainId.ARBITRUM_ONE, {
+  get(chains.arbitrum.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x17Ec73692F0aDf7E7C554822FBEAACB4BE781762",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xf390cE6f54e4dc7C5A5f7f8689062b7591F7111d", 161_612_601],
@@ -49,7 +40,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.AVALANCHE, {
+  get(chains.avalanche.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x66F5431B0765D984f82A4fc4551b2c9ccF7eAC9C",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x0310Da0D8fF141166eD47548f00c96464880781F", 41_023_369],
@@ -64,7 +55,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.BASE, {
+  get(chains.base.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x7Faaedd40B1385C118cA7432952D9DC6b5CbC49e",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x461E13056a3a3265CEF4c593F01b2e960755dE91", 8_103_277],
@@ -79,7 +70,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.BLAST, {
+  get(chains.blast.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x2De92156000269fa2fde7544F10f01E8cBC80fFa",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xDf578C2c70A86945999c65961417057363530a1c", 243_844],
@@ -91,7 +82,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_MERKLE_STREAMER_FACTORY]: ["0x92FC05e49c27884d554D98a5C01Ff0894a9DC29a", 244_740],
     },
   }),
-  get(ChainId.BSC, {
+  get(chains.bsc.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x33511f69A784Fd958E6713aCaC7c9dCF1A5578E8",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xf900c5E3aA95B59Cc976e6bc9c0998618729a5fa", 34_492_523],
@@ -106,7 +97,22 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.GNOSIS, {
+  get(chains.ethereum.id, {
+    core: {
+      [manifest.core.SABLIER_V2_COMPTROLLER]: "0xC3Be6BffAeab7B297c03383B4254aa3Af2b9a5BA",
+      [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x7CC7e125d83A581ff438608490Cc0f7bDff79127", 18_821_269],
+      [manifest.core.SABLIER_V2_LOCKUP_LINEAR]: ["0xAFb979d9afAd1aD27C5eFf4E27226E3AB9e5dCC9", 18_820_775],
+      [manifest.core.SABLIER_V2_NFT_DESCRIPTOR]: "0x23eD5DA55AF4286c0dE55fAcb414dEE2e317F4CB",
+    },
+    periphery: {
+      [manifest.periphery.SABLIER_V2_BATCH]: "0xEa07DdBBeA804E7fe66b958329F8Fa5cDA95Bd55",
+      [manifest.periphery.SABLIER_V2_MERKLE_STREAMER_FACTORY]: [
+        "0x1A272b596b10f02931480BC7a3617db4a8d154E3",
+        18_811_605,
+      ],
+    },
+  }),
+  get(chains.gnosis.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x73962c44c0fB4cC5e4545FB91732a5c5e87F55C2",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x1DF83C7682080B0f0c26a20C6C9CB8623e0Df24E", 31_521_496],
@@ -121,7 +127,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.LIGHTLINK, {
+  get(chains.lightlink.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0xb568f9Bc0dcE39B9B64e843bC19DA102B5E3E939",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x49d753422ff05daa291A9efa383E4f57daEAd889", 63_524_930],
@@ -136,7 +142,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.OP_MAINNET, {
+  get(chains.optimism.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x1EECb6e6EaE6a1eD1CCB4323F3a146A7C5443A10",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xd6920c1094eABC4b71f3dC411A1566f64f4c206e", 113_697_819],
@@ -151,7 +157,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.POLYGON, {
+  get(chains.polygon.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x9761692EDf10F5F2A69f0150e2fd50dcecf05F2E",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xB194c7278C627D52E440316b74C5F24FC70c1565", 51_312_683],
@@ -166,7 +172,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.SCROLL, {
+  get(chains.scroll.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x859708495E3B3c61Bbe19e6E3E1F41dE3A5C5C5b",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xAaff2D11f9e7Cd2A9cDC674931fAC0358a165995", 1_725_016],
@@ -181,7 +187,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.ZK_SYNC_ERA, {
+  get(chains.zksync.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0xD05bdb4cF6Be7D647c5FEcC7952660bdD82cE44C",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xE6c7324BEA8474209103e407779Eec600c07cF3F", 32_472_581],
@@ -202,7 +208,7 @@ export const mainnets: Sablier.Deployment.LockupV1[] = [
  * @description Testnet deployments for Lockup v1.1
  */
 export const testnets: Sablier.Deployment.LockupV1[] = [
-  get(ChainId.ARBITRUM_SEPOLIA, {
+  get(chains.arbitrumSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0xA6A0cfA3442053fbB516D55205A749Ef2D33aed9",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x8c8102b92B1f31cC304A085D490796f4DfdF7aF3", 3_070_425],
@@ -217,7 +223,7 @@ export const testnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.BASE_SEPOLIA, {
+  get(chains.baseSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x90b1C663314cFb55c8FF6f9a50a8D57a2D83a664",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xF46d5fA9bFC964E8d06846c8739AEc69BC06344d", 7_545_175],
@@ -232,7 +238,7 @@ export const testnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.BLAST_SEPOLIA, {
+  get(chains.blastSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x9e216126115AFcdA9531232D3B735731905B4DC4",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0x8aB55a8E046634D5AD87f64d65C1E96275e48712", 2_306_760],
@@ -247,7 +253,7 @@ export const testnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.OP_SEPOLIA, {
+  get(chains.optimismSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x6587166c4F4E0b6203549463EbAB4dBeFA63fd8f",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xf9e4095C1dfC058B34135C5c48cae66a8D2b3Aa5", 7_451_817],
@@ -262,7 +268,7 @@ export const testnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.ETHEREUM_SEPOLIA, {
+  get(chains.ethereumSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x2006d43E65e66C5FF20254836E63947FA8bAaD68",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xc9940AD8F43aAD8e8f33A4D5dbBf0a8F7FF4429A", 4_917_331],
@@ -277,7 +283,7 @@ export const testnets: Sablier.Deployment.LockupV1[] = [
       ],
     },
   }),
-  get(ChainId.TAIKO_HEKLA, {
+  get(chains.taikoHekla.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0x2De92156000269fa2fde7544F10f01E8cBC80fFa",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xDf578C2c70A86945999c65961417057363530a1c", 39_025],
@@ -289,7 +295,7 @@ export const testnets: Sablier.Deployment.LockupV1[] = [
       [manifest.periphery.SABLIER_V2_MERKLE_STREAMER_FACTORY]: ["0x29a8d9F67608d77D0B4544A70FC2ab80BA5525f5", 39_064],
     },
   }),
-  get(ChainId.ZK_SYNC_SEPOLIA, {
+  get(chains.zksyncSepolia.id, {
     core: {
       [manifest.core.SABLIER_V2_COMPTROLLER]: "0xEB4570723ae207a0473D73B3c2B255b0D5Ec9f01",
       [manifest.core.SABLIER_V2_LOCKUP_DYNAMIC]: ["0xe101C69A6f9c071Ab79aEE0be56928565962F56d", 2_108_902],

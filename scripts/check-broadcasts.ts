@@ -6,6 +6,15 @@ import { logInfo } from "./logger";
 
 const ROOT_DIR = path.join(__dirname, "..");
 
+export async function checkBroadcast(
+  release: Sablier.Release,
+  chain: Sablier.Chain,
+  contractPath?: string,
+): Promise<string | null> {
+  return chain.isZK
+    ? checkZKBroadcast(release, chain, contractPath)
+    : checkStandardBroadcast(release, chain, contractPath);
+}
 /**
  * Checks that the broadcast file exists for the specified release and chain.
  * @param release - The release to check
@@ -13,7 +22,7 @@ const ROOT_DIR = path.join(__dirname, "..");
  * @param contractPath - The inner directory path to the contract to check, e.g. "core" or "periphery"
  * @returns The path to the broadcast file if it exists, otherwise null
  */
-export async function checkBroadcast(
+async function checkStandardBroadcast(
   release: Sablier.Release,
   chain: Sablier.Chain,
   contractPath?: string,
@@ -28,7 +37,7 @@ export async function checkBroadcast(
  * @param contractPath - The inner directory path to the contract to check, e.g. "core" or "periphery"
  * @returns The path to the broadcast directory if it exists, otherwise null
  */
-export async function checkZKBroadcast(
+async function checkZKBroadcast(
   release: Sablier.Release,
   chain: Sablier.Chain,
   contractPath?: string,
@@ -57,7 +66,7 @@ async function checkPath(
   suffix = "",
 ): Promise<string | null> {
   const chainType = chain.isTestnet ? "testnets" : "mainnets";
-  const chainPath = path.join(chainType, `${chain.key}${suffix}`);
+  const chainPath = path.join(chainType, `${chain.slug}${suffix}`);
   const basePath = path.join(__dirname, "..", "data", release.protocol, release.version);
   const contractPathWithSlashes = contractPath ? `/${contractPath}/` : "";
   const pathToCheck = path.join(basePath, contractPathWithSlashes, chainPath);

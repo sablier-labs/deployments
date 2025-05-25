@@ -1,10 +1,20 @@
 import fs from "node:fs";
-import { checkBroadcast, checkZKBroadcast } from "@scripts/check-broadcasts";
+import { checkBroadcast } from "@scripts/check-broadcasts";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 export async function loadBroadcastJSON(
+  release: Sablier.Release,
+  chain: Sablier.Chain,
+  componentName?: string,
+): Promise<BroadcastJSON | ZKBroadcastJSON[] | null> {
+  return chain.isZK
+    ? loadZKBroadcastJSONs(release, chain, componentName)
+    : loadStandardBroadcastJSON(release, chain, componentName);
+}
+
+async function loadStandardBroadcastJSON(
   release: Sablier.Release,
   chain: Sablier.Chain,
   componentName?: string,
@@ -21,12 +31,12 @@ export async function loadBroadcastJSON(
 /**
  * Loads ZK deployment JSON files for contract names
  */
-export async function loadZKBroadcastJSONs(
+async function loadZKBroadcastJSONs(
   release: Sablier.Release,
   chain: Sablier.Chain,
   componentName?: string,
 ): Promise<ZKBroadcastJSON[] | null> {
-  const dirs = await checkZKBroadcast(release, chain, componentName);
+  const dirs = await checkBroadcast(release, chain, componentName);
   if (!dirs) {
     return null;
   }

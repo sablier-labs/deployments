@@ -1,4 +1,4 @@
-import { getChain } from "@src/chains";
+import chainsQueries from "@src/chains/queries";
 import _ from "lodash";
 import type { Sablier } from "./types";
 
@@ -18,8 +18,8 @@ export function sortChains<T extends { name: string }>(chains: T[]): T[] {
 
 export function sortDeployments<T extends { chainId: number }>(deployments: T[]): T[] {
   return deployments.sort((a, b) => {
-    const aChain = getChain(a.chainId);
-    const bChain = getChain(b.chainId);
+    const aChain = chainsQueries.getOrThrow(a.chainId);
+    const bChain = chainsQueries.getOrThrow(b.chainId);
     return aChain.name.localeCompare(bChain.name);
   });
 }

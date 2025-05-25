@@ -2,11 +2,11 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["@sablier/devkit/biome"],
   "files": {
-    "includes": ["**/*.js", "**/*.json", "**/*.jsonc", "**/*.ts"]
+    "includes": ["**/*.{js,json,jsonc,ts}"]
   },
   "overrides": [
     {
-      "includes": ["**/tests/*"],
+      "includes": ["**/{scripts,tests}/**/*.ts"],
       "linter": {
         "rules": {
           "suspicious": {

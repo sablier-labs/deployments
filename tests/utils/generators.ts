@@ -1,4 +1,4 @@
-import { getChain } from "@src/chains";
+import queries from "@src/queries";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -128,7 +128,7 @@ export function createZKTests(release: Sablier.Release, deployment: Sablier.Depl
 export function createTestSuite(release: Sablier.Release): void {
   describe(`${release.protocol} ${release.version}`, () => {
     for (const deployment of release.deployments) {
-      const chain = getChain(deployment.chainId);
+      const chain = queries.chains.getOrThrow(deployment.chainId);
       if (chain.isZK) {
         createZKTests(release, deployment, chain);
       } else {

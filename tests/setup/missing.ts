@@ -1,4 +1,4 @@
-import { ChainId } from "@src/chains/ids";
+import { chains } from "@src/chains";
 import lockupV1_0 from "@src/releases/lockup/v1.0/manifest";
 import lockupV1_1 from "@src/releases/lockup/v1.1/manifest";
 import type { Sablier } from "@src/types";
@@ -13,43 +13,43 @@ type ProtocolMap = Partial<Record<Sablier.Protocol, VersionMap>>;
 export const missingBroadcasts: ProtocolMap = {
   lockup: {
     "v1.0": {
-      [ChainId.ARBITRUM_SEPOLIA]: {
+      [chains.arbitrumSepolia.id]: {
         [lockupV1_0.core.SABLIER_V2_COMPTROLLER]: true,
       },
     },
     "v1.1": {
-      [ChainId.ARBITRUM_ONE]: {
+      [chains.arbitrum.id]: {
         [lockupV1_1.core.SABLIER_V2_LOCKUP_LINEAR]: true,
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.BASE]: {
+      [chains.base.id]: {
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.BSC]: {
+      [chains.bsc.id]: {
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.ETHEREUM]: {
+      [chains.ethereum.id]: {
         [lockupV1_1.core.SABLIER_V2_LOCKUP_DYNAMIC]: true,
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.GNOSIS]: {
+      [chains.gnosis.id]: {
         [lockupV1_1.core.SABLIER_V2_LOCKUP_LINEAR]: true,
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.OP_MAINNET]: {
+      [chains.optimism.id]: {
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.POLYGON]: {
+      [chains.polygon.id]: {
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.SCROLL]: {
+      [chains.scroll.id]: {
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.ARBITRUM_SEPOLIA]: {
+      [chains.arbitrumSepolia.id]: {
         [lockupV1_1.core.SABLIER_V2_COMPTROLLER]: true,
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
-      [ChainId.ETHEREUM_SEPOLIA]: {
+      [chains.ethereumSepolia.id]: {
         [lockupV1_1.core.SABLIER_V2_NFT_DESCRIPTOR]: true,
       },
     },

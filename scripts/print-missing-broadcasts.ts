@@ -8,11 +8,11 @@
  *   bun run scripts/print-missing-broadcasts.ts flow
  *   bun run scripts/print-missing-broadcasts.ts lockup
  */
-import { getChain } from "@src/chains";
+import queries from "@src/queries";
 import { releasesByProtocol } from "@src/releases";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import { checkBroadcast, checkZKBroadcast } from "./check-broadcasts";
+import { checkBroadcast } from "./check-broadcasts";
 import logger, { logAndThrow } from "./logger";
 
 const EMOJIS = {
@@ -37,29 +37,23 @@ async function main(): Promise<void> {
 
   for (const release of releasesByProtocol[protocol]) {
     for (const deployment of release.deployments) {
-      const chain = getChain(deployment.chainId);
+      const chain = queries.chains.getOrThrow(deployment.chainId);
 
       let hasValidBroadcasts = false;
 
       if (release.kind === "lockupV1") {
         const components = ["core", "periphery"];
         hasValidBroadcasts = await Promise.all(
-          components.map((component) =>
-            chain.isZK ? checkZKBroadcast(release, chain, component) : checkBroadcast(release, chain, component),
-          ),
+          components.map((component) => checkBroadcast(release, chain, component)),
         ).then((results) => results.every(Boolean));
       } else {
-        const paths = chain.isZK
-          ? await checkZKBroadcast(release, chain, "")
-          : await checkBroadcast(release, chain, "");
+        const paths = await checkBroadcast(release, chain);
         hasValidBroadcasts = !_.isEmpty(paths);
       }
 
       // Add to missing list if broadcasts aren't valid
       if (!hasValidBroadcasts) {
-        if (!missing[release.version]) {
-          missing[release.version] = [];
-        }
+        _.defaults(missing, { [release.version]: [] });
         missing[release.version].push(chain);
       }
     }

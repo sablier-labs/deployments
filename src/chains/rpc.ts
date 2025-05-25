@@ -1,55 +1,44 @@
-import { ChainId } from "./ids";
+import * as viem from "viem/chains";
 
 type RPCGenerator = (apiKey: string) => string;
 
+const alchemyRPCs: Record<number, RPCGenerator> = {
+  [viem.arbitrum.id]: (apiKey) => `https://arb-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.avalanche.id]: (apiKey) => `https://avalanche-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.base.id]: (apiKey) => `https://base-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.bsc.id]: (apiKey) => `https://bsc-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.mainnet.id]: (apiKey) => `https://eth-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.linea.id]: (apiKey) => `https://linea-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.optimism.id]: (apiKey) => `https://opt-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.polygon.id]: (apiKey) => `https://polygon-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.scroll.id]: (apiKey) => `https://scroll-mainnet.g.alchemy.com/v2/${apiKey}`,
+  [viem.zksync.id]: (apiKey) => `https://zksync-mainnet.g.alchemy.com/v2/${apiKey}`,
+};
+
+const infuraRPCs: Record<number, RPCGenerator> = {
+  [viem.arbitrum.id]: (apiKey) => `https://arbitrum-mainnet.infura.io/v3/${apiKey}`,
+  [viem.avalanche.id]: (apiKey) => `https://avalanche-mainnet.infura.io/v3/${apiKey}`,
+  [viem.bsc.id]: (apiKey) => `https://bsc-mainnet.infura.io/v3/${apiKey}`,
+  [viem.mainnet.id]: (apiKey) => `https://mainnet.infura.io/v3/${apiKey}`,
+  [viem.linea.id]: (apiKey) => `https://linea-mainnet.infura.io/v3/${apiKey}`,
+  [viem.optimism.id]: (apiKey) => `https://optimism-mainnet.infura.io/v3/${apiKey}`,
+  [viem.polygon.id]: (apiKey) => `https://polygon-mainnet.infura.io/v3/${apiKey}`,
+  [viem.scroll.id]: (apiKey) => `https://scroll-mainnet.infura.io/v3/${apiKey}`,
+  [viem.zksync.id]: (apiKey) => `https://zksync-mainnet.infura.io/v3/${apiKey}`,
+};
+
 export function getAlchemyRPC(chainId: number): RPCGenerator | undefined {
-  switch (chainId) {
-    case ChainId.ARBITRUM_ONE:
-      return (apiKey) => `https://arb-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.AVALANCHE:
-      return (apiKey) => `https://avalanche-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.BASE:
-      return (apiKey) => `https://base-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.BSC:
-      return (apiKey) => `https://bsc-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.ETHEREUM:
-      return (apiKey) => `https://eth-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.LINEA:
-      return (apiKey) => `https://linea-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.OP_MAINNET:
-      return (apiKey) => `https://opt-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.POLYGON:
-      return (apiKey) => `https://polygon-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.SCROLL:
-      return (apiKey) => `https://scroll-mainnet.g.alchemy.com/v2/${apiKey}`;
-    case ChainId.ZK_SYNC_ERA:
-      return (apiKey) => `https://zksync-mainnet.g.alchemy.com/v2/${apiKey}`;
-    default:
-      return undefined;
+  const generator = alchemyRPCs[chainId];
+  if (!generator) {
+    console.debug(`No Alchemy RPC URL found for chain ${chainId}`);
   }
+  return generator;
 }
 
 export function getInfuraRPC(chainId: number): RPCGenerator | undefined {
-  switch (chainId) {
-    case ChainId.ARBITRUM_ONE:
-      return (apiKey) => `https://arbitrum-mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.AVALANCHE:
-      return (apiKey) => `https://avalanche-mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.BSC:
-      return (apiKey) => `https://bsc-mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.ETHEREUM:
-      return (apiKey) => `https://mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.LINEA:
-      return (apiKey) => `https://linea-mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.OP_MAINNET:
-      return (apiKey) => `https://optimism-mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.POLYGON:
-      return (apiKey) => `https://polygon-mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.SCROLL:
-      return (apiKey) => `https://scroll-mainnet.infura.io/v3/${apiKey}`;
-    case ChainId.ZK_SYNC_ERA:
-      return (apiKey) => `https://zksync-mainnet.infura.io/v3/${apiKey}`;
-    default:
-      return undefined;
+  const generator = infuraRPCs[chainId];
+  if (!generator) {
+    console.debug(`No Infura RPC URL found for chain ${chainId}`);
   }
+  return generator;
 }

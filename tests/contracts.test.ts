@@ -1,6 +1,4 @@
 import { logAndThrow } from "@scripts/logger";
-import { chainsById } from "@src/chains";
-import { queryCatalog } from "@src/contracts";
 import queries from "@src/queries";
 import { releases, releasesByVersion } from "@src/releases";
 import axios from "axios";
@@ -43,7 +41,11 @@ describe("Contract catalog", () => {
       const deployment = release.deployments[0];
       const contract = deployment.contracts[0];
       const lowercaseAddress = contract.address.toLowerCase();
-      const entry = queryCatalog(release.protocol, deployment.chainId, lowercaseAddress);
+      const entry = queries.contracts.get({
+        chainId: deployment.chainId,
+        contractAddress: lowercaseAddress,
+        release,
+      });
       expect(entry).toStrictEqual(contract);
     });
   }
@@ -77,7 +79,7 @@ describe.runIf(shouldRunBlockTests)("Block numbers", () => {
     describe(`${release.protocol} ${release.version}`, () => {
       for (const deployment of release.deployments) {
         const chainId = deployment.chainId;
-        const chain = chainsById[chainId];
+        const chain = queries.chains.getOrThrow(chainId);
 
         // Skip chains not supported by Etherscan
         if (!etherscanChainIds.includes(chainId)) {

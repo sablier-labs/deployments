@@ -1,3 +1,4 @@
+import type { Chain as ViemChain } from "viem";
 import type { Protocol, Version } from "./enums";
 
 export namespace Sablier {
@@ -10,32 +11,34 @@ export namespace Sablier {
 
   export type AliasMap = { [contractName: string]: string };
 
-  export type Chain = {
-    /** URL of the blockchain explorer. */
-    explorerURL: string;
-    /** Chain ID. */
-    id: number;
+  export type Chain = ViemChain & {
+    blockExplorers: {
+      [key: string]: ChainBlockExplorer;
+      default: ChainBlockExplorer;
+    };
     /** Whether this chain is supported by the Sablier Interface at https://app.sablier.com. */
     isSupportedByUI: boolean;
     /** Whether this is a testnet network. */
     isTestnet: boolean;
     /** Whether this is a zkVM like zkSync. */
     isZK: boolean;
-    /** Used in deployment files to identify the chain. */
-    key: string;
-    /** Native token information for this chain. */
-    nativeToken: NativeToken;
-    /** Name of the chain. */
-    name: string;
-    /** JSON-RPC configuration. */
     rpc: {
       /** Alchemy RPC URL generator. */
       alchemy?: (apiKey: string) => string;
       /** Infura RPC URL generator. */
       infura?: (apiKey: string) => string;
-      /** Public RPC URL; might be unreliable for production use. */
-      public: string;
     };
+    /** Used in deployment files to identify the chain. */
+    slug: string;
+  };
+
+  /**
+   * @see https://github.com/wevm/viem/discussions/3678
+   */
+  type ChainBlockExplorer = {
+    name: string;
+    url: string;
+    apiUrl?: string | undefined;
   };
 
   export type CompilerSettings = {
@@ -95,13 +98,6 @@ export namespace Sablier {
   export type Repository = {
     commit: string;
     url: `https://github.com/sablier-labs/${string}`;
-  };
-
-  /** The native token on an EVM chain, used for paying gas fees. */
-  export type NativeToken = {
-    decimals: number;
-    name: string;
-    symbol: string;
   };
 
   /* -------------------------------------------------------------------------- */

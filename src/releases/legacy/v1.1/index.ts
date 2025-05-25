@@ -1,6 +1,6 @@
 import { Protocol } from "@src/enums";
 import { sortDeployments } from "@src/helpers";
-import { resolveStandard } from "@src/releases/resolvers";
+import resolvers from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import { mainnets } from "./deployments";
 import manifest from "./manifest";
@@ -9,7 +9,7 @@ const sortedMainnets = sortDeployments(mainnets);
 
 export const deployments: Sablier.Deployment[] = [...sortedMainnets];
 
-export const release = resolveStandard({
+export const release = resolvers.release.standard({
   deployments,
   isLatest: true,
   manifest,

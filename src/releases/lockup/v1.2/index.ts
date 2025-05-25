@@ -1,6 +1,6 @@
 import { Protocol } from "@src/enums";
 import { sortDeployments } from "@src/helpers";
-import { resolveLockupV1 } from "@src/releases/resolvers";
+import resolvers from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import aliases from "./aliases";
 import { mainnets, testnets } from "./deployments";
@@ -10,7 +10,7 @@ const sortedMainnets = sortDeployments(mainnets);
 const sortedTestnets = sortDeployments(testnets);
 export const deployments: Sablier.Deployment.LockupV1[] = [...sortedMainnets, ...sortedTestnets];
 
-export const release = resolveLockupV1({
+export const release = resolvers.release.lockupV1({
   aliases,
   deployments,
   isLatest: false,

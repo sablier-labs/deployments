@@ -1,6 +1,6 @@
-import { ChainId } from "@src/chains/ids";
+import { chains } from "@src/chains";
 import { Protocol } from "@src/enums";
-import { resolveDeployment } from "@src/releases/resolvers";
+import resolvers from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import manifest from "./manifest";
 
@@ -14,5 +14,11 @@ const contractMap: Sablier.ContractMap = {
  * @description Mainnet deployments for Legacy v1.0
  */
 export const mainnets: Sablier.Deployment[] = [
-  resolveDeployment(Protocol.Legacy, "v1.0", ChainId.ETHEREUM, aliasMap, contractMap),
+  resolvers.deployment.standard({
+    aliasMap,
+    chainId: chains.ethereum.id,
+    contractMap,
+    protocol: Protocol.Legacy,
+    version: "v1.0",
+  }),
 ];

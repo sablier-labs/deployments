@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "incremental": true,
     "lib": ["ESNext"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

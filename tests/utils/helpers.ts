@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { checkBroadcast, checkZKBroadcast } from "@scripts/check-broadcasts";
+import { checkBroadcast } from "@scripts/check-broadcasts";
 import { logAndThrow } from "@scripts/logger";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
@@ -95,7 +95,7 @@ export async function loadZKBroadcastJSONs(
   chain: Sablier.Chain,
   componentName?: string,
 ): Promise<ZKBroadcastJSON[] | null> {
-  const dirs = await checkZKBroadcast(release, chain, componentName);
+  const dirs = await checkBroadcast(release, chain, componentName);
   if (!dirs) {
     return null;
   }

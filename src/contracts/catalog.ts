@@ -31,11 +31,3 @@ function getCatalog(): Sablier.ContractCatalog {
 }
 
 export const catalog = getCatalog();
-
-export function queryCatalog(
-  protocol: Sablier.Protocol,
-  chainId: number,
-  contractAddress: string,
-): Sablier.Contract | undefined {
-  return _.get(catalog, [protocol, chainId, contractAddress]);
-}

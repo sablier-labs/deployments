@@ -3,8 +3,7 @@
 # ---------------------------------------------------------------------------- #
 
 # Default recipe
-default:
-    @just --list
+default: full-check
 
 # Check code with Biome
 biome-check:
@@ -20,7 +19,7 @@ build: clean tsc-build
 
 # Clean the dist directory
 clean:
-    rm -rf dist
+    bun rimraf dist
 
 # Run all code checks
 full-check: biome-check prettier-check tsc-check
@@ -39,6 +38,10 @@ prettier-check:
 # Fix markdown and yaml files with Prettier
 prettier-write:
     bun prettier --cache --write "**/*.{md,yml}"
+
+# Setup Husky
+setup:
+    bun husky
 
 # Run tests
 test:

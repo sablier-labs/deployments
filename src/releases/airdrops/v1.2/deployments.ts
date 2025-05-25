@@ -1,19 +1,19 @@
 /**
  * @file This file re-exports some of the Lockup v1.2 deployments as Airdrops v1.2 deployments.
  */
-import { getChain } from "@src/chains";
+import chainsQueries from "@src/chains/queries";
+import { deployments } from "@src/releases/lockup/v1.2";
 import _ from "lodash";
-import { deployments } from "../../lockup/v1.2";
 import manifest from "./manifest";
 
-export const mainnets = _.filter(deployments, (deployment) => {
-  const chain = getChain(deployment.chainId);
-  const found = _.some(deployment.periphery, (contract) => contract.name === manifest.SABLIER_V2_MERKLE_LOCKUP_FACTORY);
-  return !chain.isTestnet && found;
-});
+const filterByTestnet = (isTestnet: boolean) =>
+  _.filter(deployments, (deployment) => {
+    const chain = chainsQueries.get(deployment.chainId);
+    return (
+      chain?.isTestnet === isTestnet &&
+      _.some(deployment.periphery, (contract) => contract.name === manifest.SABLIER_V2_MERKLE_LOCKUP_FACTORY)
+    );
+  });
 
-export const testnets = _.filter(deployments, (deployment) => {
-  const chain = getChain(deployment.chainId);
-  const found = _.some(deployment.periphery, (contract) => contract.name === manifest.SABLIER_V2_MERKLE_LOCKUP_FACTORY);
-  return chain.isTestnet && found;
-});
+export const mainnets = filterByTestnet(false);
+export const testnets = filterByTestnet(true);

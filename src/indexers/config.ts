@@ -1,4 +1,4 @@
-import { ChainId } from "@src/chains/ids";
+import { chains } from "@src/chains";
 import { ENVIO_BASE_URL } from "./constants";
 
 const config = {
@@ -10,35 +10,38 @@ const config = {
     },
     /** @dev We assume that Envio is available for all protocols, never just a few. */
     supportedChains: [
-      // Mainnets
-      ChainId.ARBITRUM_ONE,
-      ChainId.AVALANCHE,
-      ChainId.BASE,
-      ChainId.BSC,
-      ChainId.CHILIZ,
-      ChainId.ETHEREUM,
-      ChainId.GNOSIS,
-      ChainId.LINEA,
-      ChainId.MODE,
-      ChainId.MORPH,
-      ChainId.OP_MAINNET,
-      ChainId.POLYGON,
-      ChainId.SCROLL,
-      ChainId.SUPERSEED,
-      ChainId.TANGLE,
-      ChainId.ZK_SYNC_ERA,
-      // Testnets
-      ChainId.ARBITRUM_SEPOLIA,
-      ChainId.BASE_SEPOLIA,
-      ChainId.ETHEREUM_SEPOLIA,
-      ChainId.OP_SEPOLIA,
+      /* -------------------------------------------------------------------------- */
+      /*                                  MAINNETS                                  */
+      /* -------------------------------------------------------------------------- */
+      chains.arbitrum.id,
+      chains.avalanche.id,
+      chains.base.id,
+      chains.bsc.id,
+      chains.chiliz.id,
+      chains.ethereum.id,
+      chains.gnosis.id,
+      chains.linea.id,
+      chains.mode.id,
+      chains.morph.id,
+      chains.optimism.id,
+      chains.polygon.id,
+      chains.scroll.id,
+      chains.superseed.id,
+      chains.tangle.id,
+      chains.zksync.id,
+      /* -------------------------------------------------------------------------- */
+      /*                                  TESTNETS                                  */
+      /* -------------------------------------------------------------------------- */
+      chains.arbitrumSepolia.id,
+      chains.baseSepolia.id,
+      chains.ethereumSepolia.id,
+      chains.optimismSepolia.id,
     ],
   },
   graph: {
     custom: {
-      [ChainId.LIGHTLINK]: "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink",
-      [ChainId.ULTRA]: "https://graph.evm.ultra.io/subgraphs/name/sablier",
-      [ChainId.XDC]: "https://graphql.xinfin.network/subgraphs/name/xdc",
+      [chains.lightlink.id]: "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink",
+      [chains.xdc.id]: "https://graphql.xinfin.network/subgraphs/name/xdc",
     },
   },
 };

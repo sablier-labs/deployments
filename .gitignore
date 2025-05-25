@@ -1,13 +1,12 @@
 # directories
-/dist/
-/logs/
-/node_modules/
+dist
+logs
+node_modules
 
 # files
 *.env
 *.log
-.DS_Store
-.pnp.*
+*.tsbuildinfo
 bun.lockb
 lcov.info
 package-lock.json

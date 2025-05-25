@@ -1,420 +1,64 @@
-import _ from "lodash";
-import { sortChains } from "../helpers";
-import { AVAX, BERA, BNB, CHZ, CORE, ETH, gMELD, IOTX, POL, SEI, TNT, UOS, XDC, xDAI } from "../native-tokens";
-import type { Sablier } from "../types";
-import { ChainId } from "./ids";
-import { getAlchemyRPC, getInfuraRPC } from "./rpc";
+import type { Sablier } from "@src/types";
+import { defineChain } from "viem";
+import * as viem from "viem/chains";
+import { fill } from "./config";
 
-export const mainnetsById: Record<number, Sablier.Chain> = {
-  [ChainId.ABSTRACT]: {
-    explorerURL: "https://abscan.org",
-    id: ChainId.ABSTRACT,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: true,
-    key: "abstract",
-    name: "Abstract",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://api.mainnet.abs.xyz",
+export const abstract = fill("abstract", viem.abstract);
+export const arbitrum = fill("arbitrum", viem.arbitrum);
+export const avalanche = fill("avalanche", viem.avalanche);
+export const base = fill("base", viem.base);
+export const berachain = fill("berachain", viem.berachain);
+export const blast = fill("blast", viem.blast);
+export const bsc = fill("bsc", viem.bsc);
+export const chiliz = fill("chiliz", viem.chiliz);
+export const coreDao = fill("core-dao", viem.coreDao);
+export const ethereum = fill("ethereum", viem.mainnet);
+export const form = fill("form", viem.form);
+export const gnosis = fill("gnosis", viem.gnosis);
+export const iotex = fill("iotex", viem.iotex);
+export const lightlink = fill("lightlink", viem.lightlinkPhoenix);
+export const linea = fill("linea", viem.linea);
+export const meld = fill("meld", viem.meld);
+export const mode = fill("mode", viem.mode);
+export const morph = fill("morph", viem.morph);
+export const optimism = fill("optimism", viem.optimism);
+export const polygon = fill("polygon", viem.polygon);
+export const ronin = fill("ronin", viem.ronin);
+export const scroll = fill("scroll", viem.scroll);
+export const sei = fill("sei", viem.sei);
+export const superseed = fill("superseed", viem.superseed);
+export const taiko = fill("taiko", viem.taiko);
+export const unichain = fill("unichain", viem.unichain);
+export const xdc = fill("xdc", viem.xdc);
+export const zksync = fill("zksync", viem.zksync);
+
+export const tangle: Sablier.Chain = fill(
+  "tangle",
+  defineChain({
+    blockExplorers: {
+      default: { name: "Explorer", url: "https://explorer.tangle.tools" },
     },
-  },
-  [ChainId.ARBITRUM_ONE]: {
-    explorerURL: "https://arbiscan.io",
-    id: ChainId.ARBITRUM_ONE,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "arbitrum-one",
-    name: "Arbitrum One",
-    nativeToken: ETH,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.ARBITRUM_ONE),
-      infura: getInfuraRPC(ChainId.ARBITRUM_ONE),
-      public: "https://arbitrum-one-rpc.publicnode.com",
+    contracts: {
+      multicall3: {
+        address: "0xd595D34ed96b253E7c7a934a7624F330a8411953",
+        blockCreated: 2790914,
+      },
     },
-  },
-  [ChainId.AVALANCHE]: {
-    explorerURL: "https://snowtrace.io",
-    id: ChainId.AVALANCHE,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "avalanche",
-    name: "Avalanche",
-    nativeToken: AVAX,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.AVALANCHE),
-      infura: getInfuraRPC(ChainId.AVALANCHE),
-      public: "https://avalanche-c-chain-rpc.publicnode.com",
-    },
-  },
-  [ChainId.BASE]: {
-    explorerURL: "https://basescan.org",
-    id: ChainId.BASE,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "base",
-    name: "Base",
-    nativeToken: ETH,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.BASE),
-      public: "https://base-rpc.publicnode.com",
-    },
-  },
-  [ChainId.BERACHAIN]: {
-    explorerURL: "https://berascan.com/",
-    id: ChainId.BERACHAIN,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "berachain",
-    name: "Berachain",
-    nativeToken: BERA,
-    rpc: {
-      public: "https://berachain-rpc.publicnode.com",
-    },
-  },
-  [ChainId.BLAST]: {
-    explorerURL: "https://blastscan.io",
-    id: ChainId.BLAST,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "blast",
-    name: "Blast",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://blast-rpc.publicnode.com",
-    },
-  },
-  [ChainId.BSC]: {
-    explorerURL: "https://bscscan.com",
-    id: ChainId.BSC,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "bsc",
-    name: "BSC",
-    nativeToken: BNB,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.BSC),
-      infura: getInfuraRPC(ChainId.BSC),
-      public: "https://bsc-rpc.publicnode.com",
-    },
-  },
-  [ChainId.CHILIZ]: {
-    explorerURL: "https://scan.chiliz.com",
-    id: ChainId.CHILIZ,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "chiliz",
-    name: "Chiliz",
-    nativeToken: CHZ,
-    rpc: {
-      public: "https://chiliz.publicnode.com",
-    },
-  },
-  [ChainId.CORE_DAO]: {
-    explorerURL: "https://scan.coredao.org",
-    id: ChainId.CORE_DAO,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "core-dao",
-    name: "Core DAO",
-    nativeToken: CORE,
-    rpc: {
-      public: "https://rpc.coredao.org",
-    },
-  },
-  [ChainId.ETHEREUM]: {
-    explorerURL: "https://etherscan.io",
-    id: ChainId.ETHEREUM,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "ethereum",
-    name: "Ethereum",
-    nativeToken: ETH,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.ETHEREUM),
-      infura: getInfuraRPC(ChainId.ETHEREUM),
-      public: "https://ethereum-rpc.publicnode.com",
-    },
-  },
-  [ChainId.FORM]: {
-    explorerURL: "https://explorer.form.network",
-    id: ChainId.FORM,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "form",
-    name: "Form",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://sepolia-rpc.form.network/http",
-    },
-  },
-  [ChainId.GNOSIS]: {
-    explorerURL: "https://gnosisscan.io",
-    id: ChainId.GNOSIS,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "gnosis",
-    name: "Gnosis",
-    nativeToken: xDAI,
-    rpc: {
-      public: "https://gnosis-rpc.publicnode.com",
-    },
-  },
-  [ChainId.IOTEX]: {
-    explorerURL: "https://iotexscan.io",
-    id: ChainId.IOTEX,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "iotex",
-    name: "IoTeX",
-    nativeToken: IOTX,
-    rpc: {
-      public: "https://babel-api.mainnet.iotex.io",
-    },
-  },
-  [ChainId.LIGHTLINK]: {
-    explorerURL: "https://phoenix.lightlink.io",
-    id: ChainId.LIGHTLINK,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "lightlink",
-    name: "Lightlink",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://replicator.phoenix.lightlink.io/rpc/v1",
-    },
-  },
-  [ChainId.LINEA]: {
-    explorerURL: "https://lineascan.build",
-    id: ChainId.LINEA,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "linea",
-    name: "Linea",
-    nativeToken: ETH,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.LINEA),
-      infura: getInfuraRPC(ChainId.LINEA),
-      public: "https://linea-rpc.publicnode.com",
-    },
-  },
-  [ChainId.MELD]: {
-    explorerURL: "https://meldscan.io",
-    id: ChainId.MELD,
-    isSupportedByUI: false,
-    isTestnet: false,
-    isZK: false,
-    key: "meld",
-    name: "Meld",
-    nativeToken: gMELD,
-    rpc: {
-      public: "https://rpc-1.meld.com",
-    },
-  },
-  [ChainId.MODE]: {
-    explorerURL: "https://explorer.mode.network",
-    id: ChainId.MODE,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "mode",
-    name: "Mode",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://mainnet.mode.network",
-    },
-  },
-  [ChainId.MORPH]: {
-    explorerURL: "https://explorer.morphl2.io",
-    id: ChainId.MORPH,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "morph",
-    name: "Morph",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://rpc.morphl2.io",
-    },
-  },
-  [ChainId.OP_MAINNET]: {
-    explorerURL: "https://optimistic.etherscan.io",
-    id: ChainId.OP_MAINNET,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "op-mainnet",
-    name: "OP Mainnet",
-    nativeToken: ETH,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.OP_MAINNET),
-      infura: getInfuraRPC(ChainId.OP_MAINNET),
-      public: "https://optimism-rpc.publicnode.com",
-    },
-  },
-  [ChainId.POLYGON]: {
-    explorerURL: "https://polygonscan.com",
-    id: ChainId.POLYGON,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "polygon",
-    name: "Polygon",
-    nativeToken: POL,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.POLYGON),
-      infura: getInfuraRPC(ChainId.POLYGON),
-      public: "https://polygon-bor.publicnode.com",
-    },
-  },
-  [ChainId.RONIN]: {
-    explorerURL: "https://app.roninchain.com/",
-    id: ChainId.RONIN,
-    isSupportedByUI: false,
-    isTestnet: false,
-    isZK: false,
-    key: "ronin",
-    name: "Ronin",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://api.roninchain.com/rpc",
-    },
-  },
-  [ChainId.SCROLL]: {
-    explorerURL: "https://scrollscan.com",
-    id: ChainId.SCROLL,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "scroll",
-    name: "Scroll",
-    nativeToken: ETH,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.SCROLL),
-      infura: getInfuraRPC(ChainId.SCROLL),
-      public: "https://scroll-rpc.publicnode.com",
-    },
-  },
-  [ChainId.SEI]: {
-    explorerURL: "https://seitrace.com",
-    id: ChainId.SEI,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "sei",
-    name: "Sei",
-    nativeToken: SEI,
-    rpc: {
-      public: "https://sei-evm-rpc.publicnode.com",
-    },
-  },
-  [ChainId.SUPERSEED]: {
-    explorerURL: "https://seedscan.org",
-    id: ChainId.SUPERSEED,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "superseed",
-    name: "Superseed",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://mainnet.superseed.xyz",
-    },
-  },
-  [ChainId.TAIKO]: {
-    explorerURL: "https://taikoscan.io",
-    id: ChainId.TAIKO,
-    isSupportedByUI: false,
-    isTestnet: false,
-    isZK: false,
-    key: "taiko",
-    name: "Taiko",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://rpc.mainnet.taiko.xyz",
-    },
-  },
-  [ChainId.TANGLE]: {
-    explorerURL: "https://explorer.tangle.tools",
-    id: ChainId.TANGLE,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "tangle",
+    id: 5845,
     name: "Tangle",
-    nativeToken: TNT,
+    nativeCurrency: {
+      decimals: 18,
+      name: "Ether",
+      symbol: "ETH",
+    },
     rpc: {
       public: "https://rpc.tangle.tools",
     },
-  },
-  [ChainId.ULTRA]: {
-    explorerURL: "https://evmexplorer.ultra.io",
-    id: ChainId.ULTRA,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "ultra",
-    name: "Ultra",
-    nativeToken: UOS,
-    rpc: {
-      public: "https://evm.ultra.eosusa.io",
+    rpcUrls: {
+      default: {
+        http: ["https://rpc.tangle.tools"],
+      },
     },
-  },
-  [ChainId.UNICHAIN]: {
-    explorerURL: "https://uniscan.xyz",
-    id: ChainId.UNICHAIN,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "unichain",
-    name: "Unichain",
-    nativeToken: ETH,
-    rpc: {
-      public: "https://unichain-rpc.publicnode.com",
-    },
-  },
-  [ChainId.XDC]: {
-    explorerURL: "https://xdcscan.io",
-    id: ChainId.XDC,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: false,
-    key: "xdc",
-    name: "XDC",
-    nativeToken: XDC,
-    rpc: {
-      public: "https://rpc.xdc.org",
-    },
-  },
-  [ChainId.ZK_SYNC_ERA]: {
-    explorerURL: "https://era.zksync.network",
-    id: ChainId.ZK_SYNC_ERA,
-    isSupportedByUI: true,
-    isTestnet: false,
-    isZK: true,
-    key: "zk-sync-era",
-    name: "zkSync Era",
-    nativeToken: ETH,
-    rpc: {
-      alchemy: getAlchemyRPC(ChainId.ZK_SYNC_ERA),
-      infura: getInfuraRPC(ChainId.ZK_SYNC_ERA),
-      public: "https://mainnet.era.zksync.io",
-    },
-  },
-};
-
-export const mainnets: Sablier.Chain[] = sortChains(_.values(mainnetsById));
+    testnet: false,
+  }),
+);
