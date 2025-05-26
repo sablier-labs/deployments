@@ -25,6 +25,8 @@ export namespace Sablier {
     rpc: {
       /** Alchemy RPC URL generator. */
       alchemy?: (apiKey: string) => string;
+      /** Default RPC URL. */
+      default: string;
       /** Infura RPC URL generator. */
       infura?: (apiKey: string) => string;
     };

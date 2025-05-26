@@ -46,6 +46,7 @@ export function fill(slug: string, chain: ViemChain): Sablier.Chain {
     isZK: Boolean(config.zk[chain.id]),
     rpc: {
       alchemy: alchemyRPCs[chain.id],
+      default: chain.rpcUrls.default.http[0],
       infura: infuraRPCs[chain.id],
     },
     slug,

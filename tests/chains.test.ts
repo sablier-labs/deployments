@@ -85,7 +85,7 @@ describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
       };
 
       await expect(
-        axios.post(chain.rpcUrls.default.http[0], rpcRequest, {
+        axios.post(chain.rpc.default, rpcRequest, {
           headers: { "Content-Type": "application/json" },
           timeout: 10_000, // 10 seconds
         }),
