@@ -33,6 +33,10 @@ export const unichain = fill("unichain", viem.unichain);
 export const xdc = fill("xdc", viem.xdc);
 export const zksync = fill("zksync", viem.zksync);
 
+/* -------------------------------------------------------------------------- */
+/*                                CUSTOM CHAINS                               */
+/* -------------------------------------------------------------------------- */
+
 export const tangle: Sablier.Chain = fill(
   "tangle",
   defineChain({

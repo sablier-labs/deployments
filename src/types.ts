@@ -30,7 +30,7 @@ export namespace Sablier {
       /** Infura RPC URL generator. */
       infura?: (apiKey: string) => string;
     };
-    /** Used in deployment files to identify the chain. */
+    /** Used in deployment files to identify the chain, e.g., arbitrum-sepolia. */
     slug: string;
   };
 
@@ -95,15 +95,13 @@ export namespace Sablier {
     | typeof Protocol.Legacy
     | typeof Protocol.Lockup;
 
-  export type Release = Release.Standard | Release.LockupV1;
-
   export type Repository = {
     commit: string;
     url: `https://github.com/sablier-labs/${string}`;
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                                 NAMESPACES                                 */
+  /*                               SUB-NAMESPACES                               */
   /* -------------------------------------------------------------------------- */
   export namespace Deployment {
     export type Standard = {
@@ -184,6 +182,8 @@ export namespace Sablier {
       manifest: Manifest.Standard;
     };
   }
+
+  export type Release = Release.Standard | Release.LockupV1;
 
   export namespace TheGraph {
     type SubgraphCommon = {

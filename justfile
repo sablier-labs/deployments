@@ -28,8 +28,8 @@ full-check: biome-check prettier-check tsc-check
 full-write: biome-write prettier-write
 
 # Install dependencies
-install *ARGS:
-    bun install {{ ARGS }}
+install *args:
+    bun install {{ args }}
 
 # Check markdown and yaml files with Prettier
 prettier-check:

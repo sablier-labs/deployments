@@ -11,16 +11,19 @@ export const config = {
     [viem.zksyncSepoliaTestnet.id]: "zksync-sepolia",
   } as ConfigString,
   ui: {
+    // By default, testnets are not supported by the UI.
     supportedTestnets: {
       [viem.baseSepolia.id]: true,
       [viem.sepolia.id]: true,
     } as ConfigBool,
+    // By default, mainnets are supported by the UI.
     unsupportedMainnets: {
       [viem.meld.id]: true,
       [viem.ronin.id]: true,
       [viem.taiko.id]: true,
     } as ConfigBool,
   },
+  // These chains have the artifacts under the `artifacts-zk` directory
   zk: {
     [viem.abstract.id]: true,
     [viem.sophon.id]: true,
