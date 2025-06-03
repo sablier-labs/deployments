@@ -12,7 +12,7 @@ import queries from "@src/queries";
 import { releasesByProtocol } from "@src/releases";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import { checkBroadcast } from "./check-broadcasts";
+import { checkBroadcast } from "./check-broadcast";
 import logger, { logAndThrow } from "./logger";
 
 const EMOJIS = {

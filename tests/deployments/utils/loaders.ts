@@ -1,24 +1,26 @@
 import fs from "node:fs";
-import { checkBroadcast } from "@scripts/check-broadcasts";
+import { checkBroadcast } from "@scripts/check-broadcast";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
-import type { BroadcastJSON, ZKBroadcastJSON } from "../../types";
+import type { StandardBroadcast, ZKBroadcast } from "../../types";
 
-export async function loadBroadcastJSON(
+export async function loadBroadcast<T extends StandardBroadcast | ZKBroadcast[]>(
   release: Sablier.Release,
   chain: Sablier.Chain,
   componentName?: string,
-): Promise<BroadcastJSON | ZKBroadcastJSON[] | null> {
-  return chain.isZK
-    ? loadZKBroadcastJSONs(release, chain, componentName)
-    : loadStandardBroadcastJSON(release, chain, componentName);
+): Promise<T | null> {
+  if (chain.isZK) {
+    return (await loadZK(release, chain, componentName)) as T;
+  } else {
+    return (await loadStandard(release, chain, componentName)) as T;
+  }
 }
 
-async function loadStandardBroadcastJSON(
+async function loadStandard(
   release: Sablier.Release,
   chain: Sablier.Chain,
   componentName?: string,
-): Promise<BroadcastJSON | null> {
+): Promise<StandardBroadcast | null> {
   const foundPath = await checkBroadcast(release, chain, componentName);
   if (!foundPath) {
     return null;
@@ -31,24 +33,22 @@ async function loadStandardBroadcastJSON(
 /**
  * Loads ZK deployment JSON files for contract names
  */
-async function loadZKBroadcastJSONs(
+async function loadZK(
   release: Sablier.Release,
   chain: Sablier.Chain,
   componentName?: string,
-): Promise<ZKBroadcastJSON[] | null> {
-  const dirs = await checkBroadcast(release, chain, componentName);
-  if (!dirs) {
+): Promise<ZKBroadcast[] | null> {
+  const foundDir = await checkBroadcast(release, chain, componentName);
+  if (!foundDir) {
     return null;
   }
 
-  // Read all JSON files in the directory.
-  const results: ZKBroadcastJSON[] = [];
-  for (const foundDir of dirs) {
-    const jsonFiles = await globby("*.json", { absolute: true, cwd: foundDir });
-    for (const filePath of jsonFiles) {
-      const broadcast = await fs.promises.readFile(filePath, "utf8");
-      results.push(JSON.parse(broadcast));
-    }
+  // Load all JSON files in the directory.
+  const results: ZKBroadcast[] = [];
+  const jsonFiles = await globby("*.json", { absolute: true, cwd: foundDir });
+  for (const filePath of jsonFiles) {
+    const broadcast = await fs.promises.readFile(filePath, "utf8");
+    results.push(JSON.parse(broadcast));
   }
   return results;
 }

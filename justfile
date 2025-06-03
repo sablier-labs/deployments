@@ -16,6 +16,7 @@ biome-write:
 
 # Build the project
 build: clean tsc-build
+alias b := build
 
 # Clean the dist directory
 clean:
@@ -23,6 +24,7 @@ clean:
 
 # Run all code checks
 full-check: biome-check prettier-check tsc-check
+alias c := full-check
 
 # Run all code fixes
 full-write: biome-write prettier-write
@@ -39,6 +41,10 @@ prettier-check:
 prettier-write:
     bun prettier --cache --write "**/*.{md,yml}"
 
+# Print available chain arguments
+@print thing:
+    bun run scripts/print-{{ thing }}.ts
+
 # Setup Husky
 setup:
     bun husky
@@ -46,6 +52,7 @@ setup:
 # Run tests
 test:
     bun vitest run --silent
+alias t := test
 
 # Run tests with UI
 test-ui:

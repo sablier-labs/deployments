@@ -3,8 +3,9 @@ import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
 import { isKnownMissing } from "../../setup/missing";
-import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "../../types";
-import { findContract, findZKContract, loadBroadcastJSON, loadZKBroadcastJSONs } from "./helpers";
+import type { BasicContract, StandardBroadcast, ZKBroadcast } from "../../types";
+import { findContract, findZKContract } from "./finders";
+import { loadBroadcast } from "./loaders";
 
 type Validated = {
   [chainId: number]: {
@@ -24,7 +25,7 @@ function expectContract(contract: BasicContract, expectedContract: BasicContract
   expect(name).toBe(expectedContract.name);
 }
 
-function expectZKContract(contract: BasicContract, zkBroadcast: ZKBroadcastJSON): void {
+function expectZKContract(contract: BasicContract, zkBroadcast: ZKBroadcast): void {
   const address = contract.address.toLowerCase();
   const expectedAddress = zkBroadcast.entries[0].address.toLowerCase();
   expect(address).toBe(expectedAddress);
@@ -112,18 +113,18 @@ export function createStandardTests(
   deployment: Sablier.Deployment,
   chain: Sablier.Chain,
 ): void {
-  createContractTests<BroadcastJSON, BasicContract>(release, deployment, chain, {
+  createContractTests<StandardBroadcast, BasicContract>(release, deployment, chain, {
     expector: expectContract,
     finder: findContract,
-    loader: loadBroadcastJSON,
+    loader: loadBroadcast<StandardBroadcast>,
   });
 }
 
 export function createZKTests(release: Sablier.Release, deployment: Sablier.Deployment, chain: Sablier.Chain): void {
-  createContractTests<ZKBroadcastJSON[], ZKBroadcastJSON>(release, deployment, chain, {
+  createContractTests<ZKBroadcast[], ZKBroadcast>(release, deployment, chain, {
     expector: expectZKContract,
     finder: findZKContract,
-    loader: loadZKBroadcastJSONs,
+    loader: loadBroadcast<ZKBroadcast[]>,
   });
 }
 

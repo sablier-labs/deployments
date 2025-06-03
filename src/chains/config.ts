@@ -28,6 +28,7 @@ export const config = {
     [viem.abstract.id]: true,
     [viem.sophon.id]: true,
     [viem.zksync.id]: true,
+    [viem.zksyncSepoliaTestnet.id]: true,
   } as ConfigBool,
 };
 

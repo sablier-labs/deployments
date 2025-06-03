@@ -1,12 +1,12 @@
 import _ from "lodash";
-import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "../../types";
+import type { BasicContract, StandardBroadcast, ZKBroadcast } from "../../types";
 
 const CONTRACT_PREFIX = "contract ";
 
 /**
  * Finds a contract in the broadcast data.
  */
-export function findContract(data: BroadcastJSON, contractName: string): BasicContract | null {
+export function findContract(data: StandardBroadcast, contractName: string): BasicContract | null {
   const contractFromReturns = findInReturns(data, contractName);
   if (contractFromReturns) return contractFromReturns;
 
@@ -17,8 +17,8 @@ export function findContract(data: BroadcastJSON, contractName: string): BasicCo
   return null;
 }
 
-export function findZKContract(zkData: ZKBroadcastJSON[], contractName: string): ZKBroadcastJSON | null {
-  return zkData.find((zk) => zk.contractName === contractName) ?? null;
+export function findZKContract(zkData: ZKBroadcast[], contractName: string): ZKBroadcast | null {
+  return _.find(zkData, { contractName }) ?? null;
 }
 
 /**
@@ -31,8 +31,11 @@ export function findZKContract(zkData: ZKBroadcastJSON[], contractName: string):
  *  }
  * }
  */
-export function findInReturns(data: BroadcastJSON, contractName: string): BasicContract | null {
-  if (!data.returns) return null;
+function findInReturns(data: StandardBroadcast, contractName: string): BasicContract | null {
+  if (!data.returns) {
+    return null;
+  }
+
   for (const contractReturn of _.values(data.returns)) {
     const sanitizedName = contractReturn.internal_type.replace(CONTRACT_PREFIX, "");
     if (contractName === sanitizedName) {
@@ -50,8 +53,10 @@ export function findInReturns(data: BroadcastJSON, contractName: string): BasicC
  *   "src/libraries/Helpers.sol:Helpers:0xf8076E4Fb5cfE8be1C26E61222DC51828Db8C1dc"
  * ]
  */
-export function findInLibraries(data: BroadcastJSON, contractName: string): BasicContract | null {
-  if (!data.libraries) return null;
+function findInLibraries(data: StandardBroadcast, contractName: string): BasicContract | null {
+  if (!data.libraries) {
+    return null;
+  }
 
   for (const library of data.libraries) {
     // Ensure we have the format "path/to/file.sol:ContractName:0xAddress"

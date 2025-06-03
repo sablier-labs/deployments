@@ -17,11 +17,11 @@ import axios from "axios";
 import { globby } from "globby";
 import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
+import { MISSING_CHAINS } from "./setup/missing";
 
 const MALFUNCTIONING_RPC: number[] = [chains.meld.id];
-const MISSING_BROADCASTS: string[] = ["iotex", "ronin", "tangle", "ultra"];
 const KNOWN_SLUGS = _.values(chains)
-  .filter((chain) => !MISSING_BROADCASTS.includes(chain.slug))
+  .filter((chain) => !MISSING_CHAINS.includes(chain.id))
   .map((chain) => chain.slug);
 
 describe("Package chains are in sync with broadcasts", () => {
@@ -53,7 +53,7 @@ describe("Package chains are in sync with broadcasts", () => {
 
   it("should not have any unknown chain in broadcasts", () => {
     errors.clear();
-    const allowedSlugs = [...KNOWN_SLUGS, ...MISSING_BROADCASTS];
+    const allowedSlugs = [...KNOWN_SLUGS, ...MISSING_CHAINS];
     const extraChains = _.difference(broadcastSlugs, allowedSlugs);
 
     for (const slug of extraChains) {
