@@ -1,8 +1,0 @@
----
-description:
-globs:
-alwaysApply: true
----
-Run this command to get a code review and help from another LLM, and do it often. Be specific and detailed about the problem and solutions you have already tried. Remind it to remind you to stay focused.
-
-"repomix --style plain . && cat repomix-output.txt | llm -s "You are a senior software engineer doing a thorough code review. This is a CLI tool that combines repomix and llm to analyze codebases. Help the user fix their specific problem. Remind the user to stay focused, not to add extraneous code, features or functionality unless it's required or requested. " -m gemini-2.0-flash "{{Add a description of your problem here}}""
