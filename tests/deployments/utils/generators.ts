@@ -2,9 +2,9 @@ import queries from "@src/queries";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { beforeAll, describe, expect, it } from "vitest";
-import { isKnownMissing } from "../setup/missing";
+import { isKnownMissing } from "../../setup/missing";
+import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "../../types";
 import { findContract, findZKContract, loadBroadcastJSON, loadZKBroadcastJSONs } from "./helpers";
-import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "./types";
 
 type Validated = {
   [chainId: number]: {
@@ -15,7 +15,7 @@ type Validated = {
 };
 const validatedContracts: Validated = {};
 
-export function validateContract(contract: BasicContract, expectedContract: BasicContract): void {
+function expectContract(contract: BasicContract, expectedContract: BasicContract): void {
   const address = contract.address.toLowerCase();
   const expectedAddress = expectedContract.address.toLowerCase();
   expect(address).toBe(expectedAddress);
@@ -24,7 +24,7 @@ export function validateContract(contract: BasicContract, expectedContract: Basi
   expect(name).toBe(expectedContract.name);
 }
 
-export function validateZKContract(contract: BasicContract, zkBroadcast: ZKBroadcastJSON): void {
+function expectZKContract(contract: BasicContract, zkBroadcast: ZKBroadcastJSON): void {
   const address = contract.address.toLowerCase();
   const expectedAddress = zkBroadcast.entries[0].address.toLowerCase();
   expect(address).toBe(expectedAddress);
@@ -41,7 +41,7 @@ export function validateZKContract(contract: BasicContract, zkBroadcast: ZKBroad
 type TestConfig<BD, CD> = {
   finder: (data: BD, contractName: string) => CD | null;
   loader: (release: Sablier.Release, chain: Sablier.Chain, componentName?: string) => Promise<BD | null>;
-  validator: (contract: BasicContract, data: CD) => void;
+  expector: (contract: BasicContract, data: CD) => void;
 };
 
 function createInnerTests<BD, CD>(
@@ -76,7 +76,9 @@ function createInnerTests<BD, CD>(
           expect(previouslyValidated, message).toBeTruthy();
           return;
         }
-        testConfig.validator(contract, contractData);
+
+        // Run the test.
+        testConfig.expector(contract, contractData);
 
         // Mark this contract as validated for this chain.
         _.set(validatedContracts, [chain.id, contract.name, contract.address], true);
@@ -111,17 +113,17 @@ export function createStandardTests(
   chain: Sablier.Chain,
 ): void {
   createContractTests<BroadcastJSON, BasicContract>(release, deployment, chain, {
+    expector: expectContract,
     finder: findContract,
     loader: loadBroadcastJSON,
-    validator: validateContract,
   });
 }
 
 export function createZKTests(release: Sablier.Release, deployment: Sablier.Deployment, chain: Sablier.Chain): void {
   createContractTests<ZKBroadcastJSON[], ZKBroadcastJSON>(release, deployment, chain, {
+    expector: expectZKContract,
     finder: findZKContract,
     loader: loadZKBroadcastJSONs,
-    validator: validateZKContract,
   });
 }
 

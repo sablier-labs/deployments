@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { checkBroadcast } from "@scripts/check-broadcasts";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
-import type { BroadcastJSON, ZKBroadcastJSON } from "./types";
+import type { BroadcastJSON, ZKBroadcastJSON } from "../../types";
 
 export async function loadBroadcastJSON(
   release: Sablier.Release,

@@ -4,7 +4,7 @@ import { logAndThrow } from "@scripts/logger";
 import type { Sablier } from "@src/types";
 import { globby } from "globby";
 import _ from "lodash";
-import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "./types";
+import type { BasicContract, BroadcastJSON, ZKBroadcastJSON } from "../../types";
 
 const CONTRACT_PREFIX = "contract ";
 
