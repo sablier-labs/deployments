@@ -8,7 +8,7 @@ function getInclude() {
   const paths: string[] = [];
 
   if (TEST_ONLY_CONTRACTS) {
-    paths.push("tests/contracts.test.ts");
+    paths.push("tests/contracts/**/*.test.ts");
   }
   if (TEST_ONLY_CHAINS) {
     paths.push("tests/chains.test.ts");

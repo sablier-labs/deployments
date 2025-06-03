@@ -6,11 +6,11 @@
   },
   "overrides": [
     {
-      "includes": ["**/{scripts,tests}/**/*.ts"],
+      "includes": ["**/tests/**/*.ts"],
       "linter": {
         "rules": {
-          "suspicious": {
-            "noFocusedTests": "off"
+          "style": {
+            "noNonNullAssertion": "off"
           }
         }
       }

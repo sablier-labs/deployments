@@ -3,30 +3,8 @@ import queries from "@src/queries";
 import { releases, releasesByVersion } from "@src/releases";
 import axios from "axios";
 import _ from "lodash";
-import { isAddress } from "viem";
 import { describe, expect, it } from "vitest";
-import etherscanChainIds from "./setup/etherscan";
-
-/**
- * @note Use https://ethsum.netlify.app to fix failing tests
- */
-describe("Address checksums", () => {
-  for (const release of releases) {
-    describe(`${release.protocol} ${release.version}`, () => {
-      const contracts = queries.contracts.getAll({ release });
-      if (!contracts) {
-        logAndThrow({ msg: "No contracts found", release });
-      }
-
-      for (const contract of contracts) {
-        it(`${contract.name} should have a checksummed address`, () => {
-          const message = `Found non-checksummed address: ${contract.address}`;
-          expect(isAddress(contract.address), message).toBe(true);
-        });
-      }
-    });
-  }
-});
+import etherscanChainIds from "../setup/etherscan";
 
 describe("Contract catalog", () => {
   const releasesToTest = [
