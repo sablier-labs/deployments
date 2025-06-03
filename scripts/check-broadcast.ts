@@ -1,4 +1,4 @@
-import path from "node:path";
+import * as path from "node:path";
 import type { Sablier } from "@src/types";
 import * as fs from "fs-extra";
 import { logInfo } from "./logger";

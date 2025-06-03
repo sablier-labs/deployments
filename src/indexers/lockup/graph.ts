@@ -12,7 +12,7 @@ function official(chainId: number, name: string, id: string): Sablier.Indexer.Th
   return resolveOfficialSubgraph(Protocol.Lockup, chainId, name, id);
 }
 
-const graph = [
+export const graph = [
   /* -------------------------------------------------------------------------- */
   /*                                  MAINNETS                                  */
   /* -------------------------------------------------------------------------- */
@@ -51,5 +51,3 @@ const graph = [
     "2LFYyhMVMUMYA2q7XMMnBvCs6v6awWxBeMuMk3tMtmiT",
   ),
 ];
-
-export default graph;

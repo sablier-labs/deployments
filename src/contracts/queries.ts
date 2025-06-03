@@ -1,9 +1,9 @@
-import { releases as allReleases, releasesByProtocol } from "@src/releases";
+import { releasesQueries } from "@src/releases/queries";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { catalog } from "./catalog";
 
-const queries = {
+export const contractsQueries = {
   /**
    * Get a single contract by name or by address.
    * - {name, deployment}
@@ -14,20 +14,24 @@ const queries = {
     chainId: number;
     contractAddress?: string;
     contractName?: string;
-    deployments?: Sablier.Deployment[];
     protocol?: Sablier.Protocol;
+    release?: Sablier.Release;
   }): Sablier.Contract | undefined => {
-    const { chainId, deployments, contractAddress, contractName, protocol } = opts;
+    const { chainId, contractAddress, contractName, protocol, release } = opts;
 
     if (contractAddress && contractName) {
       throw new Error("Cannot specify both contractAddress and contractName as query options");
     }
 
+    if (protocol && release) {
+      throw new Error("Cannot specify both protocol and release as query options");
+    }
+
     if (contractName) {
-      if (!deployments) {
-        throw new Error("Cannot specify contractName without deployments");
+      if (!release) {
+        throw new Error("Cannot specify contractName without release");
       }
-      const dep = _.find(deployments, { chainId });
+      const dep = _.find(release.deployments, { chainId });
       return dep && _.find(dep.contracts, { name: contractName });
     }
 
@@ -61,7 +65,7 @@ const queries = {
 
     // by protocol
     if (protocol) {
-      const releases = releasesByProtocol[protocol];
+      const releases = releasesQueries.getAll({ protocol });
       let deps = _.flatMap(releases, (r) => r.deployments);
       if (chainId) {
         deps = _.filter(deps, { chainId });
@@ -81,8 +85,6 @@ const queries = {
     }
 
     // no filters → all
-    return _.flatMap(allReleases, (r) => r.deployments.flatMap((d) => d.contracts));
+    return _.flatMap(releasesQueries.getAll(), (r) => r.deployments.flatMap((d) => d.contracts));
   },
 };
-
-export default queries;

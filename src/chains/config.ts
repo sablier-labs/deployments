@@ -23,7 +23,7 @@ export const config = {
       [viem.taiko.id]: true,
     } as ConfigBool,
   },
-  // These chains have the artifacts under the `artifacts-zk` directory
+  // These chains have the artifacts under the `artifacts-zk` directory.
   zk: {
     [viem.abstract.id]: true,
     [viem.sophon.id]: true,

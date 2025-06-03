@@ -1,6 +1,6 @@
-import fs from "node:fs";
 import { checkBroadcast } from "@scripts/check-broadcast";
 import type { Sablier } from "@src/types";
+import * as fs from "fs-extra";
 import { globby } from "globby";
 import type { StandardBroadcast, ZKBroadcast } from "../../types";
 

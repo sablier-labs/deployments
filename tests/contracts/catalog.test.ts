@@ -1,17 +1,17 @@
 import { logAndThrow } from "@scripts/logger";
-import queries from "@src/queries";
-import { releases, releasesByVersion } from "@src/releases";
+import { releases } from "@src/releases";
+import { sablier } from "@src/sablier";
 import axios from "axios";
 import _ from "lodash";
 import { describe, expect, it } from "vitest";
-import etherscanChainIds from "../setup/etherscan";
+import { etherscanChainIds } from "../setup/etherscan";
 
 describe("Contract catalog", () => {
   const releasesToTest = [
-    releasesByVersion.airdrops["v1.3"],
-    releasesByVersion.flow["v1.1"],
-    releasesByVersion.legacy["v1.1"],
-    releasesByVersion.lockup["v2.0"],
+    releases.airdrops["v1.3"],
+    releases.flow["v1.1"],
+    releases.legacy["v1.1"],
+    releases.lockup["v2.0"],
   ];
 
   for (const release of releasesToTest) {
@@ -19,7 +19,7 @@ describe("Contract catalog", () => {
       const deployment = release.deployments[0];
       const contract = deployment.contracts[0];
       const lowercaseAddress = contract.address.toLowerCase();
-      const entry = queries.contracts.get({
+      const entry = sablier.contracts.get({
         chainId: deployment.chainId,
         contractAddress: lowercaseAddress,
         protocol: release.protocol,
@@ -53,11 +53,11 @@ describe.runIf(envVarsSet)("Block numbers", () => {
     }
   }
 
-  for (const release of releases) {
+  for (const release of sablier.releases.getAll()) {
     describe(`${release.protocol} ${release.version}`, () => {
       for (const deployment of release.deployments) {
         const chainId = deployment.chainId;
-        const chain = queries.chains.getOrThrow(chainId);
+        const chain = sablier.chains.getOrThrow(chainId);
 
         // Skip chains not supported by Etherscan
         if (!etherscanChainIds.includes(chainId)) {

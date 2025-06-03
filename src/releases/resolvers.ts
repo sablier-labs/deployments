@@ -1,4 +1,4 @@
-import chainsQueries from "@src/chains/queries";
+import { chainsQueries } from "@src/chains/queries";
 import { getContractExplorerURL, getNestedValues } from "@src/helpers";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
@@ -23,12 +23,12 @@ type DeploymentStandardParams = DeploymentBaseParams & {
 
 type ReleaseParams<T> = Omit<T, "kind" | "contractNames">;
 
-const resolvers = {
+export const resolvers = {
   /* -------------------------------------------------------------------------- */
   /*                                 DEPLOYMENT                                 */
   /* -------------------------------------------------------------------------- */
   deployment: {
-    lockupV1(params: DeploymentLockupV1Params): Sablier.Deployment.LockupV1 {
+    lockupV1: (params: DeploymentLockupV1Params): Sablier.Deployment.LockupV1 => {
       const { protocol, version, chainId, aliasMap, contractMap } = params;
       const chain = chainsQueries.getOrThrow(chainId);
 
@@ -61,7 +61,7 @@ const resolvers = {
       deployment.periphery = mapContracts(contractMap.periphery);
       return deployment;
     },
-    standard(params: DeploymentStandardParams): Sablier.Deployment {
+    standard: (params: DeploymentStandardParams): Sablier.Deployment => {
       const { protocol, version, chainId, aliasMap, contractMap } = params;
       const chain = chainsQueries.getOrThrow(chainId);
 
@@ -93,7 +93,7 @@ const resolvers = {
   /*                                   RELEASE                                  */
   /* -------------------------------------------------------------------------- */
   release: {
-    lockupV1(params: ReleaseParams<Sablier.Release.LockupV1>): Sablier.Release.LockupV1 {
+    lockupV1: (params: ReleaseParams<Sablier.Release.LockupV1>): Sablier.Release.LockupV1 => {
       return {
         ...params,
         contractNames: getNestedValues(params.manifest),
@@ -101,7 +101,7 @@ const resolvers = {
       };
     },
 
-    standard(params: ReleaseParams<Sablier.Release.Standard>): Sablier.Release.Standard {
+    standard: (params: ReleaseParams<Sablier.Release.Standard>): Sablier.Release.Standard => {
       return {
         ...params,
         contractNames: getNestedValues(params.manifest),
@@ -110,5 +110,3 @@ const resolvers = {
     },
   },
 };
-
-export default resolvers;

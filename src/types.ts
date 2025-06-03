@@ -61,8 +61,6 @@ export namespace Sablier {
     alias?: string;
     /** The block number at which the contract was deployed. */
     block?: number;
-    /** Compiler settings for the contract. */
-    compilerSettings?: CompilerSettings;
     /** URL to the explorer page for the contract. */
     explorerURL?: string;
     /** The name of the contract. */
@@ -107,6 +105,8 @@ export namespace Sablier {
     export type Standard = {
       chainId: number;
       contracts: Contract[];
+      /** @todo: Compiler settings for the contract. Not implemented yet.*/
+      compilerSettings?: CompilerSettings;
     };
 
     export type LockupV1 = Standard & {

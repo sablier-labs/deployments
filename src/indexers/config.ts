@@ -1,7 +1,7 @@
 import { chains } from "@src/chains";
 import { ENVIO_BASE_URL } from "./constants";
 
-const config = {
+export const config = {
   envio: {
     endpoints: {
       airdrops: `${ENVIO_BASE_URL}/508d217/v1/graphql`,
@@ -51,5 +51,3 @@ export type EnvioProtocol = keyof typeof config.envio.endpoints;
 
 /** @internal */
 export type TheGraphCustomChainId = keyof typeof config.graph.custom;
-
-export default config;

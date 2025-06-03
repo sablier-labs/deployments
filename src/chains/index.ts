@@ -9,4 +9,3 @@
  * @see https://chainlist.org
  */
 export * from "./data";
-export { default as queries } from "./queries";

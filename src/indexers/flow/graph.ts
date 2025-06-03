@@ -12,7 +12,7 @@ function official(chainId: number, name: string, id: string): Sablier.Indexer.Th
   return resolveOfficialSubgraph(Protocol.Flow, chainId, name, id);
 }
 
-const graph = [
+export const graph = [
   // ────────────────────────────────────────────────────────────────────────────────
   // Mainnets
   // ────────────────────────────────────────────────────────────────────────────────
@@ -43,5 +43,3 @@ const graph = [
   official(chains.ethereumSepolia.id, "sablier-flow-sepolia", "EU9AWmJjrjMRkjxcdHfuWPZvPTNAL3hiXfNGN5MwUpvm"),
   official(chains.optimismSepolia.id, "sablier-flow-optimism-sepolia", "EFKqBB6TeH6etGuHCffnbMbETEgDZ6U29Lgpc4gpYvdB"),
 ];
-
-export default graph;

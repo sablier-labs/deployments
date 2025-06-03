@@ -1,5 +1,5 @@
 import { Protocol } from "@src/enums";
-import { releases } from "@src/releases";
+import { releasesQueries } from "@src/releases/queries";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 
@@ -11,7 +11,7 @@ function getCatalog(): Sablier.ContractCatalog {
     [Protocol.Lockup]: {},
   };
 
-  for (const release of releases) {
+  for (const release of releasesQueries.getAll()) {
     const { protocol, version, deployments } = release;
 
     for (const deployment of deployments) {

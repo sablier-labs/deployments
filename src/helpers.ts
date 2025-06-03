@@ -1,4 +1,4 @@
-import chainsQueries from "@src/chains/queries";
+import { chainsQueries } from "@src/chains/queries";
 import _ from "lodash";
 import type { Sablier } from "./types";
 

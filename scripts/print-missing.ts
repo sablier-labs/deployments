@@ -4,16 +4,15 @@
  * for all chains, only the ones listed in the releases.
  *
  * Usage:
- *   bun run scripts/print-missing-broadcasts.ts airdrops
- *   bun run scripts/print-missing-broadcasts.ts flow
- *   bun run scripts/print-missing-broadcasts.ts lockup
+ *   bun run scripts/print-missing.ts airdrops
+ *   bun run scripts/print-missing.ts flow
+ *   bun run scripts/print-missing.ts lockup
  */
-import queries from "@src/queries";
-import { releasesByProtocol } from "@src/releases";
+import { sablier } from "@src/sablier";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { checkBroadcast } from "./check-broadcast";
-import logger, { logAndThrow } from "./logger";
+import logger from "./logger";
 
 const EMOJIS = {
   check: "✅",
@@ -35,9 +34,10 @@ async function main(): Promise<void> {
 
   logger.info(`\n${EMOJIS.folder} Checking ${protocol} broadcasts...\n`);
 
-  for (const release of releasesByProtocol[protocol]) {
+  const allReleases = sablier.releases.getAll({ protocol });
+  for (const release of allReleases) {
     for (const deployment of release.deployments) {
-      const chain = queries.chains.getOrThrow(deployment.chainId);
+      const chain = sablier.chains.getOrThrow(deployment.chainId);
 
       let hasValidBroadcasts = false;
 
@@ -117,9 +117,7 @@ async function main(): Promise<void> {
   console.log(`${EMOJIS.testnet} Missing testnet broadcasts: ${testnetCount}\n`);
 }
 
-main().catch((error) => {
-  logAndThrow({ msg: `Error checking missing broadcasts: ${error.message}` });
-});
+main();
 
 /* -------------------------------------------------------------------------- */
 /*                                   HELPERS                                  */

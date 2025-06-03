@@ -1,7 +1,6 @@
 import { names } from "@src/contracts";
 import { Protocol } from "@src/enums";
-import queries from "@src/queries";
-import { releases } from "@src/releases";
+import { sablier } from "@src/sablier";
 import type { Sablier } from "@src/types";
 import { describe, expect, it } from "vitest";
 
@@ -24,9 +23,9 @@ const INDEXED: Record<Sablier.Protocol, string[]> = {
 };
 
 describe("Deployment blocks", () => {
-  for (const release of releases) {
+  for (const release of sablier.releases.getAll()) {
     describe(`${release.protocol} ${release.version}`, () => {
-      const contracts = queries.contracts.getAll({ release })!;
+      const contracts = sablier.contracts.getAll({ release })!;
 
       for (const contract of contracts) {
         if (!INDEXED[release.protocol].includes(contract.name)) {

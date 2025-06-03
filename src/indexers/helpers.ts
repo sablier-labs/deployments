@@ -1,5 +1,5 @@
 import type { Sablier } from "@src/types";
-import config, { type EnvioProtocol, type TheGraphCustomChainId } from "./config";
+import { config, type EnvioProtocol, type TheGraphCustomChainId } from "./config";
 import { THEGRAPH_ORG_ID } from "./constants";
 
 /** @internal */

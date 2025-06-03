@@ -73,5 +73,4 @@ function getNames(): ContractNames {
   return _.merge({}, ...flattened) as ContractNames;
 }
 
-const names = getNames();
-export default names;
+export const names = getNames();

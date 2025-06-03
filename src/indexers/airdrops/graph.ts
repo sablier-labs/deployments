@@ -12,7 +12,7 @@ function official(chainId: number, name: string, id: string): Sablier.Indexer.Th
   return resolveOfficialSubgraph(Protocol.Airdrops, chainId, name, id);
 }
 
-const graph = [
+export const graph = [
   /* -------------------------------------------------------------------------- */
   /*                                  MAINNETS                                  */
   /* -------------------------------------------------------------------------- */
@@ -51,5 +51,3 @@ const graph = [
     "3kp1eR2T1XpvvLkSZ7Wtt45DbDaiykTes478RZ7zwTz",
   ),
 ];
-
-export default graph;

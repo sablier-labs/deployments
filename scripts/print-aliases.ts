@@ -1,6 +1,6 @@
-import { releases } from "@src/releases";
+import { sablier } from "@src/sablier";
 import _ from "lodash";
-import logger, { logAndThrow } from "./logger";
+import logger from "./logger";
 
 type AliasRow = {
   alias: string;
@@ -11,7 +11,7 @@ type AliasRow = {
 async function main(): Promise<void> {
   const rows: AliasRow[] = [];
 
-  for (const release of releases) {
+  for (const release of sablier.releases.getAll()) {
     const releaseName = `${release.protocol} ${release.version}`;
     if (!release.aliases) {
       logger.verbose(`Skipping ${releaseName} because it has no aliases`);
@@ -55,6 +55,4 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((error) => {
-  logAndThrow({ msg: `Error printing aliases: ${error.message}` });
-});
+main();

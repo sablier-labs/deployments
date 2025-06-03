@@ -1,6 +1,6 @@
 import { Protocol } from "@src/enums";
 import { sortDeployments } from "@src/helpers";
-import resolvers from "@src/releases/resolvers";
+import { resolvers } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import { mainnets } from "./deployments";
 import manifest from "./manifest";
