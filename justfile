@@ -25,6 +25,7 @@ clean:
 # Run all code checks
 full-check: biome-check prettier-check tsc-check
 alias c := full-check
+alias fc := full-check
 
 # Run all code fixes
 full-write: biome-write prettier-write

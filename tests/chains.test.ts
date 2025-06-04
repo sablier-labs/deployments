@@ -103,7 +103,7 @@ describe.runIf(envVarsSet)("Ping JSON-RPC server", () => {
 
 async function getAllBroadcastSlugs(): Promise<string[]> {
   const dataPath = path.join(__dirname, "..", "data");
-  const dirs = await globby([path.join(dataPath, "**/mainnets"), path.join(dataPath, "**/testnets")], {
+  const dirs = await globby([path.join(dataPath, "**/broadcasts"), path.join(dataPath, "**/broadcasts-zk")], {
     onlyDirectories: true,
   });
   const results: string[] = [];
