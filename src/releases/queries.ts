@@ -3,15 +3,9 @@ import _ from "lodash";
 import { releases } from "./data";
 
 export const releasesQueries = {
-  get: (opts: {
-    protocol: Sablier.Protocol;
-    version?: Sablier.Version;
-  }): Sablier.Release | Sablier.Release[] | undefined => {
+  get: (opts: { protocol: Sablier.Protocol; version: Sablier.Version }): Sablier.Release | undefined => {
     const { protocol, version } = opts;
-    if (version) {
-      return _.get(releases, [protocol, version]);
-    }
-    return _.values(_.get(releases, [protocol]));
+    return _.get(releases, [protocol, version]);
   },
   /**
    * Get all releases for a protocol.
