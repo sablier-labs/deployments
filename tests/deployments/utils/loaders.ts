@@ -1,4 +1,4 @@
-import { checkBroadcast } from "@src/check-broadcast";
+import { checkBroadcast } from "@src/internal/helpers";
 import type { Sablier } from "@src/types";
 import * as fs from "fs-extra";
 import { globby } from "globby";

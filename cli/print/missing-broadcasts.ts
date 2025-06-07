@@ -9,8 +9,8 @@
  *   bun run cli/print/missing-broadcasts.ts lockup
  */
 
-import { checkBroadcast } from "@src/check-broadcast";
 import { Protocol } from "@src/enums";
+import { checkBroadcast } from "@src/internal/helpers";
 import { logger } from "@src/internal/logger";
 import { sablier } from "@src/sablier";
 import type { Sablier } from "@src/types";

@@ -22,7 +22,7 @@ alias b := build
 
 # Clean the dist directory
 clean:
-    bun rimraf dist
+    bunx rimraf dist
 
 # Run all code checks
 full-check: biome-check prettier-check tsc-check
