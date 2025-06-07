@@ -4,11 +4,12 @@
     "": {
       "name": "@sablier/deployments",
       "dependencies": {
-        "@sablier/devkit": "github:sablier-labs/devkit",
         "lodash": "^4.17",
+        "viem": "^2.30",
       },
       "devDependencies": {
         "@biomejs/biome": "2.0.0-beta.5",
+        "@sablier/devkit": "github:sablier-labs/devkit#main",
         "@types/fs-extra": "^11.0",
         "@types/lodash": "^4.17",
         "@types/node": "^22.14",
@@ -22,7 +23,6 @@
         "rimraf": "^6.0.1",
         "tsc-alias": "^1.8",
         "typescript": "^5.8",
-        "viem": "^2.30",
         "vite-tsconfig-paths": "^5.1",
         "vitest": "^3.1",
         "winston": "^3.17",
@@ -165,7 +165,7 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.40.0", "", { "os": "win32", "cpu": "x64" }, "sha512-lpPE1cLfP5oPzVjKMx10pgBmKELQnFJXHgvtHCtuJWOv8MxqdEIMNtgHgBFf7Ea2/7EuVwa9fodWUfXAlXZLZQ=="],
 
-    "@sablier/devkit": ["@sablier/devkit@github:sablier-labs/devkit#0bbb7d7", {}, "sablier-labs-devkit-0bbb7d7"],
+    "@sablier/devkit": ["@sablier/devkit@github:sablier-labs/devkit#f40cb57", {}, "sablier-labs-devkit-f40cb57"],
 
     "@scure/base": ["@scure/base@1.2.5", "", {}, "sha512-9rE6EOVeIQzt5TSu4v+K523F8u6DhBsoZWPGKlnCshhlDhy0kJzUX4V+tr2dWmzF1GdekvThABoEQBGBQI7xZw=="],
 

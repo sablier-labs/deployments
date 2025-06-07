@@ -1,7 +1,7 @@
 {
   "name": "@sablier/deployments",
   "description": "Deployment data for the Sablier Protocol",
-  "version": "1.0.0-alpha.47",
+  "version": "1.0.0-alpha.48",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.0-beta.5",
-    "@sablier/devkit": "github:sablier-labs/devkit",
+    "@sablier/devkit": "github:sablier-labs/devkit#main",
     "@types/fs-extra": "^11.0",
     "@types/lodash": "^4.17",
     "@types/node": "^22.14",
