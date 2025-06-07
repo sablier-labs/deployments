@@ -7,7 +7,7 @@
  * import { sablier } from "@sablier/deployments";
  *
  * const lockupContract = sablier.contracts.get({
- *   chainId: ethereum.id,
+ *   chainId: mainnet.id,
  *   contractName: "SablierLockup",
  *   release: releases.lockup["v2.0"],
  * });

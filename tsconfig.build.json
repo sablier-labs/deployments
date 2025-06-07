@@ -2,7 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "declaration": true,
+    "declarationDir": "dist",
+    "declarationMap": true,
     "noEmit": false,
+    "outDir": "dist",
     "paths": {
       "@src": ["src"],
       "@src/*": ["src/*"]
@@ -12,5 +16,6 @@
     "skipLibCheck": true,
     "stripInternal": true
   },
+  "exclude": ["data", "node_modules", "src/internal"],
   "include": ["src/**/*.ts"]
 }

@@ -1,7 +1,12 @@
 import { chainsQueries } from "@src/chains/queries";
-import { getContractExplorerURL, getNestedValues } from "@src/helpers";
+import { getContractExplorerURL } from "@src/helpers";
+import { getNestedValues } from "@src/releases/helpers";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
+
+/* -------------------------------------------------------------------------- */
+/*                                   TYPES                                    */
+/* -------------------------------------------------------------------------- */
 
 type DeploymentBaseParams = {
   protocol: Sablier.Protocol;
@@ -23,76 +28,50 @@ type DeploymentStandardParams = DeploymentBaseParams & {
 
 type ReleaseParams<T> = Omit<T, "kind" | "contractNames">;
 
+/* -------------------------------------------------------------------------- */
+/*                                 RESOLVERS                                  */
+/* -------------------------------------------------------------------------- */
+
 export const resolvers = {
-  /* -------------------------------------------------------------------------- */
-  /*                                 DEPLOYMENT                                 */
-  /* -------------------------------------------------------------------------- */
   deployment: {
+    /**
+     * Creates a LockupV1 deployment with separate core and periphery contracts
+     */
     lockupV1: (params: DeploymentLockupV1Params): Sablier.Deployment.LockupV1 => {
-      const { protocol, version, chainId, aliasMap, contractMap } = params;
-      const chain = chainsQueries.getOrThrow(chainId);
+      const { contractMap, ...baseParams } = params;
 
-      // Function to convert the contract map to deployment contracts
-      const mapContracts = (contracts: Sablier.ContractMap): Sablier.Contract[] => {
-        return _.entries(contracts).map(([name, addressOrTuple]) => {
-          const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple, 0];
-          const explorerURL = getContractExplorerURL(chain.blockExplorers.default.url, address);
-          return {
-            address,
-            alias: aliasMap[name],
-            block: blockNumber,
-            explorerURL,
-            name,
-            protocol,
-            version,
-          };
-        });
-      };
-
+      // Create standard deployment with merged contracts
       const mergedContracts = { ...contractMap.core, ...contractMap.periphery };
       const deployment = resolvers.deployment.standard({
-        aliasMap,
-        chainId,
+        ...baseParams,
         contractMap: mergedContracts,
-        protocol,
-        version,
       }) as Sablier.Deployment.LockupV1;
-      deployment.core = mapContracts(contractMap.core);
-      deployment.periphery = mapContracts(contractMap.periphery);
+
+      // Add separated core and periphery contracts
+      deployment.core = mapContractsToDeployment(contractMap.core, baseParams);
+      deployment.periphery = mapContractsToDeployment(contractMap.periphery, baseParams);
+
       return deployment;
     },
+
+    /**
+     * Creates a standard deployment with all contracts in a single array
+     */
     standard: (params: DeploymentStandardParams): Sablier.Deployment => {
-      const { protocol, version, chainId, aliasMap, contractMap } = params;
-      const chain = chainsQueries.getOrThrow(chainId);
-
-      const contracts: Sablier.Contract[] = [];
-
-      for (const [contractName, addressOrTuple] of _.entries(contractMap)) {
-        // A contract can be declared either as a static address or as a tuple of [address, blockNumber]
-        const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple, 0];
-        const contract = {
-          address,
-          alias: aliasMap[contractName],
-          block: blockNumber,
-          explorerURL: getContractExplorerURL(chain.blockExplorers.default.url, address),
-          name: contractName,
-          protocol,
-          version,
-        };
-        contracts.push(contract);
-      }
+      const { contractMap, ...baseParams } = params;
+      const contracts = mapContractsToDeployment(contractMap, baseParams);
 
       return {
-        chainId,
+        chainId: baseParams.chainId,
         contracts,
       };
     },
   },
 
-  /* -------------------------------------------------------------------------- */
-  /*                                   RELEASE                                  */
-  /* -------------------------------------------------------------------------- */
   release: {
+    /**
+     * Creates a LockupV1 release with contract names extracted from manifest
+     */
     lockupV1: (params: ReleaseParams<Sablier.Release.LockupV1>): Sablier.Release.LockupV1 => {
       return {
         ...params,
@@ -101,6 +80,9 @@ export const resolvers = {
       };
     },
 
+    /**
+     * Creates a standard release with contract names extracted from manifest
+     */
     standard: (params: ReleaseParams<Sablier.Release.Standard>): Sablier.Release.Standard => {
       return {
         ...params,
@@ -110,3 +92,33 @@ export const resolvers = {
     },
   },
 };
+
+/* -------------------------------------------------------------------------- */
+/*                                  HELPERS                                   */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Converts a contract map to an array of deployment contracts
+ */
+function mapContractsToDeployment(
+  contractMap: Sablier.ContractMap,
+  params: Pick<DeploymentBaseParams, "chainId" | "protocol" | "version" | "aliasMap">,
+): Sablier.Contract[] {
+  const { chainId, protocol, version, aliasMap } = params;
+  const chain = chainsQueries.getOrThrow(chainId);
+
+  return _.entries(contractMap).map(([name, addressOrTuple]) => {
+    const [address, blockNumber] = Array.isArray(addressOrTuple) ? addressOrTuple : [addressOrTuple];
+
+    return {
+      address,
+      alias: aliasMap[name],
+      block: blockNumber,
+      chainId,
+      explorerURL: getContractExplorerURL(chain.blockExplorers.default.url, address),
+      name,
+      protocol,
+      version,
+    };
+  });
+}

@@ -61,6 +61,8 @@ export namespace Sablier {
     alias?: string;
     /** The block number at which the contract was deployed. */
     block?: number;
+    /** The ID of the chain the contract is deployed on. */
+    chainId: number;
     /** URL to the explorer page for the contract. */
     explorerURL?: string;
     /** The name of the contract. */
@@ -127,6 +129,35 @@ export namespace Sablier {
       envio: string;
     };
 
+    export namespace TheGraph {
+      type SubgraphCommon = {
+        /** URL to The Graph explorer. */
+        explorerURL?: string;
+        /** The kind of subgraph. */
+        kind: "custom" | "official";
+        /** URL to The Graph studio. */
+        studioURL?: string;
+      };
+
+      export type SubgraphCustom = SubgraphCommon & {
+        kind: "custom";
+        subgraphURL: string;
+        subgraph?: never;
+      };
+
+      export type SubgraphOfficial = SubgraphCommon & {
+        kind: "official";
+        subgraphURL?: never;
+        subgraph: {
+          id: string;
+          /** Function to generate the TheGraph URL with a user-provided API key. */
+          url: (apiKey: string) => string;
+        };
+      };
+
+      export type Subgraph = SubgraphCustom | SubgraphOfficial;
+    }
+
     export type TheGraph = Common & {
       graph: TheGraph.Subgraph;
     };
@@ -184,35 +215,6 @@ export namespace Sablier {
   }
 
   export type Release = Release.Standard | Release.LockupV1;
-
-  export namespace TheGraph {
-    type SubgraphCommon = {
-      /** URL to The Graph explorer. */
-      explorerURL?: string;
-      /** The kind of subgraph. */
-      kind: "custom" | "official";
-      /** URL to The Graph studio. */
-      studioURL?: string;
-    };
-
-    export type SubgraphCustom = SubgraphCommon & {
-      kind: "custom";
-      subgraphURL: string;
-      subgraph?: never;
-    };
-
-    export type SubgraphOfficial = SubgraphCommon & {
-      kind: "official";
-      subgraphURL?: never;
-      subgraph: {
-        id: string;
-        /** Function to generate the TheGraph URL with a user-provided API key. */
-        url: (apiKey: string) => string;
-      };
-    };
-
-    export type Subgraph = SubgraphCustom | SubgraphOfficial;
-  }
 
   export namespace Version {
     export type Airdrops = typeof Version.Airdrops.V1_1 | typeof Version.Airdrops.V1_2 | typeof Version.Airdrops.V1_3;

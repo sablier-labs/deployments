@@ -1,5 +1,5 @@
 import { Protocol } from "@src/enums";
-import { sortDeployments } from "@src/helpers";
+import { sortDeployments } from "@src/releases/helpers";
 import { resolvers } from "@src/releases/resolvers";
 import type { Sablier } from "@src/types";
 import { mainnets } from "./deployments";

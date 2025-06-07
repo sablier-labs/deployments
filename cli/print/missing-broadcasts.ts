@@ -4,15 +4,17 @@
  * for all chains, only the ones listed in the releases.
  *
  * Usage:
- *   bun run scripts/print-missing.ts airdrops
- *   bun run scripts/print-missing.ts flow
- *   bun run scripts/print-missing.ts lockup
+ *   bun run cli/print/missing-broadcasts.ts airdrops
+ *   bun run cli/print/missing-broadcasts.ts flow
+ *   bun run cli/print/missing-broadcasts.ts lockup
  */
+
+import { checkBroadcast } from "@src/check-broadcast";
+import { Protocol } from "@src/enums";
+import { logger } from "@src/internal/logger";
 import { sablier } from "@src/sablier";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
-import { checkBroadcast } from "./check-broadcast";
-import logger from "./logger";
 
 const EMOJIS = {
   check: "✅",
@@ -30,31 +32,30 @@ const EMOJIS = {
 
 async function main(): Promise<void> {
   const missing: Record<string, Sablier.Chain[]> = {};
-  const protocol = parseArgs();
+  const protocolArg = parseArgs();
 
-  logger.info(`\n${EMOJIS.folder} Checking ${protocol} broadcasts...\n`);
+  console.log(`${EMOJIS.folder} Checking ${protocolArg} broadcasts...\n`);
 
-  const allReleases = sablier.releases.getAll({ protocol });
-  for (const release of allReleases) {
-    for (const deployment of release.deployments) {
-      const chain = sablier.chains.getOrThrow(deployment.chainId);
+  const releases = sablier.releases.getAll({ protocol: protocolArg });
+  for (const r of releases) {
+    for (const d of r.deployments) {
+      const chain = sablier.chains.getOrThrow(d.chainId);
 
       let hasValidBroadcasts = false;
 
-      if (release.kind === "lockupV1") {
+      if (r.kind === "lockupV1") {
         const components = ["core", "periphery"];
-        hasValidBroadcasts = await Promise.all(
-          components.map((component) => checkBroadcast(release, chain, component)),
-        ).then((results) => results.every(Boolean));
+        const results = await Promise.all(components.map((component) => checkBroadcast(r, chain, component)));
+        hasValidBroadcasts = results.every(Boolean);
       } else {
-        const paths = await checkBroadcast(release, chain);
+        const paths = await checkBroadcast(r, chain);
         hasValidBroadcasts = !_.isEmpty(paths);
       }
 
       // Add to missing list if broadcasts aren't valid
       if (!hasValidBroadcasts) {
-        _.defaults(missing, { [release.version]: [] });
-        missing[release.version].push(chain);
+        _.defaults(missing, { [r.version]: [] });
+        missing[r.version].push(chain);
       }
     }
   }
@@ -124,15 +125,15 @@ main();
 /* -------------------------------------------------------------------------- */
 
 function parseArgs(): Sablier.Protocol {
-  const protocol = process.argv[2] as Sablier.Protocol;
-  const validProtocols: Sablier.Protocol[] = ["airdrops", "flow", "legacy", "lockup"];
-  if (!protocol || !validProtocols.includes(protocol)) {
-    const msg = `Error: Please provide one of these protocols: ${validProtocols.join(", ")}`;
+  const protocolArg = process.argv[2] as Sablier.Protocol;
+  const available = _.values(Protocol);
+  if (!protocolArg || !available.includes(protocolArg)) {
+    const msg = `Error: Please provide one of these protocols: ${available.join(", ")}`;
     logger.error(msg);
     throw new Error(msg);
   }
 
-  return protocol;
+  return protocolArg;
 }
 
 function printSectionHeader(text: string): void {

@@ -1,4 +1,3 @@
-import { logAndThrow } from "@scripts/logger";
 import { releases } from "@src/releases";
 import { sablier } from "@src/sablier";
 import axios from "axios";
@@ -33,7 +32,7 @@ const envVarsSet = Boolean(process.env.CI && process.env.TEST_ONLY_CONTRACTS);
 describe.runIf(envVarsSet)("Block numbers", () => {
   const ETHERSCAN_API_KEY = process.env.VITE_ETHERSCAN_API_KEY;
   if (!ETHERSCAN_API_KEY) {
-    logAndThrow({ msg: "VITE_ETHERSCAN_API_KEY is not set" });
+    throw new Error("VITE_ETHERSCAN_API_KEY is not set");
   }
 
   /**

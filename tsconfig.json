@@ -2,9 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "declaration": true,
-    "declarationDir": "dist",
-    "declarationMap": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -13,10 +10,9 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noImplicitAny": true,
-    "outDir": "dist",
     "paths": {
-      "@scripts": ["scripts"],
-      "@scripts/*": ["scripts/*"],
+      "@cli": ["cli"],
+      "@cli/*": ["cli/*"],
       "@src": ["src"],
       "@src/*": ["src/*"]
     },
@@ -27,6 +23,6 @@
     "strict": true,
     "target": "ES2020"
   },
-  "exclude": ["/data", "/node_modules"],
-  "include": ["scripts/**/*.ts", "src/**/*.ts", "tests/**/*.ts"]
+  "exclude": ["data", "node_modules"],
+  "include": ["cli/**/*.ts", "src/**/*.ts", "tests/**/*.ts"]
 }

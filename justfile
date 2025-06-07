@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
 # ---------------------------------------------------------------------------- #
@@ -42,9 +44,9 @@ prettier-check:
 prettier-write:
     bun prettier --cache --write "**/*.{md,yml}"
 
-# Print available chain arguments
-@print thing:
-    bun run scripts/print-{{ thing }}.ts
+# Run print CLI script. See the files under ./cli/print for available scripts
+@print script *args:
+    bun run cli/print/{{ script }}.ts {{ args }}
 
 # Setup Husky
 setup:

@@ -65,8 +65,8 @@ const arbitrum = chains.queries.get({ chainId: 42161 });
 const polygon = chains.queries.get({ slug: "polygon" });
 
 // Check if chain supports Sablier UI
-if (ethereum.isSupportedByUI) {
-  console.log("Available on app.sablier.com");
+if (arbitrum.isSupportedByUI) {
+  console.log("Arbitrum available on app.sablier.com");
 }
 ```
 

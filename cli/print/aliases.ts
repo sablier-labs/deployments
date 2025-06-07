@@ -1,6 +1,6 @@
+import { logger } from "@src/internal/logger";
 import { sablier } from "@src/sablier";
 import _ from "lodash";
-import logger from "./logger";
 
 type AliasRow = {
   alias: string;

@@ -1,7 +1,7 @@
 import * as path from "node:path";
 import type { Sablier } from "@src/types";
 import * as fs from "fs-extra";
-import { logInfo } from "./logger";
+import { logVerbose } from "./internal/logger";
 
 const ROOT_DIR = path.join(__dirname, "..");
 const DATA_DIR = path.join(ROOT_DIR, "data");
@@ -12,12 +12,12 @@ const DATA_DIR = path.join(ROOT_DIR, "data");
  * ├── lockup/
  * │ └── v2.0/
  * │   └── broadcasts/
- * │     └── ethereum.json
+ * │     └── mainnet.json
  * └── lockup/
  *   └── v1.2/
  *     └── core/
  *       └── broadcasts/
- *         └── ethereum.json
+ *         └── mainnet.json
  */
 export function checkBroadcast(release: Sablier.Release, chain: Sablier.Chain, innerPath?: string): string | null {
   let chainType = "";
@@ -35,7 +35,7 @@ export function checkBroadcast(release: Sablier.Release, chain: Sablier.Chain, i
 
   if (!fs.existsSync(pathToCheck)) {
     const relativePath = path.relative(ROOT_DIR, pathToCheck);
-    logInfo({
+    logVerbose({
       msg: `No broadcasts for ${chain.slug} at ${relativePath}`,
       release,
     });

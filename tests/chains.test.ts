@@ -11,7 +11,6 @@
  * Additionally, it pings the public JSON-RPC servers of all chains to ensure they are reachable.
  */
 import path from "node:path";
-import { logAndThrow } from "@scripts/logger";
 import { chains } from "@src/chains";
 import axios from "axios";
 import { globby } from "globby";
@@ -42,11 +41,8 @@ describe("Package chains are in sync with broadcasts", () => {
     }
 
     if (errors.size > 0) {
-      logAndThrow({
-        msg: `❌ Missing chains:\n${Array.from(errors)
-          .map((e) => `  🔍 ${e}`)
-          .join("\n")}`,
-      });
+      const msg = `❌ Missing chains:\n${[...errors].map((e) => `  🔍 ${e}`).join("\n")}`;
+      throw new Error(msg);
     }
     expect(errors.size).toBe(0);
   });
@@ -61,11 +57,8 @@ describe("Package chains are in sync with broadcasts", () => {
     }
 
     if (errors.size > 0) {
-      logAndThrow({
-        msg: `❌ Extra chains:\n${Array.from(errors)
-          .map((e) => `  ⚠️ ${e}`)
-          .join("\n")}`,
-      });
+      const msg = `❌ Extra chains:\n${[...errors].map((e) => `  ⚠️ ${e}`).join("\n")}`;
+      throw new Error(msg);
     }
     expect(errors.size).toBe(0);
   });

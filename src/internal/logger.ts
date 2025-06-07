@@ -1,3 +1,29 @@
+/**
+ * @file Winston logger instance with console and optional file transport
+ *
+ * @example
+ * Basic usage of different log levels:
+ *
+ * logger.error("This is an error message");
+ * logger.warn("This is a warning message");
+ * logger.info("This is an info message");
+ * logger.verbose("This is a verbose message");
+ * logger.debug("This is a debug message");
+ * logger.silly("This is a silly message");
+ *
+ * @example
+ * Run with file output by setting the LOG_FILE_PATH environment variable:
+ *
+ * LOG_FILE_PATH=./logs/example.log bun run cli/your-script.ts
+ *
+ * logger.info("Check your logs directory if LOG_FILE_PATH was set");
+ *
+ * @example
+ * Note that log levels are hierarchical, setting LOG_LEVEL=silly will
+ * include all levels: error, warn, info, verbose, debug, silly
+ *
+ * LOG_LEVEL=silly bun run cli/your-script.ts
+ */
 import * as path from "node:path";
 import type { Sablier } from "@src/types";
 import * as fs from "fs-extra";
@@ -34,44 +60,11 @@ if (LOG_FILE_PATH) {
   transports.push(fileTransport);
 }
 
-/**
- * Winston logger instance with console and optional file transport
- *
- * @example
- * Basic usage of different log levels:
- *
- * logger.error("This is an error message");
- * logger.warn("This is a warning message");
- * logger.info("This is an info message");
- * logger.verbose("This is a verbose message");
- * logger.debug("This is a debug message");
- * logger.silly("This is a silly message");
- *
- * @example
- * Run with file output by setting the LOG_FILE_PATH environment variable:
- *
- * LOG_FILE_PATH=./logs/example.log bun run scripts/your-script.ts
- *
- * logger.info("Check your logs directory if LOG_FILE_PATH was set");
- *
- * @example
- * Note that log levels are hierarchical, setting LOG_LEVEL=silly will
- * include all levels: error, warn, info, verbose, debug, silly
- *
- * LOG_LEVEL=silly bun run scripts/your-script.ts
- */
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   format: format.combine(format.timestamp(), format.errors({ stack: true })),
   level: LOG_LEVEL,
   transports,
 });
-
-export function logAndThrow(params: { msg: string; release?: Sablier.Release }): never {
-  const { msg, release } = params;
-  const errorMsg = release ? `${formatRelease(release)}\t${msg}` : msg;
-  logger.error(errorMsg);
-  throw new Error(errorMsg);
-}
 
 export function logInfo(params: { msg: string; release?: Sablier.Release }): void {
   const { msg, release } = params;
@@ -82,8 +75,15 @@ export function logInfo(params: { msg: string; release?: Sablier.Release }): voi
   }
 }
 
+export function logVerbose(params: { msg: string; release?: Sablier.Release }): void {
+  const { msg, release } = params;
+  if (release) {
+    logger.verbose(`${formatRelease(release)}\t${msg}`);
+  } else {
+    logger.verbose(msg);
+  }
+}
+
 function formatRelease(release: Sablier.Release): string {
   return `${release.protocol}:${release.version}`;
 }
-
-export default logger;
