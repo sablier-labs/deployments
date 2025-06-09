@@ -1,7 +1,7 @@
 {
   "name": "@sablier/deployments",
   "description": "Deployment data for the Sablier Protocol",
-  "version": "1.0.0-alpha.50",
+  "version": "1.0.0-beta.1",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
