@@ -5,6 +5,8 @@
     "declaration": true,
     "declarationDir": "dist",
     "declarationMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "noEmit": false,
     "outDir": "dist",
     "paths": {

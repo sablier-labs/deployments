@@ -38,6 +38,9 @@ const transports: winston.transport[] = [
     format: format.combine(
       format.colorize(),
       format.printf(({ level, message }) => {
+        if (!message) {
+          return "";
+        }
         return `${level}: ${message}`;
       }),
     ),
@@ -66,21 +69,12 @@ export const logger = winston.createLogger({
   transports,
 });
 
-export function logInfo(params: { msg: string; release?: Sablier.Release }): void {
+export function log(level: "info" | "verbose", params: { msg: string; release?: Sablier.Release }): void {
   const { msg, release } = params;
   if (release) {
-    logger.info(`${formatRelease(release)}\t${msg}`);
+    logger[level](`${formatRelease(release)}\t${msg}`);
   } else {
-    logger.info(msg);
-  }
-}
-
-export function logVerbose(params: { msg: string; release?: Sablier.Release }): void {
-  const { msg, release } = params;
-  if (release) {
-    logger.verbose(`${formatRelease(release)}\t${msg}`);
-  } else {
-    logger.verbose(msg);
+    logger[level](msg);
   }
 }
 

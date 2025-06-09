@@ -1,7 +1,7 @@
 import * as path from "node:path";
 import type { Sablier } from "@src/types";
 import * as fs from "fs-extra";
-import { logInfo } from "./logger";
+import { log } from "./logger";
 
 const ROOT_DIR = path.join(__dirname, "..");
 const DATA_DIR = path.join(ROOT_DIR, "data");
@@ -35,7 +35,7 @@ export function checkBroadcast(release: Sablier.Release, chain: Sablier.Chain, i
 
   if (!fs.existsSync(pathToCheck)) {
     const relativePath = path.relative(ROOT_DIR, pathToCheck);
-    logInfo({
+    log("info", {
       msg: `No broadcasts for ${chain.slug} at ${relativePath}`,
       release,
     });

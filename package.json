@@ -1,14 +1,14 @@
 {
   "name": "@sablier/deployments",
   "description": "Deployment data for the Sablier Protocol",
-  "version": "1.0.0-alpha.48",
+  "version": "1.0.0-alpha.49",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
   "dependencies": {
     "lodash": "^4.17",
-    "viem": "^2.30"
+    "viem": "^2.31"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.0-beta.5",
@@ -42,17 +42,23 @@
     "deployments",
     "ethereum",
     "evm",
+    "foundry",
+    "hardhat",
     "sablier",
+    "sablier-airdrops",
+    "sablier-flow",
+    "sablier-lockup",
     "smart-contracts",
     "solidity",
     "token-streaming",
     "token-vesting",
+    "vesting",
     "web3"
   ],
   "license": "GPL-3.0-or-later",
   "main": "dist/index.js",
   "peerDependencies": {
-    "viem": "^2.30"
+    "viem": "^2.31"
   },
   "publishConfig": {
     "access": "public"
