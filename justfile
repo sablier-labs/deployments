@@ -5,7 +5,8 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 # ---------------------------------------------------------------------------- #
 
 # Default recipe
-default: full-check
+default:
+    just --list
 
 # Check code with Biome
 biome-check:

@@ -3,8 +3,8 @@ import type { Chain as ViemChain } from "viem/chains";
 import * as viem from "viem/chains";
 import { alchemyRPCs, infuraRPCs } from "./rpc";
 
-type ConfigString = { [chainId: number]: string };
 type ConfigBool = { [chainId: number]: boolean };
+type ConfigString = { [chainId: number]: string };
 
 export const config = {
   slugs: {

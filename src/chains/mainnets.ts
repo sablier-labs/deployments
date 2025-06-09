@@ -53,8 +53,8 @@ export const tangle: Sablier.Chain = fill(
     name: "Tangle",
     nativeCurrency: {
       decimals: 18,
-      name: "Ether",
-      symbol: "ETH",
+      name: "Tangle",
+      symbol: "TNT",
     },
     rpc: {
       public: "https://rpc.tangle.tools",

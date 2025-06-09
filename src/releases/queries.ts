@@ -1,3 +1,4 @@
+import { Protocol } from "@src/enums";
 import type { Sablier } from "@src/types";
 import _ from "lodash";
 import { releases } from "./data";
@@ -17,12 +18,8 @@ export const releasesQueries = {
     if (protocol) {
       return _.flatMap(_.values(releases[protocol]));
     }
-    return [
-      ..._.flatMap(_.values(releases.airdrops)),
-      ..._.flatMap(_.values(releases.flow)),
-      ..._.flatMap(_.values(releases.legacy)),
-      ..._.flatMap(_.values(releases.lockup)),
-    ];
+    // Recursively get all releases from all protocols in the enum
+    return _.flatMap(Object.values(Protocol), (protocolName) => _.flatMap(_.values(releases[protocolName])));
   },
   /**
    * Get the first release:
