@@ -58,10 +58,6 @@ export const contractsQueries = {
   }): Sablier.Contract[] | undefined => {
     const { protocol, chainId, release } = opts || {};
 
-    if (chainId && !protocol && !release) {
-      throw new Error("Cannot specify only chainId without protocol or release");
-    }
-
     if (protocol && release) {
       throw new Error("Cannot specify both protocol and release as query options");
     }
