@@ -3,8 +3,8 @@
 ### Prerequisites
 
 - [Node.js](https://nodejs.org) (v20+)
+- [Just](https://github.com/casey/just) (command runner)
 - [Bun](https://bun.sh) (package manager)
-- [Just](https://github.com/casey/just) (task runner)
 
 ### Setup
 
