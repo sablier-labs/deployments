@@ -113,7 +113,6 @@ The CREATE2 salts used during deployment:
 | :---------------- | :------------------------------- |
 | Arbitrum Sepolia  | ChainID 421614, Version 1.0.0    |
 | Base Sepolia      | ChainID 84532, Version 1.0.0     |
-| Berachain Bartio  | ChainID 80084, Version 1.0.0     |
 | Blast Sepolia     | ChainID 168587773, Version 1.0.0 |
 | Linea Sepolia     | No Salt                          |
 | Mode Sepolia      | No Salt                          |
