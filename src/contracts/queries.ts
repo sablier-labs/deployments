@@ -46,6 +46,7 @@ export const contractsQueries = {
   /**
    * Get many contracts.
    * - no options             ⇒ all
+   * - { chainId }            ⇒ all for that chain
    * - { protocol }           ⇒ all for that protocol
    * - { protocol, chainId }  ⇒ filtered by chain
    * - { release }            ⇒ all deployments of that release
