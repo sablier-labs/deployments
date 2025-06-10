@@ -3,8 +3,13 @@ import type { Sablier } from "@src/types";
 import * as fs from "fs-extra";
 import { log } from "./logger";
 
-const ROOT_DIR = path.join(__dirname, "..");
+const ROOT_DIR = path.join(__dirname, "..", "..");
 const DATA_DIR = path.join(ROOT_DIR, "data");
+
+// Ensuring that the `ROOT_DIR` is correctly set.
+if (!fs.existsSync(path.join(ROOT_DIR, "package.json"))) {
+  throw new Error("ROOT_DIR is not correctly set");
+}
 
 /**
  * @example

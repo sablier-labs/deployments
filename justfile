@@ -1,4 +1,5 @@
-set shell := ["bash", "-euo", "pipefail", "-c"]
+# See https://github.com/sablier-labs/devkit/blob/main/just/base.just
+import "./node_modules/@sablier/devkit/just/base.just"
 
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
@@ -8,15 +9,6 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 default:
     just --list
 
-# Check code with Biome
-biome-check:
-    bun biome check .
-
-# Fix code with Biome and update imports
-biome-write:
-    bun biome check --write .
-    bun biome lint --write --only correctness/noUnusedImports .
-
 # Build the project
 build: clean tsc-build
 alias b := build
@@ -25,29 +17,20 @@ alias b := build
 clean:
     bunx rimraf dist
 
-# Run all code checks
-full-check: biome-check prettier-check tsc-check
-alias c := full-check
-alias fc := full-check
+# Run print CLI commands.
+[group("print")]
+@print-aliases:
+    just cli print aliases
 
-# Run all code fixes
-full-write: biome-write prettier-write
+# Run print CLI commands.
+[group("print")]
+@print-chains:
+    just cli print chains
 
-# Install dependencies
-install *args:
-    bun install {{ args }}
-
-# Check markdown and yaml files with Prettier
-prettier-check:
-    bun prettier --cache --check "**/*.{md,yml}"
-
-# Fix markdown and yaml files with Prettier
-prettier-write:
-    bun prettier --cache --write "**/*.{md,yml}"
-
-# Run print CLI script. See the files under ./cli/print for available scripts
-@print script *args:
-    bun run cli/print/{{ script }}.ts {{ args }}
+# Run print CLI commands.
+[group("print")]
+@print-missing-broadcasts protocol:
+    just cli print missing-broadcasts --protocol {{ protocol }}
 
 # Setup Husky
 setup:
@@ -71,6 +54,13 @@ tsc-build:
     bun tsc -p tsconfig.build.json
     bun tsc-alias -p tsconfig.build.json
 
-# Type check TypeScript
-tsc-check:
-    bun tsc -p tsconfig.json --noEmit
+
+# ---------------------------------------------------------------------------- #
+#                               RECIPES: PRIVATE                               #
+# ---------------------------------------------------------------------------- #
+
+
+# Run CLI commands. Usage: just cli <command> [args]
+[private]
+@cli *args:
+    bun run cli {{ args }}

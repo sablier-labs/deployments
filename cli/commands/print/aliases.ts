@@ -1,5 +1,6 @@
 import { logger } from "@src/internal/logger";
 import { sablier } from "@src/sablier";
+import { Command } from "commander";
 import _ from "lodash";
 
 type AliasRow = {
@@ -8,7 +9,7 @@ type AliasRow = {
   releaseName: string;
 };
 
-async function main(): Promise<void> {
+async function printAliases(): Promise<void> {
   const rows: AliasRow[] = [];
 
   for (const release of sablier.releases.getAll()) {
@@ -55,4 +56,6 @@ async function main(): Promise<void> {
   }
 }
 
-main();
+export const aliasesCommand = new Command("aliases")
+  .description("Display all contract aliases across releases")
+  .action(printAliases);

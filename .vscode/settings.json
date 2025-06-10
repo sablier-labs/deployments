@@ -10,5 +10,9 @@
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
   },
+  "search.exclude": {
+    "**/data": true,
+    "**/node_modules": true
+  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
