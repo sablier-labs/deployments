@@ -30,7 +30,7 @@ const deploymentsQueries = {
     const { release, chainId } = opts || {};
     return _.find(release.deployments, { chainId });
   },
-  getAll: (): Sablier.Deployment[] | undefined => {
+  getAll: (): Sablier.Deployment[] => {
     return _.flatMap(releasesQueries.getAll(), (r) => r.deployments);
   },
 };

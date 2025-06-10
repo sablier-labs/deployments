@@ -5,10 +5,9 @@ import { catalog } from "./catalog";
 
 export const contractsQueries = {
   /**
-   * Get a single contract by name or by address.
-   * - {name, deployment}
-   * - {name, release, chainId}
-   * - {address}
+   * Get a single contract using the following options:
+   * - { chainId, name, release }
+   * - { chainId, address, protocol }
    */
   get: (opts: {
     chainId: number;

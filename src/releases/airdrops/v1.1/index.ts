@@ -9,7 +9,7 @@ export const deployments: Sablier.Deployment[] = [...mainnets, ...testnets];
 export const release = resolvers.release.standard({
   aliases,
   deployments: deployments,
-  isLatest: true,
+  isLatest: false,
   manifest: manifest,
   protocol: Protocol.Airdrops,
   version: "v1.1",

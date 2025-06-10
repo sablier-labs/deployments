@@ -20,7 +20,7 @@ export namespace Sablier {
     isSupportedByUI: boolean;
     /** Whether this is a testnet network. */
     isTestnet: boolean;
-    /** Whether this is a zkVM like zkSync. */
+    /** Whether this is a zkEVM like zkSync. */
     isZK: boolean;
     rpc: {
       /** Alchemy RPC URL generator. */
@@ -44,11 +44,20 @@ export namespace Sablier {
   };
 
   export type CompilerSettings = {
+    /** The EVM version such as shanghai, paris, etc. */
     evmVersion: string;
+    /** Whether the optimizer is enabled. */
     optimizer: boolean;
+    /** The number of optimizer runs. */
     optimizerRuns: number;
-    version: `v${number}.${number}.${number}`;
+    /** Optional salt used for CREATE2 deployment. None implies deployment using CREATE. */
+    salt?: string;
+    /** The solc version used. */
+    solcVersion: `v${number}.${number}.${number}`;
+    /** Whether the IR is used. */
     viaIR: boolean;
+    /** Optional zk version used, only valid for zkEVM chains. */
+    zkVersion?: `v${number}.${number}.${number}`;
   };
 
   /**
@@ -89,11 +98,7 @@ export namespace Sablier {
     [contractName: string]: Address | [Address, number];
   };
 
-  export type Protocol =
-    | typeof Protocol.Airdrops
-    | typeof Protocol.Flow
-    | typeof Protocol.Legacy
-    | typeof Protocol.Lockup;
+  export type Protocol = (typeof Protocol)[keyof typeof Protocol];
 
   export type Repository = {
     commit: string;
@@ -107,7 +112,7 @@ export namespace Sablier {
     export type Standard = {
       chainId: number;
       contracts: Contract[];
-      /** @todo: Compiler settings for the contract. Not implemented yet.*/
+      /** TODO: Compiler settings for the contract. Not implemented yet. */
       compilerSettings?: CompilerSettings;
     };
 
@@ -181,7 +186,7 @@ export namespace Sablier {
    */
   export namespace Release {
     type Common = {
-      /** A map of contract names to their aliases, used in the Sablier Interface and the TheGraphs. */
+      /** A map of contract names to their aliases, used in the Sablier Interface and the Graph. */
       aliases?: AliasMap;
       /** An array of contract names. */
       contractNames: string[];
@@ -217,17 +222,13 @@ export namespace Sablier {
   export type Release = Release.Standard | Release.LockupV1;
 
   export namespace Version {
-    export type Airdrops = typeof Version.Airdrops.V1_1 | typeof Version.Airdrops.V1_2 | typeof Version.Airdrops.V1_3;
+    export type Airdrops = (typeof Version.Airdrops)[keyof typeof Version.Airdrops];
 
-    export type Flow = typeof Version.Flow.V1_0 | typeof Version.Flow.V1_1;
+    export type Flow = (typeof Version.Flow)[keyof typeof Version.Flow];
 
-    export type Legacy = typeof Version.Legacy.V1_0 | typeof Version.Legacy.V1_1;
+    export type Legacy = (typeof Version.Legacy)[keyof typeof Version.Legacy];
 
-    export type Lockup =
-      | typeof Version.Lockup.V1_0
-      | typeof Version.Lockup.V1_1
-      | typeof Version.Lockup.V1_2
-      | typeof Version.Lockup.V2_0;
+    export type Lockup = (typeof Version.Lockup)[keyof typeof Version.Lockup];
   }
 
   export type Version = Version.Airdrops | Version.Flow | Version.Legacy | Version.Lockup;
