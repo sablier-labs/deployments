@@ -46,11 +46,11 @@ export const contractsQueries = {
   },
   /**
    * Get many contracts.
-   * - no options           ⇒ all
-   * - {protocol}           ⇒ all for that protocol
-   * - {protocol, chainId}  ⇒ filtered by chain
-   * - {release}            ⇒ all deployments of that release
-   * - {release, chainId}   ⇒ that slice of deployments
+   * - no options             ⇒ all
+   * - { protocol }           ⇒ all for that protocol
+   * - { protocol, chainId }  ⇒ filtered by chain
+   * - { release }            ⇒ all deployments of that release
+   * - { release, chainId }   ⇒ that slice of deployments
    */
   getAll: (opts?: {
     chainId?: number;
@@ -82,6 +82,13 @@ export const contractsQueries = {
         if (deps.length === 0) return undefined;
       }
       return _.flatMap(deps, (d) => d.contracts);
+    }
+
+    // by chain id
+    if (chainId) {
+      const deps = _.flatMap(releasesQueries.getAll(), (r) => r.deployments);
+      const filtered = _.filter(deps, { chainId });
+      return _.flatMap(filtered, (d) => d.contracts);
     }
 
     // no filters → all
