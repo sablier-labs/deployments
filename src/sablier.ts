@@ -4,7 +4,7 @@
  *
  * @example
  * ```typescript
- * import { sablier } from "@sablier/deployments";
+ * import { sablier } from "sablier";
  *
  * const lockupContract = sablier.contracts.get({
  *   chainId: mainnet.id,

@@ -13,11 +13,11 @@ This package provides:
 ## Installation 📦
 
 ```bash
-npm install @sablier/deployments
+npm install sablier
 # or
-yarn add @sablier/deployments
+yarn add sablier
 # or
-bun add @sablier/deployments
+bun add sablier
 ```
 
 ## Protocol Overview 🎯
@@ -53,7 +53,7 @@ The addresses are provided in this package, but you can also view the deployment
 Our chain types extend upon Viem's [Chain](https://viem.sh/docs/chains/introduction).
 
 ```typescript
-import { chains } from "@sablier/deployments";
+import { chains } from "sablier";
 
 // Get by name
 const ethereum = chains.ethereum;
@@ -73,7 +73,7 @@ if (arbitrum.isSupportedByUI) {
 ### Contracts
 
 ```typescript
-import { releases, sablier } from "@sablier/deployments";
+import { releases, sablier } from "sablier";
 
 // Get contract by name and chain
 const lockup = sablier.contracts.get({
@@ -85,7 +85,7 @@ const lockup = sablier.contracts.get({
 ### Releases
 
 ```typescript
-import { releases, sablier } from "@sablier/deployments";
+import { releases, sablier } from "sablier";
 
 // Get specific releases
 const airdropsV1_3 = releases.airdrops["v1.3"];
