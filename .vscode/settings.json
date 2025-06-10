@@ -11,8 +11,7 @@
     "source.organizeImports.biome": "explicit"
   },
   "search.exclude": {
-    "**/data": true,
-    "**/node_modules": true
+    "**/data": true
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
