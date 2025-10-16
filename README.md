@@ -1,5 +1,10 @@
 # Sablier Deployments
 
+> [!WARNING]
+>
+> This repository has been deprecated in favor of the [Sablier SDK](https://github.com/sablier-labs/sdk). The
+> deployments are now managed by the SDK.
+
 This repository keeps track of Sablier deployment bundles, each of which includes:
 
 1. Contract artifacts and ABIs.
